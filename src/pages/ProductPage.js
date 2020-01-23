@@ -3,6 +3,8 @@ import { Button, CustomInput } from 'reactstrap'
 import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import Axios from 'axios'
+import { API_URL } from '../support/Backend_URL';
+
 // import { Link } from 'react-router-dom'
 
 class ProductPage extends Component {
@@ -24,7 +26,7 @@ class ProductPage extends Component {
   }
 
   getProducts = () => {
-    Axios.get('http://localhost:2000/products/getproducts')
+    Axios.get(API_URL + '/products/getproducts')
       .then((res) => {
         this.setState({ data: res.data })
         console.log(this.state.data)
@@ -109,7 +111,7 @@ class ProductPage extends Component {
       formData.append('data', JSON.stringify(obj))
       formData.append('image', addImageFile)
       console.log(formData)
-      Axios.post(`http://localhost:2000/products/edit?idproduct=${id}`, formData)
+      Axios.post(API_URL + `/products/edit?idproduct=${id}`, formData)
         .then((res) => {
           console.log(res.data)
           this.getProducts()
@@ -147,7 +149,7 @@ class ProductPage extends Component {
       formData.append('data', JSON.stringify(obj))
       formData.append('image', addImageFile)
       console.log(formData)
-      Axios.post('http://localhost:2000/products/upload', formData)
+      Axios.post(API_URL + '/products/upload', formData)
         .then((res) => {
           console.log(res.data)
           this.getProducts()
@@ -169,7 +171,7 @@ class ProductPage extends Component {
 
   deleteData = (id, imagepath) => {
     console.log(id, imagepath)
-    Axios.delete(`http://localhost:2000/products/delete?idproduct=${id}&imagepath=${imagepath}`)
+    Axios.delete(API_URL + `/products/delete?idproduct=${id}&imagepath=${imagepath}`)
       .then((res) => {
         console.log(res.data)
         this.getProducts()

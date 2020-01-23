@@ -11,7 +11,10 @@ class UserDropdown extends Component {
     logoutUser = () => {
         this.props.logout()
     }
+    componentDidMount(){
+    }
     render() {
+        console.log(this.props.username)
         return (
             <MDBDropdown>
                 <MDBDropdownToggle nav caret>
@@ -102,6 +105,7 @@ class UserDropdown extends Component {
 
 const mapStatetoProps = (state) => {
     return {
+        idusers: state.user.idusers, //state.user mengarah ke reducer/index.js, state.user.username mengarah ke authreducer.js
         username: state.user.username, //state.user mengarah ke reducer/index.js, state.user.username mengarah ke authreducer.js
         role: state.user.role, //state.user mengarah ke reducer/index.js, state.user.username mengarah ke authreducer.js
     }

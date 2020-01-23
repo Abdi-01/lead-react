@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { MDBJumbotron, MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCardTitle } from "mdbreact";
+import { Col, Input } from 'reactstrap';
 import { connect } from 'react-redux'
 import { login } from '../redux/action'
 import { Redirect } from 'react-router-dom';
+import { API_URL } from '../support/Backend_URL';
 import Axios from 'axios';
 
 class VerificationPage extends Component {
@@ -20,11 +22,13 @@ class VerificationPage extends Component {
         // this.props.location.search.split('&')[1].split('=')[1]
     }
     verification = () => {
-        var username = this.props.location.search.split('?')[1]
-        var password = this.props.location.search.split('?')[2]
-        Axios.post(`http://localhost:2000/users//emailVerification`, {
+        var username = this.props.location.search.split('?')[2]
+        var password = this.props.location.search.split('?')[1]
+        var otp = this.otp.value
+        Axios.post(API_URL + `/users/emailVerification`, {
             username,
-            password
+            password,
+            otp
         })
             .then((res) => {
                 if (username.includes("@") === false) {
@@ -40,7 +44,7 @@ class VerificationPage extends Component {
     }
     render() {
         const { redirect } = this.state
-        if(redirect){
+        if (redirect) {
             return <Redirect to='/'></Redirect>
         }
         return (
@@ -55,7 +59,8 @@ class VerificationPage extends Component {
                                         <p className="mx-5 mb-5">Thank you for registering a Lead Project account. While using this account,
                                          you will get easy ordering until the promo that we will hold. Thank you for your trust.
                                         </p>
-                                        <MDBBtn outline color="white" className="mb-5" onClick={this.verification}><i className="fas fa-check-double"></i> Verification My Account</MDBBtn>
+                                        <Col sm="5" md={{ size: 2, offset: 5 }}><Input className="text-center col align-self-center" type="username" name="username" placeholder="INPUT OTP" innerRef={(otp) => this.otp = otp} /></Col>
+                                        <MDBBtn color="gray" className="mb-5" onClick={this.verification}><i className="fas fa-check-double"></i> Verification My Account</MDBBtn>
                                     </MDBCol>
                                 </MDBCol>
                             </MDBJumbotron>

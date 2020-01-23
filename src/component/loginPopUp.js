@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, Button, Modal, ModalBody, ModalFooter, Form, FormGroup, Input } from 'reactstrap';
 import { connect } from 'react-redux'
 import { login } from '../redux/action'
+import { Redirect } from 'react-router-dom';
 // import Axios from 'axios'
 // import RegisPopUp from './registerPopUp'
 
@@ -45,8 +46,10 @@ class LoginPopUp extends React.Component {
         else {
             if (username.includes("@") === false) {
                 this.props.login(username, password)//masuk authAction.js
+                return <Redirect to='/'></Redirect>
             } else {
                 this.props.login(username, password)//masuk authAction.js      
+                return <Redirect to='/'></Redirect>
             }
         }
     }

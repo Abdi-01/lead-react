@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class UserPage extends Component {
+class TransactionPage extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
@@ -8,10 +8,10 @@ class UserPage extends Component {
     render() { 
         return ( 
             <div style={{minHeight:'500px'}}>
-                UserPage
+                Transaction
             </div>
          );
     }
 }
  
-export default UserPage;
+export default TransactionPage;

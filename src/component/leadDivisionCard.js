@@ -12,11 +12,12 @@ class FlippingCardPage extends Component {
         return (
             <div>
                 <MDBRow>
-                    <MDBCol>
-                        <MDBCard>
-                            <MDBCardImage top src={require('../image/globalcard.png')} overlay="white-slight" hover
+                    <MDBCol md="4">
+                        <MDBCard narrow >
+                            <MDBCardImage top src={require('../image/globalcard.png')} overlay="white-slight" hover height="210px"
                                 waves alt="MDBCard image cap" />
-                            <MDBCardBody className="text-center">
+                                {/* <img alt="MDB React Logo" className="img-fluid" width="100%" src={require('../image/globalcard.png')}/> */}
+                            <MDBCardBody cascade className="text-center">
                                 <MDBCardTitle tag="h5">
                                     Global Product
                                     </MDBCardTitle>
@@ -28,9 +29,9 @@ class FlippingCardPage extends Component {
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
-                    <MDBCol>
-                        <MDBCard>
-                            <MDBCardImage top src={require('../image/sportcard.png')} overlay="white-slight" hover
+                    <MDBCol md="4">
+                        <MDBCard narrow  >
+                            <MDBCardImage top src={require('../image/sportcard.png')} overlay="white-slight" hover height="210px"
                                 waves alt="MDBCard image cap" />
                             <MDBCardBody className="text-center">
                                 <MDBCardTitle tag="h5">
@@ -44,9 +45,9 @@ class FlippingCardPage extends Component {
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
-                    <MDBCol>
-                        <MDBCard>
-                            <MDBCardImage top src={require('../image/customcard.png')} overlay="white-slight" hover
+                    <MDBCol md="4">
+                        <MDBCard narrow  >
+                            <MDBCardImage top src={require('../image/customcard.png')} overlay="white-slight" hover height="210px"
                                 waves alt="MDBCard image cap" />
                             <MDBCardBody className="text-center">
                                 <MDBCardTitle tag="h5">
@@ -56,7 +57,7 @@ class FlippingCardPage extends Component {
                                     Berbagai komunitas dan perusahaan telah bekerjasama dengan kami untuk memproduksi pakaian yang mereka butuhkan.
                                     </MDBCardText>
                                 <button type="button" className="element-BtCard">
-                                &nbsp;Portofolio &nbsp;
+                                    &nbsp;Portofolio &nbsp;
                                         <MDBIcon icon="angle-double-right" />
                                 </button>
                             </MDBCardBody>

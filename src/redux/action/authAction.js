@@ -1,9 +1,10 @@
 import Axios from 'axios'
+import { API_URL } from '../../support/Backend_URL';
 
 export const login = (username, password) => {//satu fungsi menjalankan dua reducer yang berbeda
     // let { username, password } = data
     return (dispatch) => {
-        Axios.post(` http://localhost:2000/users/login`, {
+        Axios.post(API_URL+`/users/login`, {
             username,
             password
         })
@@ -46,7 +47,7 @@ export const Keeplogin = () => {//satu fungsi menjalankan dua reducer yang berbe
                     'Authorization': `Bearer ${token}`
                 }
             }
-            Axios.post(` http://localhost:2000/users/keeplogin`, {}, headers)
+            Axios.post(API_URL+`/users/keeplogin`, {}, headers)
                 .then((res) => {
                     // localStorage.setItem('token', res.data.token)//data dari userController backend API
                     console.log(res.data)//data dari userController backend API

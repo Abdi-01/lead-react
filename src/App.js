@@ -9,13 +9,13 @@ import Collection from './pages/collection'
 import AboutPage from './pages/info/aboutCompany'
 import LeadSquad from './pages/info/leadsquad'
 import ProductDetail from './pages/productDetail'
+import TransactionPage from './pages/userTransaction'
 import CustomOrder from './pages/customOrder'
 import SizeCart from './pages/info/sizeCart'
 import PrivacyFaq from './pages/info/privacyFAQ'
 import ResultPage from './pages/resultPage'
 import ProfilePage from './pages/ProfilePage';//adminpage
 import ProductPage from './pages/ProductPage';
-import MapsPage from './pages/MapsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import VerificationPage from './pages/verificationPage'
 import Footer from './component/footer'
@@ -48,8 +48,13 @@ class App extends Component {
           <Route path='/PrivacyFAQ' component={PrivacyFaq}></Route>
           <Route path='/ProfilePage' exact component={ProfilePage} />
           <Route path='/ResultPage' component={ResultPage} />
-          <Route path='/ProductPage' component={ProductPage} />
-          <Route path='/maps' component={MapsPage} />
+          {this.props.role === "admin"
+            ?
+            <Route path='/ProductPage' component={ProductPage} />
+            :
+            <Route path='/TransactionPage' component={TransactionPage} />
+          }
+          {/* <Route path='/maps' component={MapsPage} /> */}
           <Route path='/verification' component={VerificationPage} />
           <Route path='*' component={NotFoundPage} />
         </Switch>
@@ -59,5 +64,10 @@ class App extends Component {
   }
 }
 
+const makeStatetoProps = (state) => {
+  return {
+    role: state.user.role
+  }
+}
 
-export default connect(null, { Keeplogin })(App)
+export default connect(makeStatetoProps, { Keeplogin })(App)

@@ -18,14 +18,17 @@ class NavbarPage extends Component {
         this.setState({ isOpen: !this.state.isOpen });
     }
 
+    
+
     render() {
+        console.log(this.props.username)
         return (
             <div className='fluid headerBG'>
                 <MDBNavbar className="navbarBG" dark expand="md" >
                     {/* <MDBRow className="mb-1"> */}
                     <MDBNavbarBrand style={{ marginLeft: "2%" }}>
                         <Link to='/'>
-                            <img src={require('../image/logowhite.png')} alt='logo' height='35'></img>
+                            <img src={require('../image/logowhiteB.png')} alt='logo' height='40'></img>
                         </Link>
                     </MDBNavbarBrand>
                     {/* </MDBRow> */}
@@ -38,7 +41,7 @@ class NavbarPage extends Component {
                                 {/* </Link> */}
                             </MDBNavItem>
                             <MDBNavItem className="navItem">
-                                <MDBNavLink to='/HowToOrder' style={{ fontWeight: 'bold' }}>How to order ?</MDBNavLink>
+                                <MDBNavLink to='/HowToOrder' style={{ fontWeight: 'bold' }}>Order</MDBNavLink>
                             </MDBNavItem>
                             <MDBNavItem className="navItem">
                                 <MDBNavLink to='/AboutPage' style={{ fontWeight: 'bold' }}>About</MDBNavLink>
@@ -53,8 +56,8 @@ class NavbarPage extends Component {
                                 </MDBFormInline>
                             </MDBNavItem>
                             <MDBNavItem>
-                                <MDBNavLink className="waves-effect waves-light" to="#!">
-                                    <MDBIcon icon="shopping-cart">
+                                <MDBNavLink className="waves-effect waves-light" to="#!" style={{ bottom: 0, top: 5 }}>
+                                    <MDBIcon icon="shopping-cart" >
                                         <MDBBadge pill color="primary" className="ml-1">0</MDBBadge>
                                     </MDBIcon>
                                 </MDBNavLink>
@@ -69,12 +72,6 @@ class NavbarPage extends Component {
                                         <RegisPopUp ></RegisPopUp>
                                     </div>
                                 }
-                                {/* <button type="button" className="element-BtLogin">
-                                    Login
-                                </button>
-                                <button type="button" className="element-BtRegis">
-                                    Register
-                                </button> */}
                             </MDBNavItem>
                         </MDBNavbarNav>
                     </MDBCollapse>

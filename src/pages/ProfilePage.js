@@ -1,132 +1,154 @@
-import React from 'react'
-import { MDBCard, MDBCol, MDBRow, MDBView, MDBMask, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardFooter, MDBBtn, MDBIcon } from 'mdbreact';//MDBCardImage,
+import React, { Component } from 'react';
+import { MDBCard, MDBCol, MDBRow, MDBCardBody, MDBCardTitle, MDBBtn } from 'mdbreact';//MDBCardImage,
 import SideNavigation from '../component/sideNavigation'
-// import src1 from '../../assets/img-1.jpg';
+import Axios from 'axios';
+import { connect } from 'react-redux'
+import { API_URL } from '../support/Backend_URL';
 
-const ProfilePage = () => {
-  return (
-    <div className="flexible-content">
-      <SideNavigation />
-      <main id="content" className="p-5">
-      <React.Fragment>
-        <MDBRow className="justify-content-center">
-          <MDBCol md="12">
-            <MDBCard>
-              {/* <MDBCardImage className="img-fluid" src={src1} /> */}
-              <MDBCardBody>
-                <MDBCardTitle className="text-center mb-2 font-bold">Alice Mayer</MDBCardTitle>
-                <MDBCardTitle sub className="text-center indigo-text mb-2 font-bold">Photographer</MDBCardTitle>
-                <MDBCardText>
-                  <strong className="mb-2">About:</strong>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione perferendis quod animi dignissimos consectetur quibusdam numquam laboriosam, minus, provident...
-                    </MDBCardText>
-                <div className="row justify-content-end pr-1">
-                  <MDBBtn size="sm" outline color="primary">More...</MDBBtn>
-                </div>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-          <MDBCol md="6" lg="9">
-            <section className="text-center pb-3">
-              <MDBRow className="d-flex justify-content-center">
-                <MDBCol lg="6" xl="5" className="mb-3">
-                  <MDBCard className="d-flex mb-5">
-                    <MDBView>
-                      <img src="https://mdbootstrap.com/img/Mockups/Horizontal/6-col/pro-profile-page.jpg" alt="Project" className="img-fluid" />
-                      <MDBMask overlay="white-slight" />
-                    </MDBView>
-                    <MDBCardBody>
-                      <MDBCardTitle className="font-bold mb-3">
-                        <strong>Project name</strong>
-                      </MDBCardTitle>
-                      <MDBCardText>Some quick example text to build on the card title and make up the bulk of the card's content.</MDBCardText>
-                    </MDBCardBody>
-                    <MDBCardFooter className="links-light profile-card-footer">
-                      <span className="right">
-                        <a className="p-2" href="#profile">
-                          Live Preview
-                      <MDBIcon icon="image" className="ml-1" />
-                        </a>
-                      </span>
-                    </MDBCardFooter>
-                  </MDBCard>
-                </MDBCol>
-                <MDBCol lg="6" xl="5" className="mb-3">
-                  <MDBCard className="d-flex mb-5">
-                    <MDBView>
-                      <img src="https://mdbootstrap.com/img/Mockups/Horizontal/6-col/pro-signup.jpg" alt="Project" className="img-fluid" />
-                      <MDBMask overlay="white-slight" />
-                    </MDBView>
-                    <MDBCardBody>
-                      <MDBCardTitle className="font-bold mb-3">
-                        <strong>Project name</strong>
-                      </MDBCardTitle>
-                      <MDBCardText>Some quick example text to build on the card title and make up the bulk of the card's content.</MDBCardText>
-                    </MDBCardBody>
-                    <MDBCardFooter className="links-light profile-card-footer">
-                      <span className="right">
-                        <a className="p-2" href="#profile">
-                          Live Preview
-                      <MDBIcon icon="image" className="ml-1" />
-                        </a>
-                      </span>
-                    </MDBCardFooter>
-                  </MDBCard>
-                </MDBCol>
-              </MDBRow>
-              <MDBRow className="d-flex justify-content-center">
-                <MDBCol lg="6" xl="5" className="mb-3">
-                  <MDBCard className="d-flex mb-5">
-                    <MDBView>
-                      <img src="https://mdbootstrap.com/img/Mockups/Horizontal/6-col/pro-profile-page.jpg" alt="Project" className="img-fluid" />
-                      <MDBMask overlay="white-slight" />
-                    </MDBView>
-                    <MDBCardBody>
-                      <MDBCardTitle className="font-bold mb-3">
-                        <strong>Project name</strong>
-                      </MDBCardTitle>
-                      <MDBCardText>Some quick example text to build on the card title and make up the bulk of the card's content.</MDBCardText>
-                    </MDBCardBody>
-                    <MDBCardFooter className="links-light profile-card-footer">
-                      <span className="right">
-                        <a className="p-2" href="#profile">
-                          Live Preview
-                      <MDBIcon icon="image" className="ml-1" />
-                        </a>
-                      </span>
-                    </MDBCardFooter>
-                  </MDBCard>
-                </MDBCol>
-                <MDBCol lg="6" xl="5" className="mb-3">
-                  <MDBCard className="d-flex mb-5">
-                    <view-wrapper>
-                      <img src="https://mdbootstrap.com/img/Mockups/Horizontal/6-col/pro-signup.jpg" alt="Project" className="img-fluid" />
-                      <MDBMask overlay="white-slight" />
-                    </view-wrapper>
-                    <MDBCardBody>
-                      <MDBCardTitle className="font-bold mb-3">
-                        <strong>Project name</strong>
-                      </MDBCardTitle>
-                      <MDBCardText>Some quick example text to build on the card title and make up the bulk of the card's content.</MDBCardText>
-                    </MDBCardBody>
-                    <MDBCardFooter className="links-light profile-card-footer">
-                      <span className="right">
-                        <a className="p-2" href="#profile">
-                          Live Preview
-                      <MDBIcon icon="image" className="ml-1" />
-                        </a>
-                      </span>
-                    </MDBCardFooter>
-                  </MDBCard>
-                </MDBCol>
-              </MDBRow>
-            </section>
-          </MDBCol>
-        </MDBRow>
-      </React.Fragment>
-      </main>
-    </div >
-  );
+class ProfilePage extends Component {
+  state = {
+    data: []
+  };
+
+  editProfile = () => {
+    console.log(this.props.idusers)
+    let usernameNew = this.refs.userName.value
+    let emailNew = this.refs.userEmail.value
+    let phoneNew = this.refs.userPhone.value
+    Axios.post(API_URL + `/users/editProfile/${this.props.idusers}`, {
+      newuser: usernameNew,
+      newemail: emailNew,
+      newphone: phoneNew
+    })
+      .then((res) => {
+        console.log(res.data)
+        window.location.reload();
+        // this.props.login()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  editPassword = () => {
+
+  }
+
+  render() {
+    let username = this.props.username
+    let email = this.props.email
+    let phone = this.props.phone
+    console.log(this.props.username)
+    return (
+      <div >
+        <SideNavigation />
+        <main id="content" className="p-5">
+          {/* <React.Fragment> */}
+          <MDBRow className="justify-content-center">
+            <MDBCol md="11">
+              <MDBCard>
+                {/* <MDBCardImage className="img-fluid" src={src1} /> */}
+                <MDBCardBody>
+                  <MDBCardTitle className="mb-2 font-bold">Edit Profile</MDBCardTitle>
+                  <div className="form-group row">
+                    <label htmlFor="inlineFormInputName" className="col-sm-3 col-form-label">Username</label>
+                    <div className="col-sm-9">
+                      <input type="text" className="form-control" id="inlineFormInputName" ref="userName" defaultValue={username} />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Email</label>
+                    <div className="col-sm-9">
+                      <input type="email" className="form-control" id="staticEmail" ref="userEmail" defaultValue={email} />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="phone" className="col-sm-3 col-form-label">Phone</label>
+                    <div className="col-sm-9">
+                      <input type="text" className="form-control" id="phone" ref="userPhone" defaultValue={phone} />
+                    </div>
+                  </div>
+                  <div className="row justify-content-end pr-1">
+                    <MDBBtn size="sm" color="dark" onClick={this.editProfile}>Save Profile</MDBBtn>
+                  </div>
+                  <MDBCardTitle className="mb-2 font-bold">Edit Password</MDBCardTitle>
+                  <div className="form-group row">
+                    <label htmlFor="inputPasswordOld" className="col-sm-3 col-form-label">Old Password</label>
+                    <div className="col-sm-9">
+                      <input type="password" className="form-control" id="inputPasswordOld" placeholder="Password" />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="inputPasswordNew" className="col-sm-3 col-form-label">New Password</label>
+                    <div className="col-sm-9">
+                      <input type="password" className="form-control" id="inputPasswordNew" placeholder="Password" />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="inputPasswordConf" className="col-sm-3 col-form-label">Confirm Password</label>
+                    <div className="col-sm-9">
+                      <input type="password" className="form-control" id="inputPasswordConf" placeholder="Password" />
+                    </div>
+                  </div>
+                  <div className="row justify-content-end pr-1">
+                    <MDBBtn size="sm" color="dark">Save Password</MDBBtn>
+                  </div>
+                  <MDBCardTitle className="mb-2 font-bold">Edit Personal Address</MDBCardTitle>
+                  <div className="form-group row">
+                    <label htmlFor="inputAddress2" className="col-sm-3 col-form-label">Address</label>
+                    <div className="col-sm-9">
+                      <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <div className="col-6">
+                      <div className="form-group row">
+                        <label htmlFor="inputAddress2" className="col-sm-6 col-form-label">City</label>
+                        <div className="col-sm-6">
+                          <input type="text" className="form-control" id="inputAddress2" placeholder="" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group row">
+                        <label htmlFor="inputAddress2" className="col-sm-3 col-form-label">Region</label>
+                        <div className="col-sm-9">
+                          <select id="inputState" className="form-control col-sm-9">
+                            <option defaultValue="0">Choose...</option>
+                            <option>...</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label htmlFor="inputZip" className="col-sm-3 col-form-label">Zip</label>
+                    <div className="col-sm-3">
+                      <input type="text" className="form-control" id="inputZip" />
+                    </div>
+                  </div>
+                  <div className="row justify-content-end pr-1">
+                    <MDBBtn size="sm" color="dark">Save Address</MDBBtn>
+                  </div>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+          {/* </React.Fragment> */}
+        </main>
+      </div >
+    );
+  }
 }
 
-export default ProfilePage;
+const mapStatetoProps = (state) => {
+  return {
+    idusers: state.user.idusers,
+    username: state.user.username,
+    phone: state.user.phone,
+    email: state.user.email,
+    role: state.user.role
+  }
+}
+export default connect(mapStatetoProps)(ProfilePage);
+

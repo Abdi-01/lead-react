@@ -44,24 +44,11 @@ const EcommercePage = () => {
                                             Neque porro quisquam est, qui dolorem ipsum quia dolor
                                             sit amet, consectetur, adipisci.
                                         </MDBCardText>
-                                        <MDBCardFooter className="px-1">
-                                            <span className="float-left">69$</span>
-                                            <span className="float-right">
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-eye grey-text ml-3"
-                                                    tooltipContent="Quick look"
-                                                />
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-heart grey-text ml-3"
-                                                    tooltipContent="Add to watchlist"
-                                                />
+                                        <span className="float-left">69$</span>
+                                        <span className="float-right">
                                             </span>
+                                        <MDBCardFooter>
+                                                
                                         </MDBCardFooter>
                                     </MDBCardBody>
                                 </MDBCard>

@@ -12,12 +12,12 @@ class HomePage extends Component {
     render() {
         return (
             <div style={{marginBottom:"3%"}}>
-                <div className="container-fluid">
-                    <div id='sides' >
-                        <div className="element-jumbotron " id="left" style={{ maxWidth: '55%' }} >
+                <div className=" row">
+                    <div id='sides' className="col">
+                        <div className="element-jumbotron " id="left" style={{ width: '55%' }} >
                             <Jumbotron></Jumbotron>
                         </div>
-                        <div id="right" className='element-carousle ' style={{ maxWidth: '65%' }}>
+                        <div id="right" className='element-carousle ' style={{ width: '65%' }}>
                             <Carousle></Carousle>
                         </div>
                         {/* <div style={{maxWidth:'50%'}}>

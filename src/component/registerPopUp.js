@@ -1,9 +1,10 @@
 import React from 'react';
-import { Progress, Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input, CustomInput } from 'reactstrap';
+import { Progress, Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input} from 'reactstrap';
 // import { connect } from 'react-redux'
 // import { login } from '../redux/action'
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios'
+import { API_URL } from '../support/Backend_URL';
 
 class RegisPopUp extends React.Component {
     constructor(props) {
@@ -19,9 +20,7 @@ class RegisPopUp extends React.Component {
             alert1: false,
             alert2: false,
             alert3: false,
-            alert4: false,
-            addImageFileName: 'Select File',
-            addImageFile: undefined
+            alert4: false
         };
         this.toggle = this.toggle.bind(this);
         this.toggleAlert1 = this.toggleAlert1.bind(this);
@@ -52,7 +51,7 @@ class RegisPopUp extends React.Component {
         });
     }
     toggleAlert4() {
-        // this.toggle()
+        this.toggle()
         this.setState({
             alert4: !this.state.alert4
         });
@@ -60,19 +59,19 @@ class RegisPopUp extends React.Component {
     }
 
     regisUser = () => {
-        // let { char, spec, num } = this.state
         var username = this.text.value
         var email = this.email.value
+        var phone = this.phone.value
         var password = this.pass.value
         var confpassword = this.confpass.value
-        if (username && email && password && confpassword) {
+        if (username && email && password && confpassword && phone) {
             if (password !== confpassword) {
                 this.setState({
                     alert2: !this.state.alert2
                 });
             }
             else {
-                Axios.get(`http://localhost:2000/users/getSearchUsers?username=${username}`)
+                Axios.get(API_URL + `/users/getSearchUsers?username=${username}`)
                     .then((res) => {
                         console.log(res.data)
                         if (res.data.length !== 0) {
@@ -81,9 +80,10 @@ class RegisPopUp extends React.Component {
                             });
                         }
                         else if (password.length > 8) {
-                            Axios.post('http://localhost:2000/users/register', {
+                            Axios.post(API_URL + `/users/register`, {
                                 username: username,
                                 password: password,
+                                phone: phone,
                                 email: email,
                                 role: 'user'
                             })
@@ -92,14 +92,12 @@ class RegisPopUp extends React.Component {
                                     this.setState({
                                         alert4: !this.state.alert4
                                     })
-                                    Axios.get(`http://localhost:2000/users/getAllUsers`)//update pages dengan menambah fungsi dan mengkosongkan value pada variable penampung nilai
+                                    Axios.get(API_URL + `/users/getAllUsers`)//update pages dengan menambah fungsi dan mengkosongkan value pada variable penampung nilai
                                         .then((res) => {
                                             console.log(res.data)
                                             this.setState({ data: res.data })//untuk mengubah isi state data
                                         })
-                                    // this.componentDidMount()//update pages dengan panggil fungsi get cara 2
                                 })
-
                                 .catch((err) => {
                                     console.log(err)
                                 })
@@ -116,12 +114,6 @@ class RegisPopUp extends React.Component {
                 alert3: !this.state.alert3
             });
         }
-    }
-
-    regisSubmit = () => {
-        this.regisUser()
-
-        // this.notif()
     }
 
     ///cek password
@@ -159,30 +151,6 @@ class RegisPopUp extends React.Component {
 
     }
 
-    onBtnAddImageFile = (e) => {
-        if (e.target.files[0]) {
-            this.setState({ addImageFileName: e.target.files[0].name, addImageFile: e.target.files[0] })
-        } else {
-            this.setState({ addImageFileName: 'Select Image', addImageFile: undefined })
-        }
-    }
-
-    uploadImage = () => {
-        let { addImageFile } = this.state;
-        if (addImageFile) {
-            let formData = new FormData()
-            formData.append('image', addImageFile)
-            Axios.post('http://localhost:2000/image/upload', formData)
-                .then((res) => {
-                    console.log(res.data)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-
-        }
-    }
-
     render() {
         return (
             <div>
@@ -213,8 +181,12 @@ class RegisPopUp extends React.Component {
                                 <Input type="email" name="email" innerRef={(email) => this.email = email} />
                             </FormGroup>
                             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                                Phone
+                                <Input type="text" name="email" innerRef={(phone) => this.phone = phone} />
+                            </FormGroup>
+                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                                 Password
-                                <Input type="password" name="password" innerRef={(pass) => this.pass = pass} onChange={this.handleChange} onFocus={this.showReq} placeholder="Min. 8 Character" minLength="8" defaultValue=""/>
+                                <Input type="password" name="password" innerRef={(pass) => this.pass = pass} onChange={this.handleChange} onFocus={this.showReq} placeholder="Min. 8 Character" minLength="8" defaultValue="" />
                                 <Progress multi style={{ width: 150 }}>
                                     {
                                         this.state.show
@@ -226,13 +198,6 @@ class RegisPopUp extends React.Component {
                                 </Progress>
                                 Confirm Your Password
                                 <Input type="password" name="password" innerRef={(confpass) => this.confpass = confpass} placeholder="Confirmation Password" />
-                            </FormGroup>
-                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                Image Profile
-                                <CustomInput id='upload' onChange={this.onBtnAddImageFile} label={this.state.addImageFileName} type='file' />
-                                <Button onClick={this.uploadImage}>
-                                    Upload
-                                </Button>
                             </FormGroup>
                         </Form>
                     </ModalBody>

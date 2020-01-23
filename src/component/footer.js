@@ -24,7 +24,7 @@ const FooterPage = () => {
                         <h5 className="title">Information</h5>
                         <ul>
                             <li className="list-unstyled">
-                                <Link to="/HowToOrder">How to custom order ?</Link>
+                                <Link to="/HowToOrder">How to order </Link>
                             </li>
                             <li className="list-unstyled">
                                 <Link to="/SizeCart">Size Cart</Link>
@@ -51,9 +51,9 @@ const FooterPage = () => {
                     <MDBCol md="3">
                         <h5 className="title">Contact</h5>
                         <ul>
-                                <h6>Whatsapp : +62 821-4292-8301</h6><br/>
-                                <h6>Email : leadwear01@gmail.com</h6><br/>
-                                <h6>Instagram : @leadproject.id</h6>
+                                <li className="list-unstyled">Whatsapp : +62 821-4292-8301</li>
+                                <li className="list-unstyled">Email : leadwear01@gmail.com</li>
+                                <li className="list-unstyled">Instagram : @leadproject.id</li>
                         </ul>
                     </MDBCol>
                 </MDBRow>
