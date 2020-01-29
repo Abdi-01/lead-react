@@ -12,7 +12,7 @@ class HomePage extends Component {
     render() {
         return (
             <div style={{marginBottom:"3%"}}>
-                <div className=" row">
+                <div>
                     <div id='sides' className="col">
                         <div className="element-jumbotron " id="left" style={{ width: '55%' }} >
                             <Jumbotron></Jumbotron>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Alert, Button, Modal, ModalBody, ModalFooter, Form, FormGroup, Input } from 'reactstrap';
+import { MDBInput, MDBModal, MDBModalBody } from 'mdbreact';
+import { Alert } from 'reactstrap';
 import { connect } from 'react-redux'
 import { login } from '../redux/action'
 import { Redirect } from 'react-router-dom';
@@ -14,22 +15,18 @@ class LoginPopUp extends React.Component {
             alert1: false,
             alert2: false
         };
-
-        this.toggle = this.toggle.bind(this);
-        this.toggleAlert1 = this.toggleAlert1.bind(this);
-        this.toggleAlert2 = this.toggleAlert2.bind(this);
     }
-    toggle() {
+    toggle = () => {
         this.setState({
             modal: !this.state.modal
         });
     }
-    toggleAlert1() {
+    toggleAlert1 = () => {
         this.setState({
             alert1: !this.state.alert1
         });
     }
-    toggleAlert2() {
+    toggleAlert2 = () => {
         this.setState({
             alert2: !this.state.alert2
         });
@@ -46,9 +43,16 @@ class LoginPopUp extends React.Component {
         else {
             if (username.includes("@") === false) {
                 this.props.login(username, password)//masuk authAction.js
-                return <Redirect to='/'></Redirect>
+                if (this.props.username === null) {
+                    this.setState({
+                        alert2: !this.state.alert2
+                    });
+                } else {
+                    return <Redirect to='/'></Redirect>
+                }
             } else {
-                this.props.login(username, password)//masuk authAction.js      
+                this.props.login(username, password)//masuk authAction.js
+                console.log(this.props.username)
                 return <Redirect to='/'></Redirect>
             }
         }
@@ -59,36 +63,63 @@ class LoginPopUp extends React.Component {
             <div style={{ marginRight: 10 }}>
                 <div id="leftLogin">
                     <button className="element-BtLogin" onClick={this.toggle}>Login</button>
-                    {/* <RegisPopUp></RegisPopUp> */}
                 </div>
-                <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <div><h2 style={{textAlign:"center",paddingTop:10}}>Login Your Account</h2></div>
+                <MDBModal contentClassName="modalBG" isOpen={this.state.modal} toggle={this.toggle}>
                     <Alert color="warning" isOpen={this.state.alert1} toggle={this.toggleAlert1}>
                         Fill in on the form!
                     </Alert>
                     <Alert color="warning" isOpen={this.state.alert2} toggle={this.toggleAlert2}>
                         Username or password invalid!
                     </Alert>
-                    <ModalBody >
-                        <Form>
-                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                <Input type="username" name="email" innerRef={(text) => this.text = text} id="exampleEmail" placeholder="Username or Password" />
-                            </FormGroup>
-                            &nbsp;
-                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                <Input type="password" name="password" innerRef={(pass) => this.pass = pass} id="examplePassword" placeholder="Password" />
-                            </FormGroup>
-                        </Form>
-                    </ModalBody>
-                    <a style={{textAlign:"center"}} href="aaa">Forgot Your Password ?</a>
-                    <ModalFooter >
-                        <Button color="primary" size ="sm" onClick={this.loginUser}>Login</Button>
-                        <Button color="danger" size ="sm" onClick={this.toggle}>Cancel</Button>
-                    </ModalFooter>
-                </Modal>
+                    <div className="text-center headerModalBG" >
+                        <img src={require('../image/lead.png')} style={{ padding: 3 }} width="40px" alt="leadlogo"></img>
+                    </div>
+                    <MDBModalBody>
+                        <p className="h5 text-center mb-4">Login</p>
+                        <div className="grey-text">
+                            <MDBInput
+                                label="Type your username or email"
+                                icon="user"
+                                group
+                                type="text"
+                                validate
+                                error="wrong"
+                                success="right"
+                                inputRef={(text) => this.text = text}
+                            />
+                            <MDBInput
+                                label="Type your password"
+                                icon="lock"
+                                group
+                                type="password"
+                                validate
+                                inputRef={(pass) => this.pass = pass}
+                            />
+                        </div>
+                        <p style={{ margin: 0 }} className="font-small grey-text d-flex justify-content-end text-center">
+                            Forgot
+                            <a
+                                href="#!"
+                                className="dark-grey-text font-weight-bold ml-1"
+                            >
+                                Password?
+                            </a>
+                        </p>
+                    </MDBModalBody>
+                    <div id="sides">
+                        <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.toggle}>Cancel</button>
+                        <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.loginUser}>Login</button>
+                    </div>
+                </MDBModal>
             </div>
         )
     }
 }
 
-export default connect(null, { login })(LoginPopUp)
+const mapStatetoProps = (state) => {
+    return {
+        username: state.user.username
+    }
+}
+
+export default connect(mapStatetoProps, { login })(LoginPopUp)

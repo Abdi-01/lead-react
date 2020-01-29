@@ -37,7 +37,7 @@
   }
 }
 
-.navbarBG{
+.navbarBG {
   background-image: url('./image/backgroundNavbarB.png');
   background-repeat: no-repeat;
   background-position: top center;
@@ -45,7 +45,7 @@
   background-size: cover;
 }
 
-.footerBG{
+.footerBG {
   background-image: url('./image/backgroundFooterB.png');
   background-repeat: no-repeat;
   background-position: top center;
@@ -53,12 +53,12 @@
   background-size: cover;
 }
 
-.navItem:hover{
+.navItem:hover {
   border-bottom: 2px solid white;
   transition: 250ms;
 }
 
-.jumbotronBG{
+.jumbotronBG {
   background-image: url('./image/try.png');
   background-repeat: no-repeat;
   background-position: center;
@@ -66,127 +66,226 @@
   /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
-.jumbotronShadow{
+.jumbotronShadow {
   box-shadow: 2px 2px 5px dimgray;
+}
+
+.headerModalBG{
+  background-image: url('./image/loginHeaderC.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .element-jumbotron {
   display: inline-block;
-  clip-path: polygon(0 0, calc(100% - 20%) 0% , 100% 100%, 0% 100%);
-}
-.element-carousle {
-  display: inline-block;
-  clip-path: polygon( 0 0 , 100% 0% , 100% 100%, calc(100% - 82%) 100% );
+  clip-path: polygon(0 0, calc(100% - 20%) 0%, 100% 100%, 0% 100%);
 }
 
-.element-BtCustom{
-  clip-path: polygon(0 0, calc(100% - 7%) 0% , 100% 100%, 0% 100%);
+.element-carousle {
+  display: inline-block;
+  clip-path: polygon( 0 0, 100% 0%, 100% 100%, calc(100% - 82%) 100%);
+}
+
+.element-BtCustom {
+  clip-path: polygon(0 0, calc(100% - 7%) 0%, 100% 100%, 0% 100%);
   border: none;
   padding: 10px 20px 10px 15px;
   /* color: dimgray; */
 }
-.element-BtCustom:hover{
-  clip-path: polygon(0 0, calc(100% - 7%) 0% , 100% 100%, 0% 100%);
+
+.element-BtCustom:hover {
+  clip-path: polygon(0 0, calc(100% - 7%) 0%, 100% 100%, 0% 100%);
   color: white;
   background-color: dimgray;
   border: none;
 }
 
-.element-BtCard{
+.element-BtCard {
   /* background-color: goldenrod; */
-  color: azure;
+  color: white;
   padding: 0 15px 0 15px;
   background-color: #e67e22;
-  clip-path: polygon(0 0, calc(100% - 15%) 0% , 100% 100%, calc(100% - 85%) 100%);
+  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, calc(100% - 85%) 100%);
   transition: 250ms;
 }
-.element-BtCard:hover{
-  color: azure;
+
+.element-BtCard:hover {
+  color: white;
   padding: 0 20px 0 20px;
   background-color: dimgray;
-  clip-path: polygon(0 0, calc(100% - 15%) 0% , 100% 100%, calc(100% - 85%) 100%);
+  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, calc(100% - 85%) 100%);
   transition: 250ms;
 }
-.element-BtLogin{
+
+.element-BtLogin {
   /* background-color: goldenrod; */
   color: dimgray;
   border: none;
   border: none;
   padding: 0 10px 0 10px;
-  background-color: azure;
-  clip-path: polygon(0 0, calc(100% - 15%) 0% , 100% 100%, 0 100%);
-  transition: 250ms;
-}
-.element-BtLogin:hover{
-  color: azure;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: orange;
-  clip-path: polygon(0 0, calc(100% - 15%) 0% , 100% 100%, 0 100%);
-  transition: 250ms;
-}
-.element-BtRegis:hover{
-  /* background-color: goldenrod; */
-  color: az;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: orange;
-  clip-path: polygon(0 0, 100% 0% , 100% 100%, calc(100% - 88%) 100%);
-  transition: 250ms;
-}
-.element-BtRegis{
-  color: azure;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: dimgray;
-  clip-path: polygon(0 0, 100% 0% , 100% 100%, calc(100% - 88%) 100%);
+  background-color: white;
+  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
   transition: 250ms;
 }
 
-#sides{
- position: relative;
+.element-BtLogin:hover {
+  color: white;
+  border: none;
+  padding: 0 10px 0 10px;
+  background-color: orange;
+  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
+  transition: 250ms;
 }
-#left{
+
+
+.element-BtRegis {
+  color: white;
+  border: none;
+  padding: 0 10px 0 10px;
+  background-color: dimgray;
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
+  transition: 250ms;
+}
+
+.element-BtRegis:hover {
+  /* background-color: goldenrod; */
+  color: white;
+  border: none;
+  padding: 0 10px 0 10px;
+  background-color: orange;
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
+  transition: 250ms;
+}
+
+.element-FormCancel {
+  /* background-color: goldenrod; */
+  color: white;
+  border: none;
+  border: none;
+  padding: 0 10px 0 10px;
+  background-color: dimgray;
+  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
+  transition: 250ms;
+}
+
+.element-FormCancel:hover {
+  color: white;
+  border: none;
+  padding: 0 10px 0 10px;
+  background-color: silver;
+  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
+  transition: 250ms;
+}
+
+
+.element-FormLogin {
+  color: white;
+  border: none;
+  padding: 0 10px 0 10px;
+  background-color: orange;
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
+  transition: 250ms;
+}
+
+.element-FormLogin:hover {
+  /* background-color: goldenrod; */
+  color: white;
+  border: none;
+  padding: 0 10px 0 10px;
+  background-color: silver;
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
+  transition: 250ms;
+}
+
+.objectFit{
+  object-fit: cover;
+}
+
+.modalBG{
+  background-color: transparent !important;
+}
+
+.modalFooter{
+  text-align: center;
+  padding-bottom: 2%;
+}
+
+.modal-body{
+  background-color: white;
+}
+
+.price{
+  background-color: dimgrey;
+  color: white;
+  padding-left: 2%;
+  padding-right: 10%;
+  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
+}
+
+#sides {
   position: relative;
-    top: 5px;
-    left: 0;
-    z-index: 10;
 }
-#right{
+
+#left {
+  position: relative;
+  top: 5px;
+  left: 0;
+  z-index: 10;
+}
+
+#right {
   position: absolute;
   text-align: center;
   top: 15px;
   right: 0;
-  } 
-  #leftLogin{
-    position: relative;
-    top: 5px;
-    left: 0;
-    /* z-index: 10; */
 }
-#rightRegis{
+
+#leftLogin {
+  position: relative;
+  top: 5px;
+  left: 0;
+  /* z-index: 10; */
+}
+
+#rightRegis {
   position: absolute;
   text-align: center;
   top: 5px;
   right: 0;
-  } 
+}
 
-  .tagLine{
-    margin-top: 5%;
-    text-align: center;
-    /* position: relative; */
-    /* padding-bottom: 200px; */
-  }
+#leftForm {
+  position: relative;
+  /* right: 250px; */
+  left: 0;
+  /* z-index: 10; */
+}
+
+#rightForm {
+  position: absolute;
+  /* left: 0; */
+  right: 0;
+}
+
+.tagLine {
+  margin-top: 5%;
+  text-align: center;
+  /* position: relative; */
+  /* padding-bottom: 200px; */
+}
+
 /* SIdebar */
-a{
+
+a {
   color: inherit;
 }
 
-.list-group-flush{
+.list-group-flush {
   color: #495057;
 }
 
-.active{
+.active {
   background-color: #e9ecef !;
 }
 
@@ -194,7 +293,7 @@ main {
   background-color: #EDEDEE;
 }
 
-.navbar-brand{
+.navbar-brand {
   margin-left: 15px;
   color: #2196f3 !important;
 }
@@ -212,19 +311,17 @@ main {
   padding-bottom: 0;
 }
 
-
 .flexible-navbar {
   transition: padding-left 0.5s;
   padding-left: 270px;
   background: #fff;
 }
 
-#content{
+#content {
   margin-left: 270px;
-}    
+}
 
-
-.sidebar-fixed .logo-wrapper img{
+.sidebar-fixed .logo-wrapper img {
   width: 100%;
   padding: 2.5rem;
 }
@@ -247,18 +344,17 @@ main {
   background-color: #f8f9fa
 }
 
-
 .list-group .active {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   border-radius: 5px;
 }
 
-.card-title{
+.card-title {
   font-size: 1.5rem;
   font-weight: 600;
 }
 
-.card-subtitle{
+.card-subtitle {
   font-size: 1.25rem;
   font-weight: 600;
 }
@@ -275,7 +371,6 @@ main {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-
 
 .card .view.gradient-card-header {
   padding: 1rem 1rem;
@@ -310,32 +405,38 @@ main {
   margin-top: 2rem;
   text-align: right;
 }
+
 .admin-up .data p {
   color: #999999;
   font-size: 12px;
 }
+
 .classic-admin-card .card-body {
   color: #fff;
   margin-bottom: 0;
   padding: 0.9rem;
 }
+
 .classic-admin-card .card-body p {
   font-size: 13px;
   opacity: 0.7;
   margin-bottom: 0;
 }
+
 .classic-admin-card .card-body h4 {
   margin-top: 10px;
 }
 
-.form-inline{
+.form-inline {
   flex-flow: unset
 }
 
-.breadcrumb{
+.breadcrumb {
   margin: 0;
 }
+
 /* warna section dashbord yang aktif pada sidebar */
+
 .activeClass .list-group-item {
   z-index: 5;
   color: #fff;
@@ -360,35 +461,31 @@ main {
   .flexible-navbar {
     padding-left: 10px;
   }
-
-  #content{
+  #content {
     margin-left: 0px;
   }
-
-  .page-footer{
+  .page-footer {
     margin-left: 0px;
   }
-  
   .card.cascading-admin-card {
     margin-top: 2.5rem;
-  } 
+  }
 }
 
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
   .card.cascading-admin-card {
     margin-top: 2.5rem;
   }
-
-  #breadcrumb{
+  #breadcrumb {
     flex-direction: column;
   }
 }
 
-
 /* NOT FOUND PAGE */
+
 * {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -406,8 +503,8 @@ body {
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .notfound {
@@ -432,8 +529,8 @@ body {
   bottom: 0;
   background: #ffa200;
   -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
   border: 5px dashed #000;
   border-radius: 5px;
 }
@@ -446,7 +543,7 @@ body {
   bottom: -5px;
   top: -5px;
   -webkit-box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.1) inset;
-          box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.1) inset;
   border-radius: 5px;
 }
 
@@ -459,8 +556,8 @@ body {
   position: absolute;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   left: 50%;
   text-align: center;
   height: 40px;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, CustomInput } from 'reactstrap'
+import { Progress, CustomInput, Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input } from 'reactstrap';
 import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import Axios from 'axios'
@@ -15,8 +15,7 @@ class ProductPage extends Component {
     modal: false,
     selectedId: null
   }
-  toggle = this.toggle.bind(this);
-  toggle() {
+  toggle = () => {
     this.setState({
       modal: !this.state.modal
     });
@@ -49,13 +48,13 @@ class ProductPage extends Component {
         return (
           <tr key={val.idproduct}>
             <td >{index + 1}</td>
-            <td ><CustomInput className="form-control btn-sm" id='uploadEdit' onChange={this.onBtnAddImageFile} label={this.state.addImageFileName} type='file'/></td>
+            <td ><CustomInput className="form-control btn-sm" id='uploadEdit' onChange={this.onBtnAddImageFile} label={this.state.addImageFileName} type='file' /></td>
             <td ><input type="text" className="form-control form-control-sm" placeholder="Input Name" ref='nameEdit' defaultValue={val.name} /></td>
-            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Category" ref='categoryEdit' defaultValue={val.category}/></td>
-            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Size" ref='sizeEdit' defaultValue={val.size}/></td>
-            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Rating" ref='ratingEdit' defaultValue={val.rating}/></td>
-            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Price" ref='priceEdit' defaultValue={val.price}/></td>
-            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Description" ref='descriptionEdit' defaultValue={val.description}/></td>
+            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Category" ref='categoryEdit' defaultValue={val.category} /></td>
+            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Size" ref='sizeEdit' defaultValue={val.size} /></td>
+            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Rating" ref='ratingEdit' defaultValue={val.rating} /></td>
+            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Price" ref='priceEdit' defaultValue={val.price} /></td>
+            <td ><input type="text" className="form-control form-control-sm" placeholder="Input Description" ref='descriptionEdit' defaultValue={val.description} /></td>
             {/* <td ><input type="number" className="form-control" id="harga" placeholder="Input Price" ref='hargaEdit' /></td> */}
             <td ><Button size="sm" onClick={() => this.yesEdit(val.idproduct)}>Yes</Button>
               &nbsp;
@@ -67,18 +66,18 @@ class ProductPage extends Component {
         return (
           <tr key={val.idproduct}>
             <td style={{ verticalAlign: 'middle' }}>{index + 1}</td>
-            <td id={val.idproduct} style={{ verticalAlign: 'middle' }}><img src={'http://localhost:2000/' + val.imagepath} alt='imagePoster' style={{ width: 100, verticalAlign: 'middle' }}></img></td>
+            <td id={val.idproduct} style={{ verticalAlign: 'middle' }}><img src={API_URL + val.imagepath} alt='imagePoster' style={{ width: 100, verticalAlign: 'middle' }}></img></td>
             <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.name}</td>
             <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.category}</td>
-            <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.size}</td>
-            <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.rating}</td>
-            <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.price}</td>
+            <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.product_bahan}</td>
+            <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.product_rating}</td>
+            <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.product_price}</td>
             <td id={val.idproduct} style={{ whiteSpace: 'nowrap', textOverflow: 'elipsis', overflow: 'hidden', maxWidth: '3px', verticalAlign: 'middle' }}>{val.description}
             </td>
 
             <td id={val.idproduct} style={{ verticalAlign: 'middle' }}><button className="btn btn-success btn-sm" onClick={() => this.editData(val.idproduct)}>Edit</button>
               &nbsp;
-                        <button className="btn btn-danger btn-sm" onClick={() => this.deleteData(val.idproduct,val.imagepath)}>Delete</button></td>
+                        <button className="btn btn-danger btn-sm" onClick={() => this.deleteData(val.idproduct, val.imagepath)}>Delete</button></td>
             {/* Jika memanggil function dengan parameter butuh callback '()=>' */}
           </tr>
         )
@@ -131,7 +130,7 @@ class ProductPage extends Component {
     let { addImageFile } = this.state;
     var nameNew = this.refs.nameProduct.value
     var categoryNew = this.refs.categoryProduct.value
-    var sizeNew = this.refs.sizeProduct.value
+    var bahanNew = this.refs.bahanProduct.value
     var ratingNew = this.refs.ratingProduct.value
     var priceNew = this.refs.priceProduct.value
     var descriptionNew = this.refs.descriptionProduct.value
@@ -141,9 +140,9 @@ class ProductPage extends Component {
         // imagepath: imageNew,
         name: nameNew,
         category: categoryNew,
-        size: sizeNew,
-        rating: ratingNew,
-        price: priceNew,
+        product_bahan: bahanNew,
+        product_rating: ratingNew,
+        product_price: priceNew,
         description: descriptionNew
       }
       formData.append('data', JSON.stringify(obj))
@@ -152,6 +151,7 @@ class ProductPage extends Component {
       Axios.post(API_URL + '/products/upload', formData)
         .then((res) => {
           console.log(res.data)
+          this.toggle()
           this.getProducts()
         })
         .catch((err) => {
@@ -164,6 +164,8 @@ class ProductPage extends Component {
   onBtnAddImageFile = (e) => {
     if (e.target.files[0]) {
       this.setState({ addImageFileName: e.target.files[0].name, addImageFile: e.target.files[0] })
+      var preview = document.getElementById('imgpreview')
+      preview.src = URL.createObjectURL(e.target.files[0])
     } else {
       this.setState({ addImageFileName: 'Select Image', addImageFile: undefined })
     }
@@ -202,7 +204,7 @@ class ProductPage extends Component {
                           <td style={{ width: 230 }}>Image</td>
                           <td style={{ width: 150 }}>Name</td>
                           <td style={{ width: 150 }}>Category</td>
-                          <td style={{ width: 150 }}>Size</td>
+                          <td style={{ width: 150 }}>Bahan</td>
                           <td style={{ width: 150 }}>Rating</td>
                           <td style={{ width: 150 }}>Price</td>
                           <td>Description</td>
@@ -211,24 +213,58 @@ class ProductPage extends Component {
                       </MDBTableHead>
                       <MDBTableBody>
                         {this.renderData()}
-                        <tr >
-                          <td>#</td>
-                          <td ><CustomInput className="form-control btn-sm" id='upload' onChange={this.onBtnAddImageFile} label={this.state.addImageFileName} type='file' /></td>
-                          <td ><input type="text" className="form-control form-control-sm" placeholder="Input Name" ref='nameProduct' /></td>
-                          <td ><input type="text" className="form-control form-control-sm" placeholder="Input Category" ref='categoryProduct' /></td>
-                          <td ><input type="text" className="form-control form-control-sm" placeholder="Input Size" ref='sizeProduct' /></td>
-                          <td ><input type="text" className="form-control form-control-sm" placeholder="Input Rating" ref='ratingProduct' /></td>
-                          <td ><input type="text" className="form-control form-control-sm" placeholder="Input Price" ref='priceProduct' /></td>
-                          <td ><input type="text" className="form-control form-control-sm" placeholder="Input Description" ref='descriptionProduct' /></td>
-                          <td><button type="submit" className="btn btn-primary btn-sm" onClick={this.submitData}>Submit</button></td>
-                        </tr>
                       </MDBTableBody>
                     </MDBTable>
+                    <div style={{ textAlign: "center" }}>
+                      <button className="btn btn-primary btn-sm" onClick={this.toggle}>Add Product</button>
+                    </div>
                   </MDBCardBody>
                 </MDBCard>
               </MDBCol>
             </MDBRow>
           </main>
+          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader>Add Product</ModalHeader>
+            <ModalBody >
+              <div style={{ textAlign: 'center' }}>
+                <img alt="preview" id="imgpreview" className="img-fluid" width="100px" />
+              </div>
+              <Form>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Product Name
+                  <input type="text" className="form-control form-control-sm" placeholder="Input Name" ref='nameProduct' />
+                </FormGroup>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Product Category
+                  <input type="text" className="form-control form-control-sm" placeholder="Input Category" ref='categoryProduct' />
+                </FormGroup>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Bahan
+                  <input type="text" className="form-control form-control-sm" placeholder="Input Bahan" ref='bahanProduct' />
+                </FormGroup>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Rating
+                  <input type="text" className="form-control form-control-sm" placeholder="Input Rating" ref='ratingProduct' />
+                </FormGroup>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Price
+                  <input type="text" className="form-control form-control-sm" placeholder="Input Price" ref='priceProduct' />
+                </FormGroup>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Description
+                  <input type="text" className="form-control form-control-sm" placeholder="Input Description" ref='descriptionProduct' />
+                </FormGroup>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Image
+                  <CustomInput className="form-control btn-sm" id='upload' onChange={this.onBtnAddImageFile} label={this.state.addImageFileName} type='file' />
+                </FormGroup>
+
+              </Form>
+            </ModalBody>
+            <ModalFooter >
+              <button type="submit" className="btn btn-primary btn-sm" onClick={this.submitData}>Submit</button>
+            </ModalFooter>
+          </Modal>
         </div>
       </div>
     )

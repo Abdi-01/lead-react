@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ProductCard from '../component/productCard'
 
 class Collection extends Component {
     constructor(props) {
@@ -7,8 +8,8 @@ class Collection extends Component {
     }
     render() { 
         return ( 
-            <div style={{minHeight:'500px'}}>
-                semua koleksi
+            <div className="container" style={{marginTop:"2%"}}>
+                <ProductCard></ProductCard>
             </div>
          );
     }

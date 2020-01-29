@@ -31,7 +31,23 @@ class ProfilePage extends Component {
   }
 
   editPassword = () => {
-
+    let oldPass = this.refs.oldPass.value
+    let newPass = this.refs.newPass.value
+    let confPass = this.refs.confPass.value
+    if (newPass === confPass) {
+      Axios.post(API_URL + `/users/editPassword/${this.props.idusers}`, {
+        oldpass: oldPass,
+        newpass: newPass
+      })
+        .then((res) => {
+          console.log(res.data)
+          window.location.reload();
+          // this.props.login()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 
   render() {
@@ -75,23 +91,23 @@ class ProfilePage extends Component {
                   <div className="form-group row">
                     <label htmlFor="inputPasswordOld" className="col-sm-3 col-form-label">Old Password</label>
                     <div className="col-sm-9">
-                      <input type="password" className="form-control" id="inputPasswordOld" placeholder="Password" />
+                      <input type="password" className="form-control" id="inputPasswordOld" ref="oldPass" />
                     </div>
                   </div>
                   <div className="form-group row">
                     <label htmlFor="inputPasswordNew" className="col-sm-3 col-form-label">New Password</label>
                     <div className="col-sm-9">
-                      <input type="password" className="form-control" id="inputPasswordNew" placeholder="Password" />
+                      <input type="password" className="form-control" id="inputPasswordNew" ref="newPass" />
                     </div>
                   </div>
                   <div className="form-group row">
                     <label htmlFor="inputPasswordConf" className="col-sm-3 col-form-label">Confirm Password</label>
                     <div className="col-sm-9">
-                      <input type="password" className="form-control" id="inputPasswordConf" placeholder="Password" />
+                      <input type="password" className="form-control" id="inputPasswordConf" ref="confPass" />
                     </div>
                   </div>
                   <div className="row justify-content-end pr-1">
-                    <MDBBtn size="sm" color="dark">Save Password</MDBBtn>
+                    <MDBBtn size="sm" color="dark" onClick={this.editPassword}>Save Password</MDBBtn>
                   </div>
                   <MDBCardTitle className="mb-2 font-bold">Edit Personal Address</MDBCardTitle>
                   <div className="form-group row">

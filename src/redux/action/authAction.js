@@ -4,7 +4,7 @@ import { API_URL } from '../../support/Backend_URL';
 export const login = (username, password) => {//satu fungsi menjalankan dua reducer yang berbeda
     // let { username, password } = data
     return (dispatch) => {
-        Axios.post(API_URL+`/users/login`, {
+        Axios.post(API_URL + `/users/login`, {
             username,
             password
         })
@@ -28,7 +28,7 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
 }
 
 export const logout = () => {
-    return (dispatch)=>{
+    return (dispatch) => {
         localStorage.removeItem('token')
         dispatch({
             type: 'LOGOUT'
@@ -47,7 +47,7 @@ export const Keeplogin = () => {//satu fungsi menjalankan dua reducer yang berbe
                     'Authorization': `Bearer ${token}`
                 }
             }
-            Axios.post(API_URL+`/users/keeplogin`, {}, headers)
+            Axios.post(API_URL + `/users/keeplogin`, {}, headers)
                 .then((res) => {
                     // localStorage.setItem('token', res.data.token)//data dari userController backend API
                     console.log(res.data)//data dari userController backend API

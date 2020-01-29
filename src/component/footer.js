@@ -14,12 +14,6 @@ const FooterPage = () => {
                     <MDBCol md="1" style={{ textAlign: "center" }}>
                         <img src={require('../image/logopcsb.png')} width="120px" alt="leadlogo"></img>
                     </MDBCol>
-                    {/* <div>
-                        </div><br/>
-                        <div>
-                            <p> Collaborate with : </p>
-                        </div> */}
-                    {/* </MDBCol> */}
                     <MDBCol md="2">
                         <h5 className="title">Information</h5>
                         <ul>
@@ -51,9 +45,9 @@ const FooterPage = () => {
                     <MDBCol md="3">
                         <h5 className="title">Contact</h5>
                         <ul>
-                                <li className="list-unstyled">Whatsapp : +62 821-4292-8301</li>
-                                <li className="list-unstyled">Email : leadwear01@gmail.com</li>
-                                <li className="list-unstyled">Instagram : @leadproject.id</li>
+                            <li className="list-unstyled">Whatsapp : +62 821-4292-8301</li>
+                            <li className="list-unstyled">Email : leadwear01@gmail.com</li>
+                            <li className="list-unstyled">Instagram : @leadproject.id</li>
                         </ul>
                     </MDBCol>
                 </MDBRow>

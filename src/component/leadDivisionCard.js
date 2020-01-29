@@ -14,7 +14,7 @@ class FlippingCardPage extends Component {
                 <MDBRow>
                     <MDBCol md="4">
                         <MDBCard narrow >
-                            <MDBCardImage top src={require('../image/globalcard.png')} overlay="white-slight" hover height="210px"
+                            <MDBCardImage top src={require('../image/globalcard.png')} className="objectFit" overlay="white-slight" hover height="210px"
                                 waves alt="MDBCard image cap" />
                                 {/* <img alt="MDB React Logo" className="img-fluid" width="100%" src={require('../image/globalcard.png')}/> */}
                             <MDBCardBody cascade className="text-center">
@@ -31,7 +31,7 @@ class FlippingCardPage extends Component {
                     </MDBCol>
                     <MDBCol md="4">
                         <MDBCard narrow  >
-                            <MDBCardImage top src={require('../image/sportcard.png')} overlay="white-slight" hover height="210px"
+                            <MDBCardImage top src={require('../image/sportcard.png')} className="objectFit" overlay="white-slight" hover height="210px"
                                 waves alt="MDBCard image cap" />
                             <MDBCardBody className="text-center">
                                 <MDBCardTitle tag="h5">
@@ -47,7 +47,7 @@ class FlippingCardPage extends Component {
                     </MDBCol>
                     <MDBCol md="4">
                         <MDBCard narrow  >
-                            <MDBCardImage top src={require('../image/customcard.png')} overlay="white-slight" hover height="210px"
+                            <MDBCardImage top src={require('../image/customcard.png')} className="objectFit" overlay="white-slight" hover height="210px"
                                 waves alt="MDBCard image cap" />
                             <MDBCardBody className="text-center">
                                 <MDBCardTitle tag="h5">

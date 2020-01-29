@@ -4,7 +4,7 @@ import { MDBCarousel, MDBCarouselCaption, MDBCarouselInner, MDBCarouselItem, MDB
 
 const CarouselPage = () => {
   return (
-    <div>
+    <div style={{marginRight:"1%"}}>
       <MDBCarousel
       activeItem={1}
       length={3}
@@ -16,7 +16,7 @@ const CarouselPage = () => {
         <MDBCarouselItem itemId="1">
           <MDBView>
             <img
-              className="d-block w-100"
+              className="d-block w-100 objectFit"objectFit
               src="http://www.photographicassignments.co.uk/wp-content/uploads/2017/06/Reefer-1-1024x576.jpg"
               alt="First slide"
               style = {{width: '100%', height:'450px'}}
@@ -31,7 +31,7 @@ const CarouselPage = () => {
         <MDBCarouselItem itemId="2">
           <MDBView>
             <img
-              className="d-block w-100"
+              className="d-block w-100 objectFit"
               src="https://www.rachaelrayshow.com/sites/default/files/styles/video_1920x1080/public/images/2019-01/stock_closet_1920.jpg"
               alt="Second slide"
               style = {{width: '100%', height:'450px'}}
@@ -46,7 +46,7 @@ const CarouselPage = () => {
         <MDBCarouselItem itemId="3">
           <MDBView>
             <img
-              className="d-block w-100"
+              className="d-block w-100 objectFit"
               src="https://www.welltodoglobal.com/wp-content/uploads/2017/10/Welltodo-Today-2-1.png"
               alt="Third slide"
               style = {{width: '100%', height:'450px'}}
