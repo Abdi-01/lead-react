@@ -1,4 +1,5 @@
 import React from "react";
+import '../assets/css/footer.css'
 import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 import { Link } from "react-router-dom";
 

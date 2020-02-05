@@ -1,4 +1,5 @@
 import React from 'react';
+import '../assets/css/modal.css'
 import { Alert } from 'reactstrap';
 import { MDBInput, MDBModal, MDBModalBody, MDBProgress } from 'mdbreact';
 // import { connect } from 'react-redux'
@@ -23,7 +24,14 @@ class RegisPopUp extends React.Component {
     }
     toggle = (a) => {
         if (a === 0) {
-            this.setState({ modal: !this.state.modal })
+            this.setState({
+                modal: !this.state.modal,
+                num: false,
+                spec: false,
+                show: false,
+                abjad: false,
+                char: false
+            })
         }
         if (a === 1) {
             this.setState({ alert1: !this.state.alert1 })
@@ -75,7 +83,6 @@ class RegisPopUp extends React.Component {
                                     this.setState({
                                         alert4: !this.state.alert4
                                     })
-                                    this.setState({ show: true })
                                     Axios.get(API_URL + `/users/getAllUsers`)//update pages dengan menambah fungsi dan mengkosongkan value pada variable penampung nilai
                                         .then((res) => {
                                             console.log(res.data)
@@ -138,58 +145,6 @@ class RegisPopUp extends React.Component {
         return (
             <div>
                 <button id="rightRegis" className="element-BtRegis" onClick={() => this.toggle(0)}>Register</button>
-                {/* <Modal isOpen={this.state.modal} toggle={() => this.toggle(0)}>
-                    <ModalHeader>Register Your Account</ModalHeader>
-                    <Alert color="warning" isOpen={this.state.alert1} toggle={() => this.toggle(1)}>
-                        Username has been taken
-                    </Alert>
-                    <Alert color="warning" isOpen={this.state.alert2} toggle={() => this.toggle(2)}>
-                        Invalid Password Confirmation
-                    </Alert>
-                    <Alert color="warning" isOpen={this.state.alert3} toggle={() => this.toggle(3)}>
-                        Please fill in all the forms!
-                    </Alert>
-                    <Alert color="success" isOpen={this.state.alert4} toggle={() => this.toggle(4)}>
-                        Successfully, please check your email to verification!
-                    </Alert>
-                    <img src='' alt='ProfileImage'></img>
-                    <ModalBody >
-                        <Form>
-                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                Username
-                                <Input type="username" name="username" innerRef={(text) => this.text = text} />
-                            </FormGroup>
-                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                Email
-                                <Input type="email" name="email" innerRef={(email) => this.email = email} />
-                            </FormGroup>
-                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                Phone
-                                <Input type="text" name="email" innerRef={(phone) => this.phone = phone} />
-                            </FormGroup>
-                            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                                Password
-                                <Input type="password" name="password" innerRef={(pass) => this.pass = pass} onChange={this.handleChange} onFocus={this.showReq} placeholder="Min. 8 Character" minLength="8" defaultValue="" />
-                                <Progress multi style={{ width: 150 }}>
-                                    {
-                                        this.state.show
-                                            ?
-                                            this.passwordMeter()
-                                            :
-                                            null
-                                    }
-                                </Progress>
-                                Confirm Your Password
-                                <Input type="password" name="password" innerRef={(confpass) => this.confpass = confpass} placeholder="Confirmation Password" />
-                            </FormGroup>
-                        </Form>
-                    </ModalBody>
-                    <ModalFooter >
-                        <Button color="primary" onClick={this.regisUser}>Register</Button>
-                        <Button color="secondary" onClick={() => this.toggle(0)}>Cancel</Button>
-                    </ModalFooter>
-                </Modal> */}
-
                 <MDBModal contentClassName="modalBG" isOpen={this.state.modal} toggle={this.toggle}>
                     <Alert color="warning" isOpen={this.state.alert1} toggle={() => this.toggle(1)}>
                         Username has been taken
@@ -207,7 +162,7 @@ class RegisPopUp extends React.Component {
                         <img src={require('../image/lead.png')} style={{ padding: 3 }} width="40px" alt="leadlogo"></img>
                     </div>
                     <MDBModalBody>
-                        <p className="h5 text-center mb-4">Login</p>
+                        <p className="h5 text-center mb-4">Register</p>
                         <div className="grey-text">
                             <MDBInput
                                 label="Type your username"
@@ -250,7 +205,7 @@ class RegisPopUp extends React.Component {
                                 inputRef={(pass) => this.pass = pass}
                                 style={{ marginBottom: 0 }}
                             >
-                                <div style={{ width: 150, marginLeft: 40}}>
+                                <div style={{ width: 150, marginLeft: 40 }}>
                                     {
                                         this.state.show
                                             ?
@@ -270,7 +225,7 @@ class RegisPopUp extends React.Component {
                             />
                         </div>
                     </MDBModalBody>
-                    <div id="sides">
+                    <div id="sidesModal">
                         <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.toggle(0)}>Cancel</button>
                         <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.regisUser}>Register</button>
                     </div>

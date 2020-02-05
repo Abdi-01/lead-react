@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import '../assets/css/card.css'
 import {
     MDBCol, MDBRow, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBIcon
 } from "mdbreact";

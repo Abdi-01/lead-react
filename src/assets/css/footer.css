@@ -1,0 +1,7 @@
+.footerBG {
+    background-image: url('../../image/backgroundFooterB.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-color: '#e67e22';
+    background-size: cover;
+  }

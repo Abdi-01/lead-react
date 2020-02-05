@@ -37,56 +37,6 @@
   }
 }
 
-.navbarBG {
-  background-image: url('./image/backgroundNavbarB.png');
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-color: '#e67e22';
-  background-size: cover;
-}
-
-.footerBG {
-  background-image: url('./image/backgroundFooterB.png');
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-color: '#e67e22';
-  background-size: cover;
-}
-
-.navItem:hover {
-  border-bottom: 2px solid white;
-  transition: 250ms;
-}
-
-.jumbotronBG {
-  background-image: url('./image/try.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 460px;
-  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
-}
-
-.jumbotronShadow {
-  box-shadow: 2px 2px 5px dimgray;
-}
-
-.headerModalBG{
-  background-image: url('./image/loginHeaderC.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-.element-jumbotron {
-  display: inline-block;
-  clip-path: polygon(0 0, calc(100% - 20%) 0%, 100% 100%, 0% 100%);
-}
-
-.element-carousle {
-  display: inline-block;
-  clip-path: polygon( 0 0, 100% 0%, 100% 100%, calc(100% - 82%) 100%);
-}
-
 .element-BtCustom {
   clip-path: polygon(0 0, calc(100% - 7%) 0%, 100% 100%, 0% 100%);
   border: none;
@@ -101,178 +51,8 @@
   border: none;
 }
 
-.element-BtCard {
-  /* background-color: goldenrod; */
-  color: white;
-  padding: 0 15px 0 15px;
-  background-color: #e67e22;
-  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, calc(100% - 85%) 100%);
-  transition: 250ms;
-}
-
-.element-BtCard:hover {
-  color: white;
-  padding: 0 20px 0 20px;
-  background-color: dimgray;
-  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, calc(100% - 85%) 100%);
-  transition: 250ms;
-}
-
-.element-BtLogin {
-  /* background-color: goldenrod; */
-  color: dimgray;
-  border: none;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: white;
-  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
-  transition: 250ms;
-}
-
-.element-BtLogin:hover {
-  color: white;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: orange;
-  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
-  transition: 250ms;
-}
-
-
-.element-BtRegis {
-  color: white;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: dimgray;
-  clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
-  transition: 250ms;
-}
-
-.element-BtRegis:hover {
-  /* background-color: goldenrod; */
-  color: white;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: orange;
-  clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
-  transition: 250ms;
-}
-
-.element-FormCancel {
-  /* background-color: goldenrod; */
-  color: white;
-  border: none;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: dimgray;
-  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
-  transition: 250ms;
-}
-
-.element-FormCancel:hover {
-  color: white;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: silver;
-  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
-  transition: 250ms;
-}
-
-
-.element-FormLogin {
-  color: white;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: orange;
-  clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
-  transition: 250ms;
-}
-
-.element-FormLogin:hover {
-  /* background-color: goldenrod; */
-  color: white;
-  border: none;
-  padding: 0 10px 0 10px;
-  background-color: silver;
-  clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
-  transition: 250ms;
-}
-
 .objectFit{
   object-fit: cover;
-}
-
-.modalBG{
-  background-color: transparent !important;
-}
-
-.modalFooter{
-  text-align: center;
-  padding-bottom: 2%;
-}
-
-.modal-body{
-  background-color: white;
-}
-
-.price{
-  background-color: dimgrey;
-  color: white;
-  padding-left: 2%;
-  padding-right: 10%;
-  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
-}
-
-#sides {
-  position: relative;
-}
-
-#left {
-  position: relative;
-  top: 5px;
-  left: 0;
-  z-index: 10;
-}
-
-#right {
-  position: absolute;
-  text-align: center;
-  top: 15px;
-  right: 0;
-}
-
-#leftLogin {
-  position: relative;
-  top: 5px;
-  left: 0;
-  /* z-index: 10; */
-}
-
-#rightRegis {
-  position: absolute;
-  text-align: center;
-  top: 5px;
-  right: 0;
-}
-
-#leftForm {
-  position: relative;
-  /* right: 250px; */
-  left: 0;
-  /* z-index: 10; */
-}
-
-#rightForm {
-  position: absolute;
-  /* left: 0; */
-  right: 0;
-}
-
-.tagLine {
-  margin-top: 5%;
-  text-align: center;
-  /* position: relative; */
-  /* padding-bottom: 200px; */
 }
 
 /* SIdebar */
@@ -302,9 +82,10 @@ main {
   /* left: 0; */
   /* top: 0; */
   /* height: 100vh; */
-  width: 270px;
+  width: 280px;
   /* box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); */
   /* z-index: 1050; */
+  height: 100%;
   background-color: #fff;
   padding: 1.5rem;
   padding-top: 0;
@@ -319,6 +100,7 @@ main {
 
 #content {
   margin-left: 270px;
+  position: relative;
 }
 
 .sidebar-fixed .logo-wrapper img {
@@ -435,6 +217,10 @@ main {
   margin: 0;
 }
 
+.BtColor{
+  width: 10px;
+}
+
 /* warna section dashbord yang aktif pada sidebar */
 
 .activeClass .list-group-item {
@@ -446,10 +232,6 @@ main {
   background-color: orange !important;
   /* background-color: #007bff !important; */
 }
-
-/* .page-footer{
-  margin-left: 270px;
-} */
 
 @media (max-width: 1199.98px) {
   .sidebar-fixed {
@@ -479,122 +261,4 @@ main {
   #breadcrumb {
     flex-direction: column;
   }
-}
-
-/* NOT FOUND PAGE */
-
-* {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-body {
-  padding: 0;
-  margin: 0;
-}
-
-#notfound {
-  position: relative;
-  height: 100vh;
-}
-
-#notfound .notfound {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.notfound {
-  max-width: 460px;
-  width: 100%;
-  text-align: center;
-  line-height: 1.4;
-}
-
-.notfound .notfound-404 {
-  position: relative;
-  width: 180px;
-  height: 180px;
-  margin: 0px auto 50px;
-}
-
-.notfound .notfound-404>div:first-child {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: #ffa200;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  border: 5px dashed #000;
-  border-radius: 5px;
-}
-
-.notfound .notfound-404>div:first-child:before {
-  content: '';
-  position: absolute;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  top: -5px;
-  -webkit-box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.1) inset;
-  border-radius: 5px;
-}
-
-.notfound .notfound-404 h1 {
-  font-family: 'Cabin', sans-serif;
-  color: #000;
-  font-weight: 700;
-  margin: 0;
-  font-size: 90px;
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  left: 50%;
-  text-align: center;
-  height: 40px;
-  line-height: 40px;
-}
-
-.notfound h2 {
-  font-family: 'Cabin', sans-serif;
-  font-size: 33px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 7px;
-}
-
-.notfound p {
-  font-family: 'Cabin', sans-serif;
-  font-size: 16px;
-  color: #000;
-  font-weight: 400;
-}
-
-.notfound a {
-  font-family: 'Cabin', sans-serif;
-  display: inline-block;
-  padding: 10px 25px;
-  background-color: #8f8f8f;
-  border: none;
-  border-radius: 40px;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  text-decoration: none;
-  -webkit-transition: 0.2s all;
-  transition: 0.2s all;
-}
-
-.notfound a:hover {
-  background-color: #2c2c2c;
 }

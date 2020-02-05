@@ -1,0 +1,17 @@
+.navbarBG {
+    background-image: url('../../image/backgroundNavbarB.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-color: '#e67e22';
+    background-size: cover;
+  }
+
+  .navItem:hover {
+    height: 40px;
+    border-bottom: 2px solid white;
+    transition: 250ms;
+  }
+
+  #sidesBt-navbar {
+    position: relative;
+  }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../assets/css/home.css'
 import Jumbotron from '../component/jumbotron'
 import Carousle from '../component/carousle'
 import DivCard from '../component/leadDivisionCard'

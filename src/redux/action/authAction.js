@@ -9,12 +9,17 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
             password
         })
             .then((res) => {
-                localStorage.setItem('token', res.data.token)//data dari userController backend API
                 console.log(res.data)//data dari userController backend API
-                dispatch({
-                    type: 'LOGIN', //reducer 1
-                    payload: res.data
-                })
+                if (res.data.verified !== "Verified") {
+                    localStorage.setItem('status', "nonVerified")
+                } else {
+                    localStorage.setItem('token', res.data.token)//data dari userController backend API
+                    localStorage.removeItem('status')
+                    dispatch({
+                        type: 'LOGIN', //reducer 1
+                        payload: res.data
+                    })
+                }
             })
             .catch((err) => {
                 localStorage.removeItem('token')

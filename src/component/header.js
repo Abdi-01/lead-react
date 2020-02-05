@@ -3,6 +3,7 @@ import {
     MDBNavbar, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse,
     MDBIcon, MDBNavbarBrand, MDBFormInline, MDBBadge
 } from "mdbreact";// MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem,MDBDropdown,
+import '../assets/css/navbar.css'
 import RegisPopUp from './registerPopUp'
 import { connect } from 'react-redux'
 import LoginPopUp from './loginPopUp'
@@ -16,14 +17,12 @@ class NavbarPage extends Component {
 
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
-    }
-
-    
+    }    
 
     render() {
         console.log(this.props.username)
         return (
-            <div className='fluid headerBG'>
+            <div className='fluid'>
                 <MDBNavbar className="navbarBG" dark expand="md" >
                     {/* <MDBRow className="mb-1"> */}
                     <MDBNavbarBrand style={{ marginLeft: "2%" }}>
@@ -67,7 +66,7 @@ class NavbarPage extends Component {
                                     ?
                                     <UserDropdown></UserDropdown>
                                     :
-                                    <div id="sides" style={{ width: 130 }}>
+                                    <div id="sidesBt-navbar" style={{ width: 130 }}>
                                         <LoginPopUp ></LoginPopUp>
                                         <RegisPopUp ></RegisPopUp>
                                     </div>

@@ -1,11 +1,10 @@
 import React from 'react';
+import '../assets/css/modal.css'
 import { MDBInput, MDBModal, MDBModalBody } from 'mdbreact';
 import { Alert } from 'reactstrap';
 import { connect } from 'react-redux'
 import { login } from '../redux/action'
 import { Redirect } from 'react-router-dom';
-// import Axios from 'axios'
-// import RegisPopUp from './registerPopUp'
 
 class LoginPopUp extends React.Component {
     constructor(props) {
@@ -43,7 +42,7 @@ class LoginPopUp extends React.Component {
         else {
             if (username.includes("@") === false) {
                 this.props.login(username, password)//masuk authAction.js
-                if (this.props.username === null) {
+                if (localStorage.getItem('status') === "nonVerified") {
                     this.setState({
                         alert2: !this.state.alert2
                     });
@@ -51,9 +50,13 @@ class LoginPopUp extends React.Component {
                     return <Redirect to='/'></Redirect>
                 }
             } else {
-                this.props.login(username, password)//masuk authAction.js
-                console.log(this.props.username)
-                return <Redirect to='/'></Redirect>
+                if (localStorage.getItem('status') === "nonVerified") {
+                    this.setState({
+                        alert2: !this.state.alert2
+                    });
+                } else {
+                    return <Redirect to='/'></Redirect>
+                }
             }
         }
     }
@@ -106,7 +109,7 @@ class LoginPopUp extends React.Component {
                             </a>
                         </p>
                     </MDBModalBody>
-                    <div id="sides">
+                    <div id="sidesModal">
                         <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.toggle}>Cancel</button>
                         <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.loginUser}>Login</button>
                     </div>

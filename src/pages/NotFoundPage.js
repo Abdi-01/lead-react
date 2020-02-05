@@ -1,4 +1,5 @@
 import React from 'react'
+import '../assets/css/notfound.css'
 // import { MDBCol, MDBRow } from 'mdbreact';
 // import logo from "../image/logowhite.png";
 

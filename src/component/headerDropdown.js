@@ -5,13 +5,13 @@ import {
 } from "mdbreact";
 import { connect } from 'react-redux' //harus ada untuk terhubung dengan global state
 import { logout } from '../redux/action' //mengakses function dari action
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 class UserDropdown extends Component {
     logoutUser = () => {
         this.props.logout()
     }
-    componentDidMount(){
+    componentDidMount() {
     }
     render() {
         console.log(this.props.username)
@@ -45,26 +45,26 @@ class UserDropdown extends Component {
                         </>
                         :
                         <>
-                        <MDBDropdownItem>
-                            <i className="fas fa-history" />
-                            <Link to='/UserPage'>
-                                History
+                            <MDBDropdownItem>
+                                <i className="fas fa-history" />
+                                <Link to='/UserPage'>
+                                    History
                             </Link>
-                        </MDBDropdownItem>
-                        <MDBDropdownItem>
-                            <i className="fas fa-truck" />
-                            <Link to='/UserPage'>
-                                Track Order
+                            </MDBDropdownItem>
+                            <MDBDropdownItem>
+                                <i className="fas fa-truck" />
+                                <Link to='/UserPage'>
+                                    Track Order
                             </Link>
-                        </MDBDropdownItem>
+                            </MDBDropdownItem>
                         </>
                     }
                     <MDBDropdownItem divider />
                     <MDBDropdownItem onClick={this.logoutUser}>
                         <i className="fas fa-sign-out-alt" />
-                        <Link to='/'>
-                            Logout
-                    </Link>
+                         &nbsp;   Logout
+                        <Redirect to='/'>
+                    </Redirect>
                     </MDBDropdownItem>
                 </MDBDropdownMenu>
             </MDBDropdown>

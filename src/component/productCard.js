@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { MDBIcon, MDBCol, MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardFooter} from "mdbreact";
-import {UncontrolledTooltip} from 'reactstrap'
+import '../assets/css/card.css'
+import { MDBIcon, MDBCol, MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardFooter } from "mdbreact";
+import { UncontrolledTooltip } from 'reactstrap'
 import { API_URL } from '../support/Backend_URL'
 import Axios from 'axios'
 
@@ -44,18 +45,18 @@ class ProductCard extends Component {
                                         <h5>{val.name}</h5>
                                     </strong>
                                 </MDBCardTitle>
-                                {/* <MDBCardText>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing minima
-                                    veniam elit.
-                        </MDBCardText> */}
                                 <div className="float-left price">
                                     <strong>IDR. {val.product_price.toLocaleString()}</strong>
                                 </div>
                                 <div className="float-right">
-                                    <MDBIcon id="quickDetail" icon="eye" style={{ cursor: "pointer" }} />
+                                    <MDBIcon id={"quickDetail"+val.idproduct} icon="eye" style={{ cursor: "pointer" }} />
                                 </div>
-                                <UncontrolledTooltip placement="top" target="quickDetail">
-                                    Quick Detail
+                                <UncontrolledTooltip placement="top" target={"quickDetail"+val.idproduct}>
+                                    <ul className="list-group " >
+                                        <li className="list-group-item bg-transparent text-white" style={{padding:0}}>Bahan : {val.product_bahan}</li>
+                                        <li className="list-group-item bg-transparent text-white" style={{padding:0}}>Rating : {val.product_rating}/5</li>
+                                        <li className="list-group-item bg-transparent text-white" style={{padding:0}}>Description : {val.description}</li>
+                                    </ul>
                                 </UncontrolledTooltip>
                                 <MDBCardFooter transparent />
                             </MDBCardBody>

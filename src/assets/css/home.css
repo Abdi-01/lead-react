@@ -1,0 +1,46 @@
+.jumbotronBG {
+    background-image: url('../../image/try.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 460px;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+  }
+  
+  .jumbotronShadow {
+    box-shadow: 2px 2px 5px dimgray;
+  }
+/* Pembagi posisi kanan dan kiri jumbotron dan carousle */
+  #sides {
+    position: relative;
+  }
+  
+  #left {
+    position: relative;
+    top: 5px;
+    left: 0;
+    z-index: 10;
+  }
+  
+  #right {
+    position: absolute;
+    text-align: center;
+    top: 15px;
+    right: 0;
+  }
+
+  .element-jumbotron {
+    display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 20%) 0%, 100% 100%, 0% 100%);
+  }
+  
+  .element-carousle {
+    display: inline-block;
+    clip-path: polygon( 0 0, 100% 0%, 100% 100%, calc(100% - 82%) 100%);
+  }
+
+  .tagLine {
+    margin-top: 5%;
+    text-align: center;
+    /* position: relative; */
+    /* padding-bottom: 200px; */
+  }
