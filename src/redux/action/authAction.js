@@ -10,7 +10,7 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
         })
             .then((res) => {
                 console.log(res.data)//data dari userController backend API
-                if (res.data.verified !== "Verified") {
+                if (res.data.status !== "Verified") {
                     localStorage.setItem('status', "nonVerified")
                 } else {
                     localStorage.setItem('token', res.data.token)//data dari userController backend API
@@ -49,6 +49,7 @@ export const Keeplogin = () => {//satu fungsi menjalankan dua reducer yang berbe
         if (token) {
             const headers = {
                 headers: {
+                    'Content-Type': 'multipart/form-data',//type data yang dikirim
                     'Authorization': `Bearer ${token}`
                 }
             }

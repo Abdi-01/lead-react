@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import './index.css';
 import { Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Keeplogin } from './redux/action'
 import Header from './component/header'
+import HeaderAdmin from './component/headerAdmin'
 import HomePage from './pages/home'
 import HowToOrder from './pages/info/howtoOrder'
 import Collection from './pages/collection'
@@ -19,8 +22,6 @@ import ProductPage from './pages/ProductPage';
 import NotFoundPage from './pages/NotFoundPage';
 import VerificationPage from './pages/verificationPage'
 import Footer from './component/footer'
-import { connect } from 'react-redux'
-import { Keeplogin } from './redux/action'
 
 class App extends Component {
   constructor(props) {
@@ -35,18 +36,23 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header></Header>
+        {this.props.role === "admin"
+          ?
+          <HeaderAdmin></HeaderAdmin>
+          :
+          <Header></Header>
+        }
         <Switch>
           <Route path='/' component={HomePage} exact></Route>
           <Route path='/HowToOrder' component={HowToOrder}></Route>
           <Route path='/Collection' component={Collection}></Route>
           <Route path='/AboutPage' component={AboutPage}></Route>
-          <Route path='/ProductDetail' component={ProductDetail}></Route>
           <Route path='/CustomOrder' component={CustomOrder}></Route>
           <Route path='/LeadSquad' component={LeadSquad}></Route>
           <Route path='/SizeCart' component={SizeCart}></Route>
           <Route path='/PrivacyFAQ' component={PrivacyFaq}></Route>
-          <Route path='/ProfilePage' exact component={ProfilePage} />
+          <Route path='/ProductDetail' component={ProductDetail}></Route>
+          <Route path='/ProfilePage' component={ProfilePage} />
           <Route path='/ResultPage' component={ResultPage} />
           {this.props.role === "admin"
             ?

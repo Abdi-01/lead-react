@@ -5,7 +5,7 @@ import {
 } from "mdbreact";
 import { connect } from 'react-redux' //harus ada untuk terhubung dengan global state
 import { logout } from '../redux/action' //mengakses function dari action
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class UserDropdown extends Component {
     logoutUser = () => {
@@ -62,50 +62,19 @@ class UserDropdown extends Component {
                     <MDBDropdownItem divider />
                     <MDBDropdownItem onClick={this.logoutUser}>
                         <i className="fas fa-sign-out-alt" />
-                         &nbsp;   Logout
-                        <Redirect to='/'>
-                    </Redirect>
+                        <Link to='/'>
+                            Logout
+                    </Link>
                     </MDBDropdownItem>
                 </MDBDropdownMenu>
             </MDBDropdown>
-            // <UncontrolledDropdown style={{ marginRight: 15 }}>
-            //     <DropdownToggle caret>
-            //         <MDBIcon icon="user" />  Hi, {this.props.username}
-            //     </DropdownToggle>
-            //     <DropdownMenu right>
-            //         <Link to='/ProfilePage'>
-            //             <DropdownItem >Profile</DropdownItem>
-            //         </Link>
-            //         {/* <DropdownItem>Contact</DropdownItem>
-            //         <DropdownItem>Setting</DropdownItem> */}
-            //         {this.props.role === 'admin'
-            //             ?
-            //             <div>
-            //                 <Link to='/AdminPage'>
-            //                     <DropdownItem>Movies List</DropdownItem>
-            //                 </Link>
-            //                 <Link to='/ReportPage'>
-            //                     <DropdownItem>Report Transaction</DropdownItem>
-            //                 </Link>
-            //             </div>
-            //             :
-            //             <Link to='/UserPage'>
-            //                 <DropdownItem>My Ticket Cart <Badge color="success">0</Badge></DropdownItem>
-            //             </Link>
-            //         }
-            //         <DropdownItem divider />
-            //         <Link to='/'>
-            //             <DropdownItem onClick={this.logoutUser}>Logout</DropdownItem>
-            //         </Link>
-            //     </DropdownMenu>
-            // </UncontrolledDropdown>
         )
     }
 }
 
 const mapStatetoProps = (state) => {
     return {
-        idusers: state.user.idusers, //state.user mengarah ke reducer/index.js, state.user.username mengarah ke authreducer.js
+        id: state.user.id, //state.user mengarah ke reducer/index.js, state.user.username mengarah ke authreducer.js
         username: state.user.username, //state.user mengarah ke reducer/index.js, state.user.username mengarah ke authreducer.js
         role: state.user.role, //state.user mengarah ke reducer/index.js, state.user.username mengarah ke authreducer.js
     }

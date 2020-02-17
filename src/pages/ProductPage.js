@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { CustomInput, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup } from 'reactstrap';
-import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact'
+import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBInput, MDBFormInline, MDBInputGroup, MDBBadge } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import Axios from 'axios'
 import { API_URL } from '../support/Backend_URL';
@@ -12,8 +12,13 @@ class ProductPage extends Component {
     addImageFileName: 'Select File',
     addImageFile: undefined,
     data: [],
+    size: [],
+    sizeQty: [],
+    stock: [],
+    material: [],
     modal: false,
     editModal: false,
+    sizeModal: false,
     selectedId: null
   }
   toggle = (a) => {
@@ -27,9 +32,18 @@ class ProductPage extends Component {
         editModal: !this.state.editModal
       });
     }
+    else if (a === 3) {
+      console.log(a)
+      this.setState({
+        sizeModal: !this.state.sizeModal
+      });
+    }
   }
   componentDidMount() {
     this.getProducts()
+    this.getSizes()
+    this.getMaterials()
+    this.getStock()
   }
 
   getProducts = () => {
@@ -43,6 +57,39 @@ class ProductPage extends Component {
       })
   }
 
+  getSizes = () => {
+    Axios.get(API_URL + '/products/getSize')
+      .then((res) => {
+        this.setState({ size: res.data })
+        console.log(this.state.size)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  getMaterials = () => {
+    Axios.get(API_URL + '/products/getMaterial')
+      .then((res) => {
+        this.setState({ material: res.data })
+        console.log('material', this.state.material)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  getStock = () => {
+    Axios.get(API_URL + '/products/getStock')
+      .then((res) => {
+        this.setState({ stock: res.data })
+        // console.log('stock : ', this.state.stock[0].id)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   editData = (id) => {
     console.log(id)
     this.setState({ selectedId: id })
@@ -50,10 +97,10 @@ class ProductPage extends Component {
     this.toggle(2);
   }
 
-  renderEdit = (id) => {
+  renderEdit = () => {
     let { data } = this.state;
-    return data.map((val, index) => {
-      if (this.state.selectedId === val.idproduct) {
+    return data.map((val) => {
+      if (this.state.selectedId === val.id) {
         // console.log(val.idproduct)
         return (
           <Modal isOpen={this.state.editModal} toggle={() => this.toggle(2)}>
@@ -104,47 +151,55 @@ class ProductPage extends Component {
   }
 
   renderData = () => {
-    let { data } = this.state;
+    let { data, stock } = this.state;
     return data.map((val, index) => {
-      // if (this.state.selectedId === val.idproduct) {//ketika isi dari seleectedId = val.id
-      //   return (
-      //     //     <tr key={val.idproduct}>
-      //     //       <td >{index + 1}</td>
-      //     //       <td ><CustomInput className="form-control btn-sm" id='uploadEdit' onChange={this.onBtnAddImageFile} label={this.state.addImageFileName} type='file' /></td>
-      //     //       <td ><input type="text" className="form-control form-control-sm" placeholder="Input Name" ref='nameEdit' defaultValue={val.name} /></td>
-      //     //       <td ><input type="text" className="form-control form-control-sm" placeholder="Input Category" ref='categoryEdit' defaultValue={val.category} /></td>
-      //     //       <td ><input type="text" className="form-control form-control-sm" placeholder="Input Size" ref='sizeEdit' defaultValue={val.size} /></td>
-      //     //       <td ><input type="text" className="form-control form-control-sm" placeholder="Input Rating" ref='ratingEdit' defaultValue={val.rating} /></td>
-      //     //       <td ><input type="text" className="form-control form-control-sm" placeholder="Input Price" ref='priceEdit' defaultValue={val.price} /></td>
-      //     //       <td ><input type="text" className="form-control form-control-sm" placeholder="Input Description" ref='descriptionEdit' defaultValue={val.description} /></td>
-      //     //       {/* <td ><input type="number" className="form-control" id="harga" placeholder="Input Price" ref='hargaEdit' /></td> */}
-      //     //       <td ><Button size="sm" onClick={() => this.yesEdit(val.idproduct)}>Yes</Button>
-      //     //         &nbsp;
-      //     //                   <Button size="sm" onClick={this.noEdit}>No</Button></td>
-      //     //     </tr>
-      //   )
-      // }
-      // else {
       return (
-        <tr key={val.idproduct}>
-          <td style={{ verticalAlign: 'middle' }}>{index + 1}</td>
-          <td id={val.idproduct} style={{ verticalAlign: 'middle' }}><img src={API_URL + val.imagepath} alt='imagePoster' style={{ width: 100, verticalAlign: 'middle' }}></img></td>
-          <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.name}</td>
-          <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.category}</td>
-          <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.product_bahan}</td>
-          <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.product_rating}</td>
-          <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.product_price}</td>
-          <td id={val.idproduct} style={{ whiteSpace: 'nowrap', textOverflow: 'elipsis', overflow: 'hidden', maxWidth: '3px', verticalAlign: 'middle' }}>{val.description}
+        <tr key={val.id}>
+          <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>{index + 1}</td>
+          <td style={{ verticalAlign: 'middle', textAlign: 'center' }}><img src={API_URL + val.imagepath} alt='imagePoster' style={{ width: 100, verticalAlign: 'middle' }}></img></td>
+          <td style={{ verticalAlign: 'middle' }}>{val.name}</td>
+          {/* <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.category}</td> */}
+          <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>{val.material}</td>
+          <td style={{ verticalAlign: 'middle', textAlign: 'center'  }}>
+            {this.renderSize(val.id, val.name)}
           </td>
-
-          <td id={val.idproduct} style={{ verticalAlign: 'middle' }}><button className="btn btn-success btn-sm" onClick={() => this.editData(val.idproduct)}>Edit</button>
+          <td style={{ verticalAlign: 'middle' }}>{val.price}</td>
+          <td style={{ whiteSpace: 'nowrap', textOverflow: 'elipsis', overflow: 'hidden', maxWidth: '3px', verticalAlign: 'middle' }}>{val.description}
+          </td>
+          <td style={{ verticalAlign: 'middle' }}><button className="btn btn-success btn-sm" onClick={() => this.editData(val.id)}>Edit</button>
             &nbsp;
-                        <button className="btn btn-danger btn-sm" onClick={() => this.deleteData(val.idproduct, val.imagepath)}>Delete</button></td>
+           <button className="btn btn-danger btn-sm" onClick={() => this.deleteData(val.id, val.imagepath)}>Delete</button></td>
           {/* Jika memanggil function dengan parameter butuh callback '()=>' */}
         </tr>
       )
-      // }
     })
+  }
+
+  renderSize = (id, name) => {
+    if (this.state.stock.some(item => item.id === id)) {
+      return this.state.stock.map((item, index) => {
+        if (item.id === id) {
+          return (
+            // <tr >
+              <MDBBadge color="light"> {item.size} = {item.stock}</MDBBadge>
+            // </tr>
+          )
+        }
+      })
+    } else {
+      return (
+        <>
+          <button className="btn btn-danger btn-sm" onClick={() => this.addStock(id)}>Add Stock</button>
+          {
+            this.state.selectedId === id
+              ?
+              this.renderAddSize(id, name)
+              :
+              null
+          }
+        </>
+      )
+    }
   }
 
   yesEdit = (id) => {
@@ -190,22 +245,14 @@ class ProductPage extends Component {
   }
   submitData = () => {
     let { addImageFile } = this.state;
-    var nameNew = this.refs.nameProduct.value
-    var categoryNew = this.refs.categoryProduct.value
-    var bahanNew = this.refs.bahanProduct.value
-    var ratingNew = this.refs.ratingProduct.value
-    var priceNew = this.refs.priceProduct.value
-    var descriptionNew = this.refs.descriptionProduct.value
     if (addImageFile) {
       let formData = new FormData()
       let obj = {
         // imagepath: imageNew,
-        name: nameNew,
-        category: categoryNew,
-        product_bahan: bahanNew,
-        product_rating: ratingNew,
-        product_price: priceNew,
-        description: descriptionNew
+        name: this.refs.nameProduct.value,
+        materialID: this.state.addMaterialID,
+        price: this.refs.priceProduct.value,
+        description: this.refs.descriptionProduct.value
       }
       formData.append('data', JSON.stringify(obj))
       formData.append('image', addImageFile)
@@ -213,14 +260,24 @@ class ProductPage extends Component {
       Axios.post(API_URL + '/products/upload', formData)
         .then((res) => {
           console.log(res.data)
-          this.toggle()
+          this.toggle(1)
           this.getProducts()
         })
         .catch((err) => {
           console.log(err)
         })
-
     }
+  }
+
+  submitStock = (id) => {
+    Axios.post(API_URL + '/products/addStock', {
+      stock: this.state.sizeQty
+    })
+      .then((resQty) => {
+        console.log(resQty.data)
+        this.toggle(3)
+        this.getStock()
+      })
   }
 
   onBtnAddImageFile = (e) => {
@@ -246,6 +303,72 @@ class ProductPage extends Component {
       })
   }
 
+  renderListMaterial = () => {
+    return this.state.material.map((val, index) => {
+      return (
+        <option value={val.id}>{val.material}</option>
+      )
+    })
+  }
+
+  onChangeSelectMaterial = (e) => {
+    console.log("Material Choose", e.target.value)
+    this.setState({ addMaterialID: parseInt(e.target.value) })
+  }
+
+  checkSizehandler = (e) => {
+    let { sizeQty } = this.state
+    let qty = document.getElementById(`qty${e.target.value}`).value
+    if (!e.target.checked) {
+      document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
+
+    } else if (e.target.checked) {
+      document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
+      if (qty !== null) {
+        sizeQty.push([parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
+        console.log(sizeQty)
+      }
+    }
+  }
+
+  addStock = (id) => {
+    console.log(id)
+    this.setState({ selectedId: id })
+    console.log(this.state.selectedId)
+    this.toggle(3);
+  }
+
+  renderAddSize = (id, name) => {
+    return <Modal isOpen={this.state.sizeModal} toggle={() => this.toggle(3)}>
+      <ModalHeader>Add Stock : {name}</ModalHeader>
+      <ModalBody >
+        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+          <MDBFormInline>
+            {this.state.size.map((val, index) => {
+              return (
+                <MDBCol lg="4" md="12" className="mb-lg-0 mb-4" key={val.id}>
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
+                        <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
+                          {val.size}&nbsp;
+                        </div>
+                    </div>
+                    <input type="text" id={`qty${val.id}`} onChange={this.qtySizehandler} className="form-control" aria-label="Text input with checkbox" />
+                  </div>
+                </MDBCol>
+              )
+            })
+            }
+          </MDBFormInline>
+        </FormGroup>
+      </ModalBody>
+      <ModalFooter >
+        <button type="submit" className="btn btn-primary btn-sm" onClick={() => this.submitStock(id)}>Submit</button>
+      </ModalFooter>
+    </Modal>
+  }
+
   render() {
     return (
       <div style={{ marginBottom: '10%' }}>
@@ -262,13 +385,13 @@ class ProductPage extends Component {
                     {/* <p className="h2">Market Cube Product</p> */}
                     <MDBTable>
                       <MDBTableHead>
-                        <tr>
+                        <tr style={{ textAlign: 'center' }}>
                           <td>#</td>
                           <td style={{ width: 230 }}>Image</td>
                           <td style={{ width: 150 }}>Name</td>
-                          <td style={{ width: 150 }}>Category</td>
-                          <td style={{ width: 150 }}>Bahan</td>
-                          <td style={{ width: 150 }}>Rating</td>
+                          {/* <td style={{ width: 150 }}>Category</td> */}
+                          <td style={{ width: 150 }}>Material</td>
+                          <td style={{ width: 150 }}>Stock</td>
                           <td style={{ width: 150 }}>Price</td>
                           <td>Description</td>
                           <td>Action</td>
@@ -299,24 +422,20 @@ class ProductPage extends Component {
                   <input type="text" className="form-control form-control-sm" placeholder="Input Name" ref='nameProduct' />
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  Product Category
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Category" ref='categoryProduct' />
-                </FormGroup>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  Bahan
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Bahan" ref='bahanProduct' />
-                </FormGroup>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  Rating
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Rating" ref='ratingProduct' />
-                </FormGroup>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  Price
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Price" ref='priceProduct' />
+                  Material
+                  <select className="form-control form-control-sm" value={this.state.addMaterialID}
+                    onChange={this.onChangeSelectMaterial}>
+                    <option value={0} selected>Choose Material</option>
+                    {this.renderListMaterial()}
+                  </select>
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   Description
                   <input type="text" className="form-control form-control-sm" placeholder="Input Description" ref='descriptionProduct' />
+                </FormGroup>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Price
+                  <input type="text" className="form-control form-control-sm" placeholder="Input Price" ref='priceProduct' />
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   Image

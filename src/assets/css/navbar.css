@@ -6,6 +6,14 @@
     background-size: cover;
   }
 
+.navbarBGAdmin {
+    background-image: url('../../image/backgroundNavAdmin.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-color: gray;
+    background-size: cover;
+  }
+
   .navItem:hover {
     height: 40px;
     border-bottom: 2px solid white;

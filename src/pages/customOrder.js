@@ -1,7 +1,7 @@
 import React from "react";
 import '../assets/css/custompage.css'
 import { fabric } from 'fabric'
-import template from '../image/default-image.jpg'
+// import template from '../image/default-image.jpg'
 import templateWhite from '../image/shirtWhite.png'
 import templateBlack from '../image/shirtBlack.png'
 // import example from '../image/logoblack.png'

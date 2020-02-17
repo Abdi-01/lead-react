@@ -4,7 +4,7 @@ import { MDBInput, MDBModal, MDBModalBody } from 'mdbreact';
 import { Alert } from 'reactstrap';
 import { connect } from 'react-redux'
 import { login } from '../redux/action'
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 
 class LoginPopUp extends React.Component {
     constructor(props) {
@@ -46,16 +46,13 @@ class LoginPopUp extends React.Component {
                     this.setState({
                         alert2: !this.state.alert2
                     });
-                } else {
-                    return <Redirect to='/'></Redirect>
-                }
+                } 
             } else {
+                this.props.login(username, password)//masuk authAction.js
                 if (localStorage.getItem('status') === "nonVerified") {
                     this.setState({
                         alert2: !this.state.alert2
                     });
-                } else {
-                    return <Redirect to='/'></Redirect>
                 }
             }
         }

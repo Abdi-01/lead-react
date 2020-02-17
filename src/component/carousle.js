@@ -16,7 +16,7 @@ const CarouselPage = () => {
         <MDBCarouselItem itemId="1">
           <MDBView>
             <img
-              className="d-block w-100 objectFit"objectFit
+              className="d-block w-100 objectFit" 
               src="http://www.photographicassignments.co.uk/wp-content/uploads/2017/06/Reefer-1-1024x576.jpg"
               alt="First slide"
               style = {{width: '100%', height:'450px'}}

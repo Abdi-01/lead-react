@@ -1,64 +1,68 @@
 import React, { Component } from 'react'
-import example from '../image/logoblack.png'
-import { fabric } from 'fabric'
+import { connect } from 'react-redux'
+import { API_URL } from '../support/Backend_URL';
+import Axios from 'axios'
 
 class ProductDetail extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
+    state = {
+        data: []
     }
 
-    imageCanvas = (e) => {
-        var canvas = new fabric.Canvas('c');
-        var fileType = e.target.files[0].type;
-        var url = URL.createObjectURL(e.target.files[0]);
-
-        if (fileType === 'image/png') { //check if png
-            fabric.Image.fromURL(url, function (img) {
-                img.set({
-                    width: 180,
-                    height: 180
-                });
-                canvas.add(img);
-            });
-        } else if (fileType === 'image/svg+xml') { //check if svg
-            fabric.loadSVGFromURL(url, function (objects, options) {
-                var svg = fabric.util.groupSVGElements(objects, options);
-                svg.scaleToWidth(180);
-                svg.scaleToHeight(180);
-                canvas.add(svg);
-            });
-        }
+    componentDidMount() {
+        console.log(this.props)
+        var id = this.props.location.search.split('=')[1];
+        Axios.get(API_URL + `/products/getProductById/${id}`)
+            .then((res) => {
+                this.setState({ data: res.data[0] })
+                console.log(this.state.data)
+            })
+            .catch((err) => {
+                //apa yang dilakukan pada data yang salah
+                console.log(err)
+            })
     }
 
-    render=()=> {
-        var canvas = new fabric.Canvas('c');
-        // fabric.Image.fromURL("https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png", function (img) {
-        //     img.set({
-        //         width: 180,
-        //         height: 180
-        //     });
-        //     canvas.add(img);
-        // });
-        var rect = new fabric.Rect({
-            fill: '#06538e',
-            width: 125,
-            height: 125,
-            stroke: 'red',
-            // strokeDashArray: [5, 5]
-          });
-          canvas.add(rect);
+    render = () => {
+        let { data } = this.state;
         return (
-            <div style={{ minHeight: '500px' }}>
-                Product detail
-                {/* <canvas id="c" width="900px" height="750px" style={{ border: "1px solid black" }}>
-                </canvas> */}
-                {/* <input type="file" onChange={()=>this.imageCanvas(this.event)}/> */}
-                    <canvas id="c" width="900px" height="750px"></canvas>
-                    {/* <img src={example} id="my-image"></img> */}
+            <div className="container" style={{ margin:0 }}>
+                <div className="jumbotron center" style={{ width: '75%' }}>
+                    <div className="row">
+                        <div className="col-3" style={{ textAlign: 'center' }}>
+                            {/* {console.log(data.name)} */}
+                            <img src={API_URL + data.imagepath} className="card-img" alt="..." />
+                        </div>
+                        <div className="col">
+                            <h1>{data.name}</h1>
+                            <div>
+                                <p className="h4">Category : {data.category}</p>
+                                <p className="h5" style={{ textAlign: 'justify' }}>Description : {data.description}</p>
+                            </div>
+                        </div>
+                        {/* {this.props.username && this.props.role === 'user'
+                            ?
+                            <Button className="float-right" size="lg" onClick={this.toggle} style={{ background: "#0d47a1", borderBottomLeftRadius: 15, borderTopRightRadius: 15, marginBottom: 0 }}>Buy Ticket</Button>
+                            :
+                            <div>
+                                {this.props.role === 'admin'
+                                    ?
+                                    <Button className="float-right" size="lg" style={{ background: "#0d47a1", borderBottomLeftRadius: 15, borderTopRightRadius: 15, marginBottom: 0 }}>Get Your Ticket</Button>
+                                    :
+                                    <Button className="float-right" size="lg" onClick={this.toggleAlert} style={{ background: "#0d47a1", borderBottomLeftRadius: 15, borderTopRightRadius: 15, marginBottom: 0 }}>Get Your Ticket</Button>
+                                }
+                            </div>
+                        } */}
+                    </div>
+                </div>
             </div>
-                );
-            }
-        }
-        
-export default ProductDetail;
+        );
+    }
+}
+
+const mapStatetoProps = (state) => {
+    return {
+        username: state.user.username,
+        role: state.user.role
+    }
+}
+export default connect(mapStatetoProps)(ProductDetail);

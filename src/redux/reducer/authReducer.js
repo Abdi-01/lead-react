@@ -1,13 +1,12 @@
 const INITIAL_STATE = {
-    idusers: 0,
+    id: 0,
     username: null,
     // password:'',
     email: '',
     phone: '',
-    address: '',
     role: '',
     token: '',
-    verified: false
+    status: false
 }
 
 const authReducer = (state = INITIAL_STATE, action) => {
@@ -15,15 +14,14 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case 'LOGIN':
             return {
                 // ...state,
-                idusers: action.payload.idusers,
+                id: action.payload.id,
                 username: action.payload.username,
                 // password:action.payload.password,
                 email: action.payload.email,
                 phone: action.payload.phone,
-                address: action.payload.address,
                 role: action.payload.role,
                 token: action.payload.token,
-                verified: action.payload.verified
+                status: action.payload.status
             }
         case 'LOGOUT':
             return INITIAL_STATE

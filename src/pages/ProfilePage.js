@@ -11,11 +11,11 @@ class ProfilePage extends Component {
   };
 
   editProfile = () => {
-    console.log(this.props.idusers)
+    console.log(this.props.id)
     let usernameNew = this.refs.userName.value
     let emailNew = this.refs.userEmail.value
     let phoneNew = this.refs.userPhone.value
-    Axios.post(API_URL + `/users/editProfile/${this.props.idusers}`, {
+    Axios.post(API_URL + `/users/editProfile/${this.props.id}`, {
       newuser: usernameNew,
       newemail: emailNew,
       newphone: phoneNew
@@ -35,7 +35,7 @@ class ProfilePage extends Component {
     let newPass = this.refs.newPass.value
     let confPass = this.refs.confPass.value
     if (newPass === confPass) {
-      Axios.post(API_URL + `/users/editPassword/${this.props.idusers}`, {
+      Axios.post(API_URL + `/users/editPassword/${this.props.id}`, {
         oldpass: oldPass,
         newpass: newPass
       })
@@ -159,7 +159,7 @@ class ProfilePage extends Component {
 
 const mapStatetoProps = (state) => {
   return {
-    idusers: state.user.idusers,
+    id: state.user.id,
     username: state.user.username,
     phone: state.user.phone,
     email: state.user.email,
