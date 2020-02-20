@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import { API_URL } from '../../support/Backend_URL';
+import Swal from 'sweetalert2'
 
 export const login = (username, password) => {//satu fungsi menjalankan dua reducer yang berbeda
     // let { username, password } = data
@@ -12,9 +13,19 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
                 console.log(res.data)//data dari userController backend API
                 if (res.data.status !== "Verified") {
                     localStorage.setItem('status', "nonVerified")
+                    Swal.fire({
+                        text: 'Username or password invalid!',
+                        imageUrl: require('../../image/ilustration/security.png'),
+                        imageWidth: 190,
+                        imageHeight: 150,
+                        imageAlt: 'Custom image',
+                        width: 210,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 } else {
+                    localStorage.setItem('status', "Verified")
                     localStorage.setItem('token', res.data.token)//data dari userController backend API
-                    localStorage.removeItem('status')
                     dispatch({
                         type: 'LOGIN', //reducer 1
                         payload: res.data
@@ -22,6 +33,7 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
                 }
             })
             .catch((err) => {
+                localStorage.removeItem('status')
                 localStorage.removeItem('token')
                 console.log(err)
                 dispatch({
@@ -34,6 +46,7 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
 
 export const logout = () => {
     return (dispatch) => {
+        localStorage.removeItem('status')
         localStorage.removeItem('token')
         dispatch({
             type: 'LOGOUT'

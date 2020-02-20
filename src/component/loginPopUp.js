@@ -1,33 +1,18 @@
 import React from 'react';
 import '../assets/css/modal.css'
+import '../assets/css/alert.css'
 import { MDBInput, MDBModal, MDBModalBody } from 'mdbreact';
-import { Alert } from 'reactstrap';
 import { connect } from 'react-redux'
 import { login } from '../redux/action'
-// import { Redirect } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 class LoginPopUp extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            modal: false,
-            alert1: false,
-            alert2: false
-        };
+    state = {
+        modal: false
     }
     toggle = () => {
         this.setState({
             modal: !this.state.modal
-        });
-    }
-    toggleAlert1 = () => {
-        this.setState({
-            alert1: !this.state.alert1
-        });
-    }
-    toggleAlert2 = () => {
-        this.setState({
-            alert2: !this.state.alert2
         });
     }
 
@@ -35,29 +20,25 @@ class LoginPopUp extends React.Component {
         var username = this.text.value
         var password = this.pass.value
         if (username === '' || password === '') {
-            this.setState({
-                alert1: !this.state.alert1
+            Swal.fire({
+                text: 'Fill in on the form !',
+                imageUrl: require('../image/ilustration/authentication.svg'),
+                imageWidth: 150,
+                imageHeight: 150,
+                imageAlt: 'Custom image',
+                width: 200,
+                showConfirmButton: false,
+                timer: 1500
             });
         }
         else {
             if (username.includes("@") === false) {
                 this.props.login(username, password)//masuk authAction.js
-                if (localStorage.getItem('status') === "nonVerified") {
-                    this.setState({
-                        alert2: !this.state.alert2
-                    });
-                } 
             } else {
                 this.props.login(username, password)//masuk authAction.js
-                if (localStorage.getItem('status') === "nonVerified") {
-                    this.setState({
-                        alert2: !this.state.alert2
-                    });
-                }
             }
         }
     }
-
     render() {
         return (
             <div style={{ marginRight: 10 }}>
@@ -65,12 +46,6 @@ class LoginPopUp extends React.Component {
                     <button className="element-BtLogin" onClick={this.toggle}>Login</button>
                 </div>
                 <MDBModal contentClassName="modalBG" isOpen={this.state.modal} toggle={this.toggle}>
-                    <Alert color="warning" isOpen={this.state.alert1} toggle={this.toggleAlert1}>
-                        Fill in on the form!
-                    </Alert>
-                    <Alert color="warning" isOpen={this.state.alert2} toggle={this.toggleAlert2}>
-                        Username or password invalid!
-                    </Alert>
                     <div className="text-center headerModalBG" >
                         <img src={require('../image/lead.png')} style={{ padding: 3 }} width="40px" alt="leadlogo"></img>
                     </div>

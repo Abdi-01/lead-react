@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { CustomInput, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup } from 'reactstrap';
-import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBInput, MDBFormInline, MDBInputGroup, MDBBadge } from 'mdbreact'
+import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge, MDBBtn, MDBIcon } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
+import '../assets/css/modal.css'
 import Axios from 'axios'
 import { API_URL } from '../support/Backend_URL';
 
@@ -83,7 +84,6 @@ class ProductPage extends Component {
     Axios.get(API_URL + '/products/getStock')
       .then((res) => {
         this.setState({ stock: res.data })
-        // console.log('stock : ', this.state.stock[0].id)
       })
       .catch((err) => {
         console.log(err)
@@ -93,7 +93,7 @@ class ProductPage extends Component {
   editData = (id) => {
     console.log(id)
     this.setState({ selectedId: id })
-    console.log(this.state.selectedId)
+    this.setState({ addMaterialID: parseInt(id) })
     this.toggle(2);
   }
 
@@ -101,13 +101,14 @@ class ProductPage extends Component {
     let { data } = this.state;
     return data.map((val) => {
       if (this.state.selectedId === val.id) {
-        // console.log(val.idproduct)
         return (
-          <Modal isOpen={this.state.editModal} toggle={() => this.toggle(2)}>
-            <ModalHeader>Edit Product</ModalHeader>
-            <ModalBody key={val.idproduct}>
+          <Modal contentClassName="modalBG" isOpen={this.state.editModal} toggle={() => this.toggle(2)}>
+            <div className="text-center headerModalBG" >
+              <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Edit Product</h4>
+            </div>
+            <ModalBody key={val.id}>
               <div style={{ textAlign: 'center' }}>
-                <img src={API_URL + val.imagepath} alt='imgpreview' style={{ width: 100, verticalAlign: 'middle' }}></img>
+                <img src={API_URL + val.imagepath} id='imgpreview' style={{ width: 100, verticalAlign: 'middle' }}></img>
               </div>
               <Form>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
@@ -115,35 +116,31 @@ class ProductPage extends Component {
                   <input type="text" className="form-control form-control-sm" placeholder="Input Name" ref='nameEdit' defaultValue={val.name} />
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  Product Category
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Category" ref='categoryEdit' defaultValue={val.category} />
-                </FormGroup>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  Bahan
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Bahan" ref='bahanEdit' defaultValue={val.product_bahan} />
-                </FormGroup>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  Rating
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Rating" ref='ratingEdit' defaultValue={val.product_rating} />
-                </FormGroup>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  Price
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Price" ref='priceEdit' defaultValue={val.product_price} />
+                  Material
+                  <select className="form-control form-control-sm" value={this.state.addMaterialID}
+                    onChange={this.onChangeSelectMaterial}>
+                    <option value={0}>Choose Material</option>
+                    {this.renderListMaterial()}
+                  </select>
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   Description
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Description" ref='descriptionEdit' defaultValue={val.description} />
+                  <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" ref='descriptionEdit' defaultValue={val.description} />
+                </FormGroup>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Price
+                  <input type="text" className="form-control form-control-sm" placeholder="Input Price" ref='priceEdit' defaultValue={val.price} />
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   Image
-                  <CustomInput className="form-control btn-sm" id='imgpreview' onChange={this.onBtnAddImageFile} label={this.state.addImageFileName} type='file' />
+                  <CustomInput className="form-control btn-sm" id='upload' onChange={this.onBtnAddImageFile} label={this.state.addImageFileName} type='file' />
                 </FormGroup>
               </Form>
             </ModalBody>
-            <ModalFooter >
-              <Button size="sm" onClick={() => this.yesEdit(val.idproduct)}>Yes</Button>
-              <Button size="sm" onClick={this.noEdit}>No</Button>
-            </ModalFooter>
+            <div id="sidesModal">
+              <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.noEdit}>No</button>
+              <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.yesEdit(val.id)}>Yes</button>
+            </div>
           </Modal>
         )
       }
@@ -156,20 +153,24 @@ class ProductPage extends Component {
       return (
         <tr key={val.id}>
           <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>{index + 1}</td>
-          <td style={{ verticalAlign: 'middle', textAlign: 'center' }}><img src={API_URL + val.imagepath} alt='imagePoster' style={{ width: 100, verticalAlign: 'middle' }}></img></td>
+          <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>
+            <img src={API_URL + val.imagepath} alt='imagePoster' style={{ width: 100, verticalAlign: 'middle' }}></img>
+            {/* <span><MDBIcon icon="edit" />Edit</span> */}
+          </td>
           <td style={{ verticalAlign: 'middle' }}>{val.name}</td>
-          {/* <td id={val.idproduct} style={{ verticalAlign: 'middle' }}>{val.category}</td> */}
           <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>{val.material}</td>
-          <td style={{ verticalAlign: 'middle', textAlign: 'center'  }}>
+          <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>
             {this.renderSize(val.id, val.name)}
           </td>
           <td style={{ verticalAlign: 'middle' }}>{val.price}</td>
           <td style={{ whiteSpace: 'nowrap', textOverflow: 'elipsis', overflow: 'hidden', maxWidth: '3px', verticalAlign: 'middle' }}>{val.description}
           </td>
-          <td style={{ verticalAlign: 'middle' }}><button className="btn btn-success btn-sm" onClick={() => this.editData(val.id)}>Edit</button>
-            &nbsp;
-           <button className="btn btn-danger btn-sm" onClick={() => this.deleteData(val.id, val.imagepath)}>Delete</button></td>
-          {/* Jika memanggil function dengan parameter butuh callback '()=>' */}
+          <td style={{ verticalAlign: 'middle' }}>
+            <div id="sidesModal">
+              <button className="element-FormCancel" id="leftForm" style={{ height: "30px", width: "54%" }} onClick={() => this.deleteData(val.id, val.imagepath)}>Delete</button>
+              <button className="element-FormLogin" id="rightForm" style={{ height: "30px", width: "54%" }} onClick={() => this.editData(val.id)}>Edit</button>
+            </div>
+          </td>
         </tr>
       )
     })
@@ -180,23 +181,18 @@ class ProductPage extends Component {
       return this.state.stock.map((item, index) => {
         if (item.id === id) {
           return (
-            // <tr >
-              <MDBBadge color="light"> {item.size} = {item.stock}</MDBBadge>
-            // </tr>
+            <MDBBadge color="light"> {item.size} = {item.stock}</MDBBadge>
           )
         }
       })
     } else {
       return (
         <>
-          <button className="btn btn-danger btn-sm" onClick={() => this.addStock(id)}>Add Stock</button>
-          {
-            this.state.selectedId === id
-              ?
-              this.renderAddSize(id, name)
-              :
-              null
-          }
+          <div style={{ textAlign: "center" }}>
+            <button className="BtAddStock" onClick={() => this.addStock(id)}>Add Stock</button>
+          </div>
+          {/* <button className="btn btn-danger btn-sm" onClick={() => this.addStock(id)}>Add Stock</button> */}
+          {this.state.selectedId === id ? this.renderAddSize(id, name) : null}
         </>
       )
     }
@@ -204,40 +200,41 @@ class ProductPage extends Component {
 
   yesEdit = (id) => {
     let { addImageFile } = this.state;
-    var nameNew = this.refs.nameEdit.value
-    var categoryNew = this.refs.categoryEdit.value
-    var bahanNew = this.refs.bahanEdit.value
-    var ratingNew = this.refs.ratingEdit.value
-    var priceNew = this.refs.priceEdit.value
-    var descriptionNew = this.refs.descriptionEdit.value
-    if (nameNew === '' || categoryNew === '' || bahanNew === '' || ratingNew === '' || priceNew === '' || descriptionNew === '') {
+    let formData = new FormData()
+    let obj = {}
+    if (this.refs.nameEdit.value === '' || this.refs.priceEdit.value === '' || this.refs.descriptionEdit === '') {
       alert('Complete Your Changes')
     }
     else if (addImageFile) {
-      let formData = new FormData()
-      let obj = {
-        // imagepath: imageNew,
-        name: nameNew,
-        category: categoryNew,
-        product_bahan: bahanNew,
-        product_rating: ratingNew,
-        product_price: priceNew,
-        description: descriptionNew
+      obj = {
+        name: this.refs.nameEdit.value,
+        materialID: this.state.addMaterialID,
+        description: this.refs.descriptionEdit.value,
+        price: this.refs.priceEdit.value
       }
-      formData.append('data', JSON.stringify(obj))
       formData.append('image', addImageFile)
-      console.log(formData)
-      Axios.post(API_URL + `/products/edit?idproduct=${id}`, formData)
-        .then((res) => {
-          console.log(res.data)
-          this.getProducts()
-          this.setState({ selectedId: null })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
     }
+    else {
+      obj = {
+        name: this.refs.nameEdit.value,
+        materialID: this.state.addMaterialID,
+        description: this.refs.descriptionEdit.value,
+        price: this.refs.priceEdit.value
+      }
+      // formData.append('image', null)
+    }
+    formData.append('data', JSON.stringify(obj))
+    console.log(formData)
+    Axios.post(API_URL + `/products/edit?id=${id}`, formData)
+      .then((res) => {
+        console.log(res.data)
+        this.setState({ addImageFileName: 'Select Image', addImageFile: undefined, selectedId: null })
+        this.getProducts()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
   }
   noEdit = () => {
     this.setState({ selectedId: null })
@@ -248,11 +245,10 @@ class ProductPage extends Component {
     if (addImageFile) {
       let formData = new FormData()
       let obj = {
-        // imagepath: imageNew,
         name: this.refs.nameProduct.value,
         materialID: this.state.addMaterialID,
-        price: this.refs.priceProduct.value,
-        description: this.refs.descriptionProduct.value
+        description: this.refs.descriptionProduct.value,
+        price: this.refs.priceProduct.value
       }
       formData.append('data', JSON.stringify(obj))
       formData.append('image', addImageFile)
@@ -260,6 +256,7 @@ class ProductPage extends Component {
       Axios.post(API_URL + '/products/upload', formData)
         .then((res) => {
           console.log(res.data)
+          this.setState({ addImageFileName: 'Select Image', addImageFile: undefined })
           this.toggle(1)
           this.getProducts()
         })
@@ -281,7 +278,7 @@ class ProductPage extends Component {
   }
 
   onBtnAddImageFile = (e) => {
-    console.log(e.target.files[0])
+    console.log('gambar', e.target.files[0])
     if (e.target.files[0]) {
       this.setState({ addImageFileName: e.target.files[0].name, addImageFile: e.target.files[0] })
       var preview = document.getElementById('imgpreview')
@@ -321,7 +318,6 @@ class ProductPage extends Component {
     let qty = document.getElementById(`qty${e.target.value}`).value
     if (!e.target.checked) {
       document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
-
     } else if (e.target.checked) {
       document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
       if (qty !== null) {
@@ -329,6 +325,13 @@ class ProductPage extends Component {
         console.log(sizeQty)
       }
     }
+  }
+
+  inQtyhandler = (e) => {
+    console.log('check size', e.target.value)
+    let size = document.getElementById(`size${document.getElementById(`size${e.target.name}`).value}`)
+    console.log('size', size)
+    e.target.value >= 1 ? size.disabled = false : size.disabled = true
   }
 
   addStock = (id) => {
@@ -350,11 +353,11 @@ class ProductPage extends Component {
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">
                       <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
-                        <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
+                        <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
                           {val.size}&nbsp;
                         </div>
                     </div>
-                    <input type="text" id={`qty${val.id}`} onChange={this.qtySizehandler} className="form-control" aria-label="Text input with checkbox" />
+                    <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" />
                   </div>
                 </MDBCol>
               )
@@ -379,22 +382,20 @@ class ProductPage extends Component {
               <MDBCol md="12">
                 <MDBCard className="mt-5">
                   <MDBView className="gradient-card-header orange darken-2">
-                    <h4 className="h4-responsive text-white">Basic tables</h4>
+                    <h4 className="h4-responsive text-white">All Product</h4>
                   </MDBView>
                   <MDBCardBody>
-                    {/* <p className="h2">Market Cube Product</p> */}
                     <MDBTable>
                       <MDBTableHead>
                         <tr style={{ textAlign: 'center' }}>
                           <td>#</td>
                           <td style={{ width: 230 }}>Image</td>
-                          <td style={{ width: 150 }}>Name</td>
-                          {/* <td style={{ width: 150 }}>Category</td> */}
+                          <td style={{ width: 130 }}>Name</td>
                           <td style={{ width: 150 }}>Material</td>
                           <td style={{ width: 150 }}>Stock</td>
                           <td style={{ width: 150 }}>Price</td>
                           <td>Description</td>
-                          <td>Action</td>
+                          <td style={{ width: 250 }}>Action</td>
                         </tr>
                       </MDBTableHead>
                       <MDBTableBody>
@@ -402,7 +403,7 @@ class ProductPage extends Component {
                       </MDBTableBody>
                     </MDBTable>
                     <div style={{ textAlign: "center" }}>
-                      <button className="btn btn-primary btn-sm" onClick={() => this.toggle(1)}>Add Product</button>
+                      <button className="BtAddProduct" onClick={() => this.toggle(1)}>Add Product</button>
                     </div>
                   </MDBCardBody>
                 </MDBCard>
@@ -410,8 +411,10 @@ class ProductPage extends Component {
             </MDBRow>
           </main>
           {this.renderEdit()}
-          <Modal isOpen={this.state.modal} toggle={() => this.toggle(1)}>
-            <ModalHeader>Add Product</ModalHeader>
+          <Modal contentClassName="modalBG" isOpen={this.state.modal} toggle={() => this.toggle(1)}>
+            <div className="text-center headerModalBG" >
+              <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Add Product</h4>
+            </div>
             <ModalBody >
               <div style={{ textAlign: 'center' }}>
                 <img src="https://carolinadojo.com/wp-content/uploads/2017/04/default-image.jpg" alt="preview" id="imgpreview" className="img-fluid" width="200px" />
@@ -425,13 +428,13 @@ class ProductPage extends Component {
                   Material
                   <select className="form-control form-control-sm" value={this.state.addMaterialID}
                     onChange={this.onChangeSelectMaterial}>
-                    <option value={0} selected>Choose Material</option>
+                    <option value={0}>Choose Material</option>
                     {this.renderListMaterial()}
                   </select>
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   Description
-                  <input type="text" className="form-control form-control-sm" placeholder="Input Description" ref='descriptionProduct' />
+                  <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" ref='descriptionProduct' />
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   Price
@@ -443,9 +446,10 @@ class ProductPage extends Component {
                 </FormGroup>
               </Form>
             </ModalBody>
-            <ModalFooter >
-              <button type="submit" className="btn btn-primary btn-sm" onClick={this.submitData}>Submit</button>
-            </ModalFooter>
+            <div id="sidesModal">
+              <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.toggle}>Cancel</button>
+              <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.submitData}>Submit</button>
+            </div>
           </Modal>
         </div>
       </div>
@@ -453,4 +457,4 @@ class ProductPage extends Component {
   }
 }
 
-export default ProductPage
+export default ProductPage;

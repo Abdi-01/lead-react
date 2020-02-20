@@ -55,6 +55,27 @@
   object-fit: cover;
 }
 
+/* Button add product */
+.BtAddProduct {
+  /* background-color: goldenrod; */
+  color: white;
+  padding: 5px 20px 5px 20px;
+  background-color: #e67e22;
+  clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, calc(100% - 85%) 100%);
+  /* transition: 250ms; */
+  cursor: pointer;
+}
+.BtAddStock {
+  /* background-color: goldenrod; */
+  color: white;
+  padding: 5px 20px 5px 20px;
+  background-color: dimgray;
+  border: 0;
+  /* clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, calc(100% - 85%) 100%); */
+  /* transition: 250ms; */
+  cursor: pointer;
+}
+
 /* SIdebar */
 
 a {

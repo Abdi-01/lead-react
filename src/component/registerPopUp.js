@@ -1,9 +1,9 @@
 import React from 'react';
 import '../assets/css/modal.css'
-import { Alert } from 'reactstrap';
 import { MDBInput, MDBModal, MDBModalBody, MDBProgress } from 'mdbreact';
 // import { connect } from 'react-redux'
 // import { login } from '../redux/action'
+import Swal from 'sweetalert2'
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios'
 import { API_URL } from '../support/Backend_URL';
@@ -17,36 +17,16 @@ class RegisPopUp extends React.Component {
         abjad: false,
         char: false,
         border: false,
-        alert1: false,
-        alert2: false,
-        alert3: false,
-        alert4: false
     }
-    toggle = (a) => {
-        if (a === 0) {
-            this.setState({
-                modal: !this.state.modal,
-                num: false,
-                spec: false,
-                show: false,
-                abjad: false,
-                char: false
-            })
-        }
-        if (a === 1) {
-            this.setState({ alert1: !this.state.alert1 })
-        }
-        if (a === 2) {
-            this.setState({ alert2: !this.state.alert2 })
-        }
-        if (a === 3) {
-            this.setState({ alert3: !this.state.alert3 })
-        }
-        if (a === 4) {
-            this.toggle(0)
-            this.setState({ alert4: !this.state.alert4 })
-            return <Redirect to='/'></Redirect>
-        }
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal,
+            num: false,
+            spec: false,
+            show: false,
+            abjad: false,
+            char: false
+        })
     }
 
     regisUser = () => {
@@ -57,20 +37,42 @@ class RegisPopUp extends React.Component {
         var confpassword = this.confpass.value
         if (username && email && password && confpassword && phone) {
             if (password !== confpassword) {
-                this.setState({
-                    alert2: !this.state.alert2
+                Swal.fire({
+                    text: 'Invalid password confirmation',
+                    imageUrl: require('../image/ilustration/password.png'),
+                    imageWidth: 220,
+                    imageHeight: 150,
+                    imageAlt: 'Custom image',
+                    width: 230,
+                    showConfirmButton: false,
+                    timer: 1500
                 });
             }
             else {
-                Axios.get(API_URL + `/users/getSearchUsers?username=${username}`)
+                Axios.get(API_URL + `/users/getSearchUsers/${username}`)
                     .then((res) => {
                         console.log(res.data)
                         if (res.data.length !== 0) {
-                            this.setState({
-                                alert1: !this.state.alert1
+                            Swal.fire({
+                                text: 'Username has been taken',
+                                imageUrl: require('../image/ilustration/user_statusWrong.png'),
+                                imageWidth: 220,
+                                imageHeight: 130,
+                                imageAlt: 'Custom image',
+                                width: 230,
+                                showConfirmButton: false,
+                                timer: 1500
                             });
                         }
                         else if (password.length > 8) {
+                            Swal.fire({
+                                imageUrl: require('../image/ilustration/loading_.png'),
+                                imageWidth: 220,
+                                imageHeight: 130,
+                                imageAlt: 'Custom image',
+                                width: 230,
+                                showConfirmButton: false
+                            });
                             Axios.post(API_URL + `/users/register`, {
                                 username: username,
                                 password: password,
@@ -80,28 +82,47 @@ class RegisPopUp extends React.Component {
                             })
                                 .then((res) => {
                                     console.log('Regis Success' + res.data)
-                                    this.setState({
-                                        alert4: !this.state.alert4
-                                    })
-                                    Axios.get(API_URL + `/users/getAllUsers`)//update pages dengan menambah fungsi dan mengkosongkan value pada variable penampung nilai
-                                        .then((res) => {
-                                            console.log(res.data)
-                                            this.setState({ data: res.data })//untuk mengubah isi state data
-                                        })
+                                    Swal.fire({
+                                        text: 'Successfully, please check your email to verification!',
+                                        imageUrl: require('../image/ilustration/new_message.png'),
+                                        imageWidth: 220,
+                                        imageHeight: 150,
+                                        imageAlt: 'Custom image',
+                                        width: 230,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    window.location.reload();
                                 })
                                 .catch((err) => {
                                     console.log(err)
                                 })
                         }
                         else {
-                            alert('Passwordmu Kurang')
+                            Swal.fire({
+                                text: 'Your password is fail',
+                                imageUrl: require('../image/ilustration/user_statusWrong.png'),
+                                imageWidth: 190,
+                                imageHeight: 150,
+                                imageAlt: 'Custom image',
+                                width: 210,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
                         }
                     })
             }
 
         } else {
-            this.setState({
-                alert3: !this.state.alert3
+            Swal.fire({
+                text: 'Please fill in all the forms!',
+                imageUrl: require('../image/ilustration/checklist_.png'),
+                imageWidth: 220,
+                imageHeight: 150,
+                imageAlt: 'Custom image',
+                width: 230,
+                showConfirmButton: false,
+                timer: 1500
             });
         }
     }
@@ -142,22 +163,14 @@ class RegisPopUp extends React.Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to='/'>
+            </Redirect>
+        }
         return (
             <div>
-                <button id="rightRegis" className="element-BtRegis" onClick={() => this.toggle(0)}>Register</button>
+                <button id="rightRegis" className="element-BtRegis" onClick={this.toggle}>Register</button>
                 <MDBModal contentClassName="modalBG" isOpen={this.state.modal} toggle={this.toggle}>
-                    <Alert color="warning" isOpen={this.state.alert1} toggle={() => this.toggle(1)}>
-                        Username has been taken
-                    </Alert>
-                    <Alert color="warning" isOpen={this.state.alert2} toggle={() => this.toggle(2)}>
-                        Invalid Password Confirmation
-                    </Alert>
-                    <Alert color="warning" isOpen={this.state.alert3} toggle={() => this.toggle(3)}>
-                        Please fill in all the forms!
-                    </Alert>
-                    <Alert color="success" isOpen={this.state.alert4} toggle={() => this.toggle(4)}>
-                        Successfully, please check your email to verification!
-                    </Alert>
                     <div className="text-center headerModalBG" >
                         <img src={require('../image/lead.png')} style={{ padding: 3 }} width="40px" alt="leadlogo"></img>
                     </div>

@@ -16,6 +16,7 @@ class VerificationPage extends Component {
     }
     componentDidMount() {
         // const re = /\s*(?:;=&|$)\s*/
+        localStorage.removeItem('token')
         console.log(this.props.location.search.split('?')[1])//akses data dari query/url
         console.log(this.props.location.search.split('?')[2])
         // this.props.location.search.split('&')[0].split('=')[1]

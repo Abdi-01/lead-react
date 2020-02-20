@@ -1,7 +1,6 @@
 const INITIAL_STATE = {
     id: 0,
     username: null,
-    // password:'',
     email: '',
     phone: '',
     role: '',
