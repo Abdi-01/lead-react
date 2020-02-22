@@ -54,7 +54,7 @@ class ProductCard extends Component {
                                             <span>
                                                 <MDBIcon id={`quickDetail${val.id}`} icon="eye" style={{ cursor: 'pointer' }} />
                                             </span>
-                                            <ul className="list-group " >
+                                            <ul className="list-group" >
                                                 {/* <li className="list-group-item bg-transparent text-white" style={{ padding: 0 }}>Bahan : {val.product_bahan}</li> */}
                                                 {/* <li className="list-group-item bg-transparent text-white" style={{ padding: 0 }}>Rating : {val.product_rating}/5</li> */}
                                                 <li className="list-group-item bg-transparent text-white" style={{ padding: 0 }}>Description : {val.description}</li>

@@ -94,7 +94,44 @@
     clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
     transition: 250ms;
   }
+  .element-FormDelete {
+    /* background-color: goldenrod; */
+    color: white;
+    border: none;
+    border: none;
+    padding: 0 10px 0 10px;
+    background-color: dimgray;
+    clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
+    transition: 250ms;
+  }
   
+  .element-FormDelete:hover {
+    color: white;
+    border: none;
+    padding: 0 10px 0 10px;
+    background-color: silver;
+    clip-path: polygon(0 0, calc(100% - 15%) 0%, 100% 100%, 0 100%);
+    transition: 250ms;
+  }
+  
+  .element-FormEdit {
+    color: white;
+    border: none;
+    padding: 0 10px 0 10px;
+    background-color: orange;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
+    transition: 250ms;
+  }
+  
+  .element-FormEdit:hover {
+    /* background-color: goldenrod; */
+    color: white;
+    border: none;
+    padding: 0 10px 0 10px;
+    background-color: silver;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(100% - 88%) 100%);
+    transition: 250ms;
+  }
 /* in modal */
 
   .element-FormLogin {

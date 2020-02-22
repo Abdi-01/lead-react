@@ -91,9 +91,9 @@ class LoginPopUp extends React.Component {
     }
 }
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = ({user}) => {
     return {
-        username: state.user.username
+        username: user.username
     }
 }
 

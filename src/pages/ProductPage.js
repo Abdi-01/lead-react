@@ -162,13 +162,14 @@ class ProductPage extends Component {
           <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>
             {this.renderSize(val.id, val.name)}
           </td>
-          <td style={{ verticalAlign: 'middle' }}>{val.price}</td>
-          <td style={{ whiteSpace: 'nowrap', textOverflow: 'elipsis', overflow: 'hidden', maxWidth: '3px', verticalAlign: 'middle' }}>{val.description}
+          <td style={{ verticalAlign: 'middle' }}>IDR. {val.price.toLocaleString()}</td>
+          <td style={{ verticalAlign: 'middle', padding: 0 }}>
+            <div className="box">{val.description}</div>
           </td>
           <td style={{ verticalAlign: 'middle' }}>
             <div id="sidesModal">
-              <button className="element-FormCancel" id="leftForm" style={{ height: "30px", width: "54%" }} onClick={() => this.deleteData(val.id, val.imagepath)}>Delete</button>
-              <button className="element-FormLogin" id="rightForm" style={{ height: "30px", width: "54%" }} onClick={() => this.editData(val.id)}>Edit</button>
+              <button className="element-FormDelete" id="leftForm" style={{ height: "30px", width: "54%" }} onClick={() => this.deleteData(val.id, val.imagepath)}>Delete</button>
+              <button className="element-FormEdit" id="rightForm" style={{ height: "30px", width: "54%" }} onClick={() => this.editData(val.id)}>Edit</button>
             </div>
           </td>
         </tr>
@@ -320,6 +321,7 @@ class ProductPage extends Component {
       document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
     } else if (e.target.checked) {
       document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
+      document.getElementById(`size${e.target.value}`).disabled = true
       if (qty !== null) {
         sizeQty.push([parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
         console.log(sizeQty)
@@ -334,6 +336,15 @@ class ProductPage extends Component {
     e.target.value >= 1 ? size.disabled = false : size.disabled = true
   }
 
+  resetOrder = () => {
+    this.setState({ sizeQty: [] })
+    console.log(this.state.orderOption)
+    this.state.size.map((val) => {
+      document.getElementById(`size${val.id}`).checked = false
+      document.getElementById(`qty${val.id}`).disabled = false
+    })
+  }
+
   addStock = (id) => {
     console.log(id)
     this.setState({ selectedId: id })
@@ -342,8 +353,10 @@ class ProductPage extends Component {
   }
 
   renderAddSize = (id, name) => {
-    return <Modal isOpen={this.state.sizeModal} toggle={() => this.toggle(3)}>
-      <ModalHeader>Add Stock : {name}</ModalHeader>
+    return <Modal contentClassName="modalBG" isOpen={this.state.sizeModal} toggle={() => this.toggle(3)}>
+      <div className="text-center headerModalBG">
+        <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Add Stock</h4>
+      </div>
       <ModalBody >
         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
           <MDBFormInline>
@@ -365,10 +378,16 @@ class ProductPage extends Component {
             }
           </MDBFormInline>
         </FormGroup>
-      </ModalBody>
-      <ModalFooter >
-        <button type="submit" className="btn btn-primary btn-sm" onClick={() => this.submitStock(id)}>Submit</button>
-      </ModalFooter>
+          <span onClick={this.resetOrder}>
+            <p style={{ padding: 5,marginBottom:0 }}>Reset Stock &nbsp;
+            <i style={{ verticalAlign: 'middle', cursor: 'pointer' }} class="material-icons">settings_backup_restore</i>
+            </p>
+          </span>
+        </ModalBody>
+      <div id="sidesModal">
+        <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.toggle(3)}>Cancel</button>
+        <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.submitStock(id)}>Submit</button>
+      </div>
     </Modal>
   }
 
@@ -393,7 +412,7 @@ class ProductPage extends Component {
                           <td style={{ width: 130 }}>Name</td>
                           <td style={{ width: 150 }}>Material</td>
                           <td style={{ width: 150 }}>Stock</td>
-                          <td style={{ width: 150 }}>Price</td>
+                          <td style={{ width: 190 }}>Price</td>
                           <td>Description</td>
                           <td style={{ width: 250 }}>Action</td>
                         </tr>
@@ -447,7 +466,7 @@ class ProductPage extends Component {
               </Form>
             </ModalBody>
             <div id="sidesModal">
-              <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.toggle}>Cancel</button>
+              <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.toggle(1)}>Cancel</button>
               <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.submitData}>Submit</button>
             </div>
           </Modal>

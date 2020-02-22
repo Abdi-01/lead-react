@@ -1,0 +1,27 @@
+/* Name Tag Product Detail */
+.nameTag{
+    background-color: dimgrey;
+    color: white;
+    padding-left: 2%;
+    padding-right: 10%;
+    clip-path: polygon(0 0, 100% 0%, 85% 100%, 0 100%);
+  }
+
+  .element-AddToCart {
+    color: white;
+    border: none;
+    padding: 10px 10px 10px 40px;
+    background-color: orange;
+    clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0 100%);
+    transition: 250ms;
+  }
+  
+  .element-AddToCart:hover {
+    /* background-color: goldenrod; */
+    color: white;
+    border: none;
+    padding: 10px 10px 10px 40px;
+    background-color: gray;
+    clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0 100%);
+    transition: 250ms;
+  }

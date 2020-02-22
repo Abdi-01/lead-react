@@ -90,7 +90,7 @@ class RegisPopUp extends React.Component {
                                         imageAlt: 'Custom image',
                                         width: 230,
                                         showConfirmButton: false,
-                                        timer: 1500
+                                        timer: 3000
                                     });
                                     window.location.reload();
                                 })
