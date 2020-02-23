@@ -57,7 +57,7 @@ class ProfilePage extends Component {
     console.log(this.props.username)
     return (
       <div >
-        <SideNavigation />
+        <SideNavigation/>
         <main id="content" className="p-5">
           {/* <React.Fragment> */}
           <MDBRow className="justify-content-center">

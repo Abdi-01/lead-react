@@ -10,7 +10,6 @@ class ProductDetail extends Component {
         data: [],
         stockDetail: [],
         totalStock: 0,
-        totalQty: [],
         orderOption: []
     }
 
@@ -51,10 +50,12 @@ class ProductDetail extends Component {
             document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
             document.getElementById(`size${e.target.value}`).disabled = true
             if (qty !== null) {
-                orderOption.push([parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
-                totalQty.push(parseInt(qty))
-                console.log(totalQty)
-                this.totalOrder(totalQty)
+                orderOption.push([this.props.id,
+                parseInt(this.props.location.search.split('=')[1]),
+                parseInt(e.target.value),
+                parseInt(qty),
+                parseInt(this.state.data.price) * parseInt(qty)])
+                this.totalOrder(this.state.orderOption)
                 console.log(orderOption)
             }
         }
@@ -88,13 +89,14 @@ class ProductDetail extends Component {
     totalOrder = (qty) => {
         let count = 0
         if (qty.length > 0) {
-            qty.map((val) => count += val)
-            this.setState({ totalPrice: parseInt(this.state.data.price) * count })
+            qty.map((val) => count += val[4])
+            console.log(count)
+            this.setState({ totalPrice: count })
         }
     }
 
     resetOrder = () => {
-        this.setState({ orderOption: [],totalQty:[], totalPrice: 0 })
+        this.setState({ orderOption: [], totalQty: [], totalPrice: 0 })
         console.log(this.state.orderOption)
         this.state.stockDetail.map((val) => {
             document.getElementById(`size${val.sizeID}`).checked = false
@@ -102,11 +104,15 @@ class ProductDetail extends Component {
         })
     }
 
+    addTocart = () => {
+
+    }
+
     render = () => {
         let { data } = this.state;
         this.totalOrder(parseInt(data.price))
         return (
-            <div className="jumbotron" style={{ padding: 0, width: '70%', marginLeft: '15%', marginRight: '15%', marginTop: '2.5%' }}>
+            <div className="jumbotron" style={{ padding: 0, width: '80%', marginLeft: '10%', marginRight: '10%', marginTop: '2.5%' }}>
                 <MDBRow>
                     <div className="nameTag">
                         <strong><h1>{data.name}</h1></strong>
@@ -169,6 +175,7 @@ class ProductDetail extends Component {
 
 const mapStatetoProps = (state) => {
     return {
+        id: state.user.id,
         username: state.user.username,
         role: state.user.role
     }
