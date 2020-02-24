@@ -11,8 +11,7 @@ class UserDropdown extends Component {
     logoutUser = () => {
         this.props.logout()
     }
-    componentDidMount() {
-    }
+
     render() {
         console.log(this.props.username)
         return (

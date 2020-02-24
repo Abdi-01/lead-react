@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse,
-    MDBIcon, MDBNavbarBrand, MDBFormInline, MDBBadge
+    MDBNavbarBrand
 } from "mdbreact";// MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem,MDBDropdown,
 import '../assets/css/navbar.css'
 import RegisPopUp from './registerPopUp'

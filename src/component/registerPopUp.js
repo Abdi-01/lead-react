@@ -92,7 +92,6 @@ class RegisPopUp extends React.Component {
                                         showConfirmButton: false,
                                         timer: 3000
                                     });
-                                    window.location.reload();
                                 })
                                 .catch((err) => {
                                     console.log(err)

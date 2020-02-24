@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { API_URL } from '../support/Backend_URL';
 import Axios from 'axios'
-import { MDBRow, MDBCol, MDBBadge, MDBTooltip } from 'mdbreact';
+import { MDBRow, MDBCol, MDBTooltip } from 'mdbreact';
 import '../assets/css/productDetail.css'
+import { Redirect } from 'react-router-dom';
 
 class ProductDetail extends Component {
     state = {
@@ -15,10 +16,14 @@ class ProductDetail extends Component {
 
     componentDidMount() {
         console.log(this.props)
+        this.getProductDetail()
+    }
+
+    getProductDetail = () => {
         var id = this.props.location.search.split('=')[1];
         Axios.get(API_URL + `/products/getProductById/${id}`)
             .then((res) => {
-                this.setState({ data: res.data[0], price: res.data[0].price, totalPrice: 0 })
+                this.setState({ data: res.data[0], totalPrice: 0 })
                 console.log(this.state.data)
                 console.log(this.state.totalPrice)
                 this.getStockDetail(id)
@@ -42,7 +47,7 @@ class ProductDetail extends Component {
     }
 
     checkSizehandler = (e) => {
-        let { orderOption, totalQty } = this.state
+        let { orderOption } = this.state
         let qty = document.getElementById(`qty${e.target.value}`).value
         if (!e.target.checked) {
             document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
@@ -96,21 +101,41 @@ class ProductDetail extends Component {
     }
 
     resetOrder = () => {
-        this.setState({ orderOption: [], totalQty: [], totalPrice: 0 })
-        console.log(this.state.orderOption)
-        this.state.stockDetail.map((val) => {
+        this.state.orderOption.splice(0, this.state.orderOption.length)
+        this.setState({ orderOption: [], totalPrice: 0 })
+        this.state.stockDetail.forEach((val) => {
+            document.getElementById(`qty${val.sizeID}`).value = null
             document.getElementById(`size${val.sizeID}`).checked = false
+            document.getElementById(`size${val.sizeID}`).disabled = true
             document.getElementById(`qty${val.sizeID}`).disabled = false
         })
+        console.log(this.state.orderOption)
     }
 
     addTocart = () => {
-
+        if (this.state.orderOption.length > 0) {
+            Axios.post(API_URL + `/carts/addToCart`, {
+                order: this.state.orderOption
+            })
+                .then((res) => {
+                    console.log('Success Add To Cart')
+                    this.setState({ redirect: true })
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+        else {
+            alert('Choose your order first')
+        }
     }
 
     render = () => {
         let { data } = this.state;
-        this.totalOrder(parseInt(data.price))
+        if (this.state.redirect) {
+            return <Redirect to='/'>
+            </Redirect>
+        }
         return (
             <div className="jumbotron" style={{ padding: 0, width: '80%', marginLeft: '10%', marginRight: '10%', marginTop: '2.5%' }}>
                 <MDBRow>
@@ -161,7 +186,7 @@ class ProductDetail extends Component {
                 <MDBRow>
                     <div style={{ width: '100%' }}>
                         <div className="float-right" style={{ marginRight: '1%' }}>
-                            <button className="element-AddToCart h2" style={{ height: '100%' }}>Add To Cart</button>
+                            <button className="element-AddToCart h2" style={{ height: '100%' }} onClick={this.addTocart}>Add To Cart</button>
                         </div>
                         <div style={{ backgroundColor: 'silver', color: 'white', marginLeft: '1%', width: '95%', height: '88%' }}>
                             <h4 className="font-weight-bold" style={{ padding: '15px 0 15px 2%', color: 'black' }}>Total : IDR. {parseInt(this.state.totalPrice).toLocaleString()} </h4>

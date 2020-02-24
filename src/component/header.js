@@ -1,43 +1,39 @@
 import React, { Component } from "react";
 import {
-    MDBNavbar, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse,
-    MDBIcon, MDBNavbarBrand, MDBFormInline, MDBBadge
+    MDBNavbar, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBNavbarBrand, MDBFormInline
 } from "mdbreact";// MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem,MDBDropdown,
 import '../assets/css/navbar.css'
-import RegisPopUp from './registerPopUp'
 import { connect } from 'react-redux'
+import { Link } from "react-router-dom";
+import RegisPopUp from './registerPopUp'
 import LoginPopUp from './loginPopUp'
 import UserDropdown from './headerDropdown'
-import { Link } from "react-router-dom";
+import CartNotif from './cartNotif'
 
 class NavbarPage extends Component {
     state = {
-        isOpen: false
+        isOpen: false,
+        cartNotif: []
     };
 
     toggleCollapse = () => {
         this.setState({ isOpen: !this.state.isOpen });
-    }    
+    }
 
     render() {
-        console.log(this.props.username)
         return (
             <div className='fluid'>
                 <MDBNavbar className="navbarBG" dark expand="md" >
-                    {/* <MDBRow className="mb-1"> */}
                     <MDBNavbarBrand style={{ marginLeft: "2%" }}>
                         <Link to='/'>
                             <img src={require('../image/logowhiteB.png')} alt='logo' height='40'></img>
                         </Link>
                     </MDBNavbarBrand>
-                    {/* </MDBRow> */}
                     <MDBNavbarToggler onClick={this.toggleCollapse} />
                     <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar style={{ padding: 0 }}>
                         <MDBNavbarNav style={{ marginLeft: "2%" }} left>
                             <MDBNavItem className="navItem" >
-                                {/* <Link to='/HowToOrder'> */}
                                 <MDBNavLink to='/Collection' style={{ fontWeight: 'bold' }}>Our Collection</MDBNavLink>
-                                {/* </Link> */}
                             </MDBNavItem>
                             <MDBNavItem className="navItem">
                                 <MDBNavLink to='/HowToOrder' style={{ fontWeight: 'bold' }}>Order</MDBNavLink>
@@ -55,11 +51,7 @@ class NavbarPage extends Component {
                                 </MDBFormInline>
                             </MDBNavItem>
                             <MDBNavItem>
-                                <MDBNavLink className="waves-effect waves-light" to="#!" style={{ bottom: 0, top: 5 }}>
-                                    <MDBIcon icon="shopping-cart" >
-                                        <MDBBadge pill color="primary" className="ml-1">0</MDBBadge>
-                                    </MDBIcon>
-                                </MDBNavLink>
+                                <CartNotif></CartNotif>
                             </MDBNavItem>
                             <MDBNavItem style={{ padding: 8 }}>
                                 {this.props.username
@@ -82,6 +74,7 @@ class NavbarPage extends Component {
 
 const mapStatetoProps = (state) => {
     return {
+        id: state.user.id,
         username: state.user.username,
         role: state.user.role
     }

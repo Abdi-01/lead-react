@@ -72,6 +72,7 @@ class App extends Component {
 
 const makeStatetoProps = (state) => {
   return {
+    id: state.user.id,
     role: state.user.role
   }
 }

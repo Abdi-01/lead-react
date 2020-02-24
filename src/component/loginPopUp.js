@@ -2,13 +2,14 @@ import React from 'react';
 import '../assets/css/modal.css'
 import '../assets/css/alert.css'
 import { MDBInput, MDBModal, MDBModalBody } from 'mdbreact';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { login } from '../redux/action'
 import Swal from 'sweetalert2'
 
 class LoginPopUp extends React.Component {
     state = {
-        modal: false
+        modal: false,
     }
     toggle = () => {
         this.setState({
@@ -34,12 +35,15 @@ class LoginPopUp extends React.Component {
         else {
             if (username.includes("@") === false) {
                 this.props.login(username, password)//masuk authAction.js
+                this.setState({ redirect: true })
             } else {
                 this.props.login(username, password)//masuk authAction.js
+                this.setState({ redirect: true })
             }
         }
     }
     render() {
+       
         return (
             <div style={{ marginRight: 10 }}>
                 <div id="leftLogin">
@@ -91,7 +95,7 @@ class LoginPopUp extends React.Component {
     }
 }
 
-const mapStatetoProps = ({user}) => {
+const mapStatetoProps = ({ user }) => {
     return {
         username: user.username
     }

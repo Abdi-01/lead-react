@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { CustomInput, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup } from 'reactstrap';
-import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge, MDBBtn, MDBIcon } from 'mdbreact'
+import { CustomInput, Modal, ModalBody, Form, FormGroup } from 'reactstrap';
+import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import '../assets/css/modal.css'
 import Axios from 'axios'
@@ -108,7 +108,7 @@ class ProductPage extends Component {
             </div>
             <ModalBody key={val.id}>
               <div style={{ textAlign: 'center' }}>
-                <img src={API_URL + val.imagepath} id='imgpreview' style={{ width: 100, verticalAlign: 'middle' }}></img>
+                <img src={API_URL + val.imagepath} id='imgpreview' alt="imgpreview" style={{ width: 100, verticalAlign: 'middle' }}></img>
               </div>
               <Form>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
@@ -143,12 +143,14 @@ class ProductPage extends Component {
             </div>
           </Modal>
         )
+      }else{
+        return null
       }
     })
   }
 
   renderData = () => {
-    let { data, stock } = this.state;
+    let { data } = this.state;
     return data.map((val, index) => {
       return (
         <tr key={val.id}>
@@ -184,6 +186,9 @@ class ProductPage extends Component {
           return (
             <MDBBadge color="light"> {item.size} = {item.stock}</MDBBadge>
           )
+        }
+        else{
+          return null
         }
       })
     } else {
@@ -237,6 +242,7 @@ class ProductPage extends Component {
       })
 
   }
+  
   noEdit = () => {
     this.setState({ selectedId: null })
     this.getProducts()//update data
@@ -339,7 +345,7 @@ class ProductPage extends Component {
   resetOrder = () => {
     this.setState({ sizeQty: [] })
     console.log(this.state.orderOption)
-    this.state.size.map((val) => {
+    this.state.size.forEach((val) => {
       document.getElementById(`size${val.id}`).checked = false
       document.getElementById(`qty${val.id}`).disabled = false
     })
@@ -378,12 +384,12 @@ class ProductPage extends Component {
             }
           </MDBFormInline>
         </FormGroup>
-          <span onClick={this.resetOrder}>
-            <p style={{ padding: 5,marginBottom:0 }}>Reset Stock &nbsp;
+        <span onClick={this.resetOrder}>
+          <p style={{ padding: 5, marginBottom: 0 }}>Reset Stock &nbsp;
             <i style={{ verticalAlign: 'middle', cursor: 'pointer' }} class="material-icons">settings_backup_restore</i>
-            </p>
-          </span>
-        </ModalBody>
+          </p>
+        </span>
+      </ModalBody>
       <div id="sidesModal">
         <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.toggle(3)}>Cancel</button>
         <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.submitStock(id)}>Submit</button>

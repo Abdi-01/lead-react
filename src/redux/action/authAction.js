@@ -24,6 +24,7 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
                         timer: 1500
                     });
                 } else {
+                    localStorage.setItem('cartOwn', res.data.id)
                     localStorage.setItem('status', "Verified")
                     localStorage.setItem('token', res.data.token)//data dari userController backend API
                     dispatch({
@@ -33,8 +34,6 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
                 }
             })
             .catch((err) => {
-                localStorage.removeItem('status')
-                localStorage.removeItem('token')
                 console.log(err)
                 dispatch({
                     type: 'LOGOUT'
@@ -48,6 +47,8 @@ export const logout = () => {
     return (dispatch) => {
         localStorage.removeItem('status')
         localStorage.removeItem('token')
+        localStorage.removeItem('cartOwn')
+        localStorage.removeItem('sumPrice')
         dispatch({
             type: 'LOGOUT'
         })
@@ -69,6 +70,7 @@ export const Keeplogin = () => {//satu fungsi menjalankan dua reducer yang berbe
             Axios.post(API_URL + `/users/keeplogin`, {}, headers)
                 .then((res) => {
                     // localStorage.setItem('token', res.data.token)//data dari userController backend API
+                    localStorage.setItem('cartOwn', res.data.id)
                     console.log(res.data)//data dari userController backend API
                     dispatch({
                         type: 'LOGIN', //reducer 1
