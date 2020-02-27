@@ -12,7 +12,10 @@ import Collection from './pages/collection'
 import AboutPage from './pages/info/aboutCompany'
 import LeadSquad from './pages/info/leadsquad'
 import ProductDetail from './pages/productDetail'
-import TransactionPage from './pages/userTransaction'
+import CartPage from './pages/userCart'
+import TrackingPage from './pages/trackingPage'
+import HistoryPage from './pages/historyPage'
+import CheckoutPage from './pages/checkoutPage'
 import CustomOrder from './pages/customOrder'
 import SizeCart from './pages/info/sizeCart'
 import PrivacyFaq from './pages/info/privacyFAQ'
@@ -54,11 +57,16 @@ class App extends Component {
           <Route path='/ProductDetail' component={ProductDetail}></Route>
           <Route path='/ProfilePage' component={ProfilePage} />
           <Route path='/ResultPage' component={ResultPage} />
+          <Route path='/CheckoutPage' component={CheckoutPage} />
           {this.props.role === "admin"
             ?
             <Route path='/ProductPage' component={ProductPage} />
             :
-            <Route path='/TransactionPage' component={TransactionPage} />
+            <div>
+              <Route path='/CartPage' component={CartPage} />
+              <Route path='/TrackingPage' component={TrackingPage} />
+              <Route path='/HistoryPage' component={HistoryPage} />
+            </div>
           }
           {/* <Route path='/maps' component={MapsPage} /> */}
           <Route path='/verification' component={VerificationPage} />

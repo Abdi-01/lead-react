@@ -37,6 +37,11 @@
   }
 }
 
+/* MDBInput border */
+.formBorder{
+  border: 1px solid gray;
+}
+
 .element-BtCustom {
   clip-path: polygon(0 0, calc(100% - 7%) 0%, 100% 100%, 0% 100%);
   border: none;
@@ -129,6 +134,7 @@ main {
 #content {
   margin-left: 270px;
   position: relative;
+  /* height: 600px; */
 }
 
 .sidebar-fixed .logo-wrapper img {

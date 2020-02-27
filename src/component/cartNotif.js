@@ -33,7 +33,7 @@ class CartNotif extends React.Component {
     }
 
     getCartNotif = (id) => {
-        Axios.get(API_URL + `/carts/getCartNotif/${id}`)
+        Axios.get(API_URL + `/carts/getCart/${id}`)
             .then((res) => {
                 this.setState({ cartNotif: res.data })
             })
@@ -55,7 +55,7 @@ class CartNotif extends React.Component {
         return (
             <MDBTooltip domElement placement="bottom" >
                 <span style={{ margin: 'auto' }}>
-                    <MDBNavLink className="waves-effect waves-light" to="#!" >
+                    <MDBNavLink className="waves-effect waves-light" to="/CartPage" >
                         <MDBIcon className="waves-effect waves-light" icon="shopping-cart" style={{ bottom: 0, top: 10, padding: 5 }}>
                             <MDBBadge pill color="primary" className="ml-1">
                                 {this.state.cartNotif.length}
