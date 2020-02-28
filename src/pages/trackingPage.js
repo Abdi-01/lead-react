@@ -8,12 +8,23 @@ import { API_URL } from '../support/Backend_URL';
 
 class TrackingPage extends Component {
     state = {
-    
+        userTransaction:[]    
     }
 
     componentDidMount() {
-
+        this.getTransaction(localStorage.getItem('cartOwn'))
     }
+
+    getTransaction = (id) => {
+        Axios.get(API_URL + `/transactions/getTransaction/${id}`)
+          .then((res) => {
+            this.setState({ userTransaction: res.data })
+            console.log(this.state.userTransaction)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
 
     render() {
         return (
@@ -27,7 +38,7 @@ class TrackingPage extends Component {
                                 <MDBCol>
                                     <MDBCard>
                                         <MDBView className="gradient-card-header text-center orange" rounded >
-                                            <h4 className="h4-responsive text-white" style={{ margin: 0 }}>History</h4>
+                                            <h4 className="h4-responsive text-white" style={{ margin: 0 }}>Order Progress</h4>
                                         </MDBView>
                                     </MDBCard>
                                 </MDBCol>

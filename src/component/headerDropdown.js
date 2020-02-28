@@ -45,15 +45,15 @@ class UserDropdown extends Component {
                         :
                         <>
                             <MDBDropdownItem>
-                                <i className="fas fa-history" />
-                                <Link to='/UserPage'>
-                                    History
+                                <i className="fas fa-truck" />
+                                <Link to='/TrackingPage'>
+                                    Track Order
                             </Link>
                             </MDBDropdownItem>
                             <MDBDropdownItem>
-                                <i className="fas fa-truck" />
-                                <Link to='/UserPage'>
-                                    Track Order
+                                <i className="fas fa-history" />
+                                <Link to='/HistoryPage'>
+                                    History
                             </Link>
                             </MDBDropdownItem>
                         </>

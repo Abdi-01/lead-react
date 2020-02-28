@@ -20,6 +20,7 @@ class TransactionPage extends Component {
     Axios.get(API_URL + `/carts/getCart/${id}`)
       .then((res) => {
         this.setState({ userCart: res.data })
+        console.log(this.state.userCart)
       })
       .catch((err) => {
         console.log(err)
@@ -40,7 +41,7 @@ class TransactionPage extends Component {
               <p style={{ margin: 0, color: 'dimgrey' }}>Detail : Size {val.size} (Qty : {val.qty}) </p>
               <p style={{ margin: 0, color: 'gray' }}>IDR. {val.price.toLocaleString()}</p>
             </MDBCol>
-            <span style={{ margin: 0, color: 'gray', cursor:'pointer', fontWeight:'bold' }} onClick={()=>this.deleteCart(val.id)}>x Delete</span>
+            <span style={{ margin: 0, color: 'gray', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => this.deleteCart(val.id)}>x Delete</span>
           </MDBRow>
         </MDBCard>
       )
@@ -49,10 +50,10 @@ class TransactionPage extends Component {
 
   deleteCart = (id) => {
     console.log(id)
-    Axios.delete(API_URL + `/carts/deleteCart?id=${id}`)
+    Axios.delete(API_URL + `/carts/deleteCart/${id}`)
       .then((res) => {
         console.log(res.data)
-        this.getCart()
+        this.getCart(localStorage.getItem('cartOwn'))
       })
       .catch((err) => {
         console.log(err)
@@ -64,7 +65,7 @@ class TransactionPage extends Component {
       <div style={{}}>
         <div className="flexible-content">
           <SideNavigation />
-          <main id="content" className="p-5">
+          <main id="content" className="p-5" style={{minHeight:720}}>
             <MDBTable>
               {/* <MDBTableBody> */}
               <MDBRow>
@@ -80,11 +81,11 @@ class TransactionPage extends Component {
                   <p className="h4 font-weight-bold" style={{ color: "gray" }}>Total Price : IDR. {parseInt(localStorage.getItem('sumPrice')).toLocaleString()}</p>
                   <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     Notes :
-                  <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" ref='descriptionProduct' />
+                  <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" ref='noteOrder' />
                   </FormGroup>
                   <div style={{ textAlign: 'center' }}>
                     <Link to="/CheckoutPage">
-                      <MDBBtn outline color="warning">
+                      <MDBBtn outline color="warning" onClick={()=>!this.refs.noteOrder.value ? null : localStorage.setItem('noteOrder', this.refs.noteOrder.value)}>
                         <i style={{ verticalAlign: 'middle' }} class="material-icons">next_week</i> Checkout
                     </MDBBtn>
                     </Link>

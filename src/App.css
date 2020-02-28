@@ -134,7 +134,7 @@ main {
 #content {
   margin-left: 270px;
   position: relative;
-  /* height: 600px; */
+  /* min-height: 80%; */
 }
 
 .sidebar-fixed .logo-wrapper img {

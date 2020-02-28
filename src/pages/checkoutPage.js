@@ -1,15 +1,19 @@
 import React from 'react';
+import logo from '../image/lead.png'
 import { Form, FormGroup } from 'reactstrap';
 import { MDBRow, MDBCol, MDBCard, MDBContainer, MDBBtn } from 'mdbreact';
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom';
 import Axios from 'axios'
 import { API_URL } from '../support/Backend_URL';
+import Swal from 'sweetalert2'
 
 class CheckoutPage extends React.Component {
     state = {
         userCart: [],
         listCity: [],
-        // addCityID: 0,
+        addCityID: 0,
+        cityName: '',
         shippingCost: 0,
         shippingWeight: 0,
         setProvince: ''
@@ -56,7 +60,7 @@ class CheckoutPage extends React.Component {
         Axios.post(API_URL + '/ongkir/shippingCost', {
             origin: "222",
             destination: `${this.state.addCityID}`,
-            weight: `${this.state.shippingWeight}`,
+            weight: this.state.shippingWeight,
             courier: "jne"
         })
             .then((res) => {
@@ -65,6 +69,53 @@ class CheckoutPage extends React.Component {
             .catch((err) => {
                 console.log(err)
             })
+    }
+
+    addToTransaction = () => {
+        if (this.refs.addressOrder.value === '' || this.state.cityName === '' || this.refs.provinceOrder.value === '' || this.refs.zipOrder.value === '') {
+            Swal.fire({
+                text: 'Fill in on the form !',
+                imageUrl: require('../image/ilustration/checklist_.png'),
+                imageWidth: 150,
+                imageHeight: 150,
+                imageAlt: 'Custom image',
+                width: 200,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else {
+            Axios.post(API_URL + `/transactions/addToTransaction/${this.state.userCart[0].userID}`, {
+                userID: this.state.userCart[0].userID,
+                cartPrice: parseInt(localStorage.getItem('sumPrice')),
+                shippingPrice: this.state.shippingCost,
+                payment: this.state.shippingCost + parseInt(localStorage.getItem('sumPrice')),
+                address: `${this.refs.addressOrder.value} Phone (${this.refs.phoneOrder.value}), ${this.state.cityName}, ${this.refs.provinceOrder.value}, ${this.refs.zipOrder.value}, ${this.refs.countryOrder.value} `,
+                courier: 'JNE REGULAR',
+                note: localStorage.getItem('noteOrder') ? localStorage.getItem('noteOrder') : '',
+                username: this.props.username,
+                mva: 3302 + this.props.phone
+            })
+                .then((res) => {
+                    console.log('Payment Success')
+                    Swal.fire({
+                        text: 'Thank You, please check your email for payment ',
+                        imageUrl: require('../image/ilustration/online_payment_.png'),
+                        imageWidth: 150,
+                        imageHeight: 150,
+                        imageAlt: 'Custom image',
+                        width: 400,
+                        showConfirmButton: false,
+                        timer: 4000
+                    });
+                    this.setState({ shippingCost: 0, cityName: '', addCityID: 0, shippingWeight: 0, setProvince: '', redirect: true })
+                    localStorage.removeItem('noteOrder')
+                    localStorage.removeItem('sumPrice')
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+
     }
 
     renderData = () => {
@@ -88,9 +139,8 @@ class CheckoutPage extends React.Component {
     }
 
     onChangeSelectCity = (e) => {
-        this.setState({ addCityID: parseInt(e.target.value) })
+        this.setState({ addCityID: e.target.value, cityName: e.target[e.target.selectedIndex].text })
         this.getProvince(e.target.value)
-
     }
 
     renderListCity = () => {
@@ -114,14 +164,17 @@ class CheckoutPage extends React.Component {
         // let qty = document.getElementById(`qty${e.target.value}`).value
         if (e.target.checked) {
             this.getCost()
-        } 
+        }
         if (!e.target.checked) {
             this.setState({ shippingCost: 0 })
         }
     }
 
     render() {
-        const { userCart } = this.state
+        if (this.state.redirect) {
+            return <Redirect to='/'>
+            </Redirect>
+        }
         return (
             <div style={{ margin: "4%" }}>
                 <MDBContainer>
@@ -141,7 +194,7 @@ class CheckoutPage extends React.Component {
                                     <MDBCol>
                                         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                                             City
-                                            <select className="form-control form-control-sm" value={this.state.addMaterialID}
+                                            <select className="form-control form-control-sm" ref="cityOrder" value={this.state.addMaterialID}
                                                 onChange={this.onChangeSelectCity}>
                                                 <option value={0}>Choose City</option>
                                                 {this.renderListCity()}
@@ -151,31 +204,36 @@ class CheckoutPage extends React.Component {
                                     <MDBCol>
                                         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                                             Province
-                                        <input type="text" className="form-control form-control-sm" ref='addressOrder' value={this.state.setProvince}></input>
+                                        <input type="text" className="form-control form-control-sm" ref='provinceOrder' value={this.state.setProvince}></input>
                                         </FormGroup>
                                     </MDBCol>
                                     <MDBCol>
                                         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                                             Postal Code
-                                        <input type="text" className="form-control form-control-sm" placeholder="" ref='addressOrder' />
+                                        <input type="text" className="form-control form-control-sm" placeholder="" ref='zipOrder' />
                                         </FormGroup>
                                     </MDBCol>
                                 </MDBRow>
                                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                                     Country
-                                        <input type="text" className="form-control form-control-sm" placeholder="" defaultValue="Indonesia" ref='addressOrder' />
+                                        <input type="text" className="form-control form-control-sm" placeholder="" defaultValue="Indonesia" ref='countryOrder' />
                                 </FormGroup>
                                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                                     Phone
-                                    <input type="text" className="form-control form-control-sm" defaultValue={this.props.phone} ref='addressOrder' />
+                                    <input type="text" className="form-control form-control-sm" defaultValue={this.props.phone} ref='phoneOrder' />
                                 </FormGroup>
                             </Form>
                             <p className="h4 font-weight-bold" style={{ color: "gray", marginTop: 15 }} >Shipping Method</p>
                             <div style={{ width: '100%' }}>
-                                <div className="float-right"  style={{ marginRight: '1%' }}>
+                                <div className="float-right" style={{ marginRight: '1%' }}>
                                     <input type="checkbox" id="yesShipping" onChange={this.checkShippinghandler}></input>
                                 </div>
                                 <h6 className="font-weight-bold" style={{ color: "orange" }}>JNE REGULAR ( 2 - 3 Days) : IDR. {this.state.shippingCost.toLocaleString()} ({this.state.shippingWeight} gram)</h6>
+                            </div>
+
+                            <div>
+                                <p className="h5" style={{ color: "gray" }}>Cart Price    : IDR. {parseInt(localStorage.getItem('sumPrice')).toLocaleString()}</p>
+                                <p className="h5" style={{ color: "gray" }}>Shipping Cost : IDR. {this.state.shippingCost.toLocaleString()}</p>
                             </div>
                         </MDBCol>
                         <MDBCol>
@@ -186,32 +244,33 @@ class CheckoutPage extends React.Component {
                             </MDBRow>
                         </MDBCol>
                     </MDBRow>
+
+                    <p className="h4 font-weight-bold" style={{ color: "gray", marginTop: 15 }} >Payment Method</p>
                     <MDBRow>
                         <MDBCol>
-                            <p className="h5 font-weight-bold" style={{ color: "gray" }}>Cart Price    : IDR. {parseInt(localStorage.getItem('sumPrice')).toLocaleString()}</p>
-                            <p className="h5 font-weight-bold" style={{ color: "gray" }}>Shipping Cost : IDR. {this.state.shippingCost.toLocaleString()}</p>
+                            <MDBRow>
+                                <MDBCol sm='4'>
+                                    <img src='https://1.bp.blogspot.com/-epxOcwo446g/Vxw_q2mS5VI/AAAAAAAAXCs/md15WqOgYdMNg5zK0sYoe91Q9EYlSJySQCLcB/s1600/Bank%2BMandiri%2BLogo.png'
+                                        width="110px" height="50px"
+                                    ></img>
+                                </MDBCol>
+                                <MDBCol>
+                                    <h6>Mandiri Virtual Account</h6>
+                                    <h3>{3302 + this.props.phone}</h3>
+                                </MDBCol>
+                            </MDBRow>
                         </MDBCol>
                         <MDBCol>
                             <MDBRow>
                                 <div style={{ width: '100%' }}>
                                     <div className="float-right" style={{ marginRight: '1%' }}>
-                                        <button className="element-AddToCart h2" style={{ height: '100%' }} onClick={this.addTocart}><i style={{ verticalAlign: 'middle' }} class="material-icons">payment</i> Checkout</button>
+                                        <button className="element-AddToCart h2" style={{ height: '100%' }} onClick={this.addToTransaction}><i style={{ verticalAlign: 'middle' }} class="material-icons">payment</i> Payment</button>
                                     </div>
                                     <div style={{ backgroundColor: 'silver', color: 'white', marginLeft: '1%', width: '95%', height: '88%' }}>
-                                        <h4 className="font-weight-bold" style={{ padding: '15px 0 15px 2%', color: 'black' }}>Payment : IDR. {(this.state.shippingCost + parseInt(localStorage.getItem('sumPrice'))).toLocaleString()}</h4>
+                                        <h4 className="font-weight-bold" style={{ padding: '15px 0 15px 2%', color: 'black' }}>IDR. {(this.state.shippingCost + parseInt(localStorage.getItem('sumPrice'))).toLocaleString()}</h4>
                                     </div>
                                 </div>
                             </MDBRow>
-                            {/* <MDBRow>
-                                <MDBCol>
-                                    <p className="h5 font-weight-bold" style={{ color: "gray",marginTop:20 }}>Payment : IDR. {(this.state.shippingCost + parseInt(localStorage.getItem('sumPrice'))).toLocaleString()}</p>
-                                </MDBCol>
-                                <MDBCol>
-                                    <MDBBtn outline color="warning" onClick={this.getCost}>
-                                        <i style={{ verticalAlign: 'middle' }} class="material-icons">payment</i> Checkout
-                                    </MDBBtn>
-                                </MDBCol>
-                            </MDBRow> */}
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
