@@ -22,13 +22,23 @@ and sz.id=s.sizeID group by p.id;
 select  p.id, p.name,p.imagepath,m.material,p.description,p.price from tb_products p join tb_materials m
 on p.materialID = m.id;
 
--- ambil data cart user 
+-- ambil data cart user SALAH
 select c.id,s.username, p.name, p.imagepath, sz.size, c.qty, c.price 
 from tb_users s join tb_cart c join tb_products p 
 on s.id = c.userID and p.id = c.productID 
 join tb_sizes sz join tb_stock st 
-on sz.id = st.sizeID and c.id = st.id where s.id = 8;  
+on st.id=c.stockID where s.id = 8;  
+-- ambil data cart user FIX 
+-- cek select u.username,c.*, p.name, sz.size, st.* from tb_cart c join tb_users u on c.userID = u.id
+select c.id, u.username, p.name, p.imagepath, sz.size, c.qty,c.price from tb_cart c join tb_users u on c.userID = u.id
+join tb_products p on c.productID = p.id 
+join tb_sizes sz on c.sizeID = sz.id  
+join tb_stock st on st.sizeID = c.sizeID and st.productID = c.productID;
 SELECT * FROM tb_cart WHERE userID = 8;
+-- Pengurangan Stock 
+select st.stock, c.qty, (st.stock-c.qty) as newStock from tb_stock st join tb_cart c on c.productId = st.productID
+join tb_sizes sz on c.sizeID = sz.id and st.sizeID = c.sizeID where userID = 8;
+
 
 -- Pindah baris dari satu tabel ketabel lain
 INSERT INTO tb_history ( userID, productID, stockID, qty, price, status, transactionID ) 

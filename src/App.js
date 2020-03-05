@@ -14,6 +14,7 @@ import LeadSquad from './pages/info/leadsquad'
 import ProductDetail from './pages/productDetail'
 import CartPage from './pages/userCart'
 import TrackingPage from './pages/trackingPage'
+import OrderProgressPage from './pages/orderProgressAdmin'
 import HistoryPage from './pages/historyPage'
 import CheckoutPage from './pages/checkoutPage'
 import CustomOrder from './pages/customOrder'
@@ -56,11 +57,14 @@ class App extends Component {
           <Route path='/PrivacyFAQ' component={PrivacyFaq}></Route>
           <Route path='/ProductDetail' component={ProductDetail}></Route>
           <Route path='/ProfilePage' component={ProfilePage} />
-          <Route path='/ResultPage' component={ResultPage} />
           <Route path='/CheckoutPage' component={CheckoutPage} />
+          <Route path='/verification' component={VerificationPage} />
           {this.props.role === "admin"
-            ?
-            <Route path='/ProductPage' component={ProductPage} />
+            ?<div>
+              <Route path='/ProductPage' component={ProductPage} />
+              <Route path='/OrderProgressPage' component={OrderProgressPage} />
+              <Route path='/ResultPage' component={ResultPage} />
+            </div>
             :
             <div>
               <Route path='/CartPage' component={CartPage} />
@@ -69,7 +73,6 @@ class App extends Component {
             </div>
           }
           {/* <Route path='/maps' component={MapsPage} /> */}
-          <Route path='/verification' component={VerificationPage} />
           <Route path='*' component={NotFoundPage} />
         </Switch>
         <Footer></Footer>

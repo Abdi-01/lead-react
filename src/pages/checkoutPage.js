@@ -20,12 +20,16 @@ class CheckoutPage extends React.Component {
     }
 
     componentDidMount() {
-        this.getCart(localStorage.getItem('cartOwn'))
+        this.getCart(localStorage.getItem('token'))
         this.getCity()
     }
 
-    getCart = (id) => {
-        Axios.get(API_URL + `/carts/getCart/${id}`)
+    getCart = (token) => {
+        Axios.get(API_URL + `/carts/getCart`,{
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
             .then((res) => {
                 this.setState({ userCart: res.data })
                 // console.log(this.state.userCart)
@@ -139,7 +143,7 @@ class CheckoutPage extends React.Component {
     }
 
     onChangeSelectCity = (e) => {
-        this.setState({ addCityID: e.target.value, cityName: e.target[e.target.selectedIndex].text })
+        this.setState({ addCityID: e.target.value, cityName: e.target[e.target.selectedIndex].text })//ambil text dari select option option
         this.getProvince(e.target.value)
     }
 

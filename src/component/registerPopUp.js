@@ -1,12 +1,12 @@
 import React from 'react';
 import '../assets/css/modal.css'
 import { MDBInput, MDBModal, MDBModalBody, MDBProgress } from 'mdbreact';
-// import { connect } from 'react-redux'
-// import { login } from '../redux/action'
+import { connect } from 'react-redux'
+import { registerUser } from '../redux/action'
 import Swal from 'sweetalert2'
-import { Redirect } from 'react-router-dom';
-import Axios from 'axios'
-import { API_URL } from '../support/Backend_URL';
+// import { Redirect } from 'react-router-dom';
+// import Axios from 'axios'
+// import { API_URL } from '../support/Backend_URL';
 
 class RegisPopUp extends React.Component {
     state = {
@@ -29,6 +29,14 @@ class RegisPopUp extends React.Component {
         })
     }
 
+    componentDidUpdate() {
+        if (this.props.register.redirect) {
+            // console.log(this.props.register.redirect)
+            // this.toggle()
+            window.location.reload()
+        }
+    }
+
     regisUser = () => {
         var username = this.text.value
         var email = this.email.value
@@ -49,67 +57,10 @@ class RegisPopUp extends React.Component {
                 });
             }
             else {
-                Axios.get(API_URL + `/users/getSearchUsers/${username}`)
-                    .then((res) => {
-                        console.log(res.data)
-                        if (res.data.length !== 0) {
-                            Swal.fire({
-                                text: 'Username has been taken',
-                                imageUrl: require('../image/ilustration/user_statusWrong.png'),
-                                imageWidth: 220,
-                                imageHeight: 130,
-                                imageAlt: 'Custom image',
-                                width: 230,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-                        else if (password.length > 8) {
-                            Swal.fire({
-                                imageUrl: require('../image/ilustration/loading_.png'),
-                                imageWidth: 220,
-                                imageHeight: 130,
-                                imageAlt: 'Custom image',
-                                width: 230,
-                                showConfirmButton: false
-                            });
-                            Axios.post(API_URL + `/users/register`, {
-                                username: username,
-                                password: password,
-                                phone: phone,
-                                email: email,
-                                role: 'user'
-                            })
-                                .then((res) => {
-                                    console.log('Regis Success' + res.data)
-                                    Swal.fire({
-                                        text: 'Successfully, please check your email to verification!',
-                                        imageUrl: require('../image/ilustration/new_message.png'),
-                                        imageWidth: 220,
-                                        imageHeight: 150,
-                                        imageAlt: 'Custom image',
-                                        width: 230,
-                                        showConfirmButton: false,
-                                        timer: 3000
-                                    });
-                                })
-                                .catch((err) => {
-                                    console.log(err)
-                                })
-                        }
-                        else {
-                            Swal.fire({
-                                text: 'Your password is fail',
-                                imageUrl: require('../image/ilustration/user_statusWrong.png'),
-                                imageWidth: 190,
-                                imageHeight: 150,
-                                imageAlt: 'Custom image',
-                                width: 210,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-                    })
+                let form = {
+                    username, email, phone, password, confpassword
+                }
+                this.props.registerUser(form)
             }
 
         } else {
@@ -162,10 +113,6 @@ class RegisPopUp extends React.Component {
     }
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/'>
-            </Redirect>
-        }
         return (
             <div>
                 <button id="rightRegis" className="element-BtRegis" onClick={this.toggle}>Register</button>
@@ -246,5 +193,10 @@ class RegisPopUp extends React.Component {
         )
     }
 }
+const mapStatetoProps = ({ register }) => {
+    return {
+        register
+    }
+}
 
-export default RegisPopUp
+export default connect(mapStatetoProps, { registerUser })(RegisPopUp)

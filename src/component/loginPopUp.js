@@ -35,10 +35,10 @@ class LoginPopUp extends React.Component {
         else {
             if (username.includes("@") === false) {
                 this.props.login(username, password)//masuk authAction.js
-                this.setState({ redirect: true })
+                // this.setState({ redirect: true })
             } else {
                 this.props.login(username, password)//masuk authAction.js
-                this.setState({ redirect: true })
+                // this.setState({ redirect: true })
             }
         }
     }

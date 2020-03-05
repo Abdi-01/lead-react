@@ -81,7 +81,7 @@ class ProductDetail extends Component {
                         <div className="input-group-prepend">
                             <div className="input-group-text" style={{ paddingLeft: 0 }}>
                                 <input type="checkbox" id={`size${val.sizeID}`} onChange={this.checkSizehandler} style={{ padding: 0 }} disabled aria-label="Checkbox for following text input" value={val.sizeID} />&nbsp;
-                        {val.size}
+                                                    {val.size}
                             </div>
                         </div>
                         <input type="text" id={`qty${val.sizeID}`} onChange={this.inQtyhandler} name={val.sizeID} className="form-control" aria-label="Text input with checkbox" />

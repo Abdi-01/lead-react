@@ -1,30 +1,58 @@
 import React, { Component } from 'react'
-import { CustomInput, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup } from 'reactstrap';
 import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge, MDBBtn, MDBIcon } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
-import '../assets/css/modal.css'
+import '../assets/css/trackingOrder.css'
 import Axios from 'axios'
+import { getUserTransaction } from '../redux/action'
+import { connect } from 'react-redux'
 import { API_URL } from '../support/Backend_URL';
 
 class TrackingPage extends Component {
-    state = {
-        userTransaction:[]    
+    // state = {
+    //     userTransaction: []
+    // }
+
+    componentDidUpdate() {
+        if (this.props.transaction) {
+            console.log(this.props.transaction)
+        }
+        // this.setState({ userTransaction: this.props.transaction })
+        // console.log(this.state.userTransaction)
     }
 
     componentDidMount() {
-        this.getTransaction(localStorage.getItem('cartOwn'))
+        this.props.getUserTransaction()
     }
 
-    getTransaction = (id) => {
-        Axios.get(API_URL + `/transactions/getTransaction/${id}`)
-          .then((res) => {
-            this.setState({ userTransaction: res.data })
-            console.log(this.state.userTransaction)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
+    renderTrackOrder = () => {
+        return this.props.transaction.map((item, index) => {
+            return (
+                <MDBCard key={item.id} style={{ marginTop: 5 }}>
+                    <MDBRow>
+                        <MDBCol md='3'>
+                            <div className="invoiceTag">
+                                <strong><h4 style={{ margin: 0, paddingLeft: 10, paddingRight: 5 }}>{item.invoice}</h4></strong>
+                            </div>
+                        </MDBCol>
+                        <MDBCol sm='2'>
+                            <p style={{ margin: 2,marginTop:10, padding:0, color: 'gray' }}>02 Februari 2020</p>
+                        </MDBCol>
+                        <MDBCol sm='3'>
+                            <p style={{ margin: 2, marginTop:10,padding:0, color: 'gray' }}>Payment : IDR. {item.payment.toLocaleString()}</p>
+                        </MDBCol>
+                        <MDBCol >
+                            <MDBBtn outline color="warning" size="sm" style={{padding:2,margin:10}}>
+                                Upload Payment
+                            </MDBBtn>
+                        </MDBCol>
+                        <MDBCol >
+                            <p style={{ margin: 10, color: 'gray' }}>{item.status}</p>
+                        </MDBCol>
+                    </MDBRow>
+                </MDBCard>
+            )
+        })
+    }
 
     render() {
         return (
@@ -41,6 +69,7 @@ class TrackingPage extends Component {
                                             <h4 className="h4-responsive text-white" style={{ margin: 0 }}>Order Progress</h4>
                                         </MDBView>
                                     </MDBCard>
+                                    {this.renderTrackOrder()}
                                 </MDBCol>
                             </MDBRow>
                         </MDBTable>
@@ -51,4 +80,11 @@ class TrackingPage extends Component {
     }
 }
 
-export default TrackingPage;
+const mapStateToProps = ({ transaction, user }) => {
+    return {
+        user,
+        transaction
+    }
+}
+
+export default connect(mapStateToProps, { getUserTransaction })(TrackingPage);

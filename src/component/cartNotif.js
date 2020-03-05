@@ -19,21 +19,25 @@ class CartNotif extends React.Component {
     }
 
     componentDidUpdate() {
-        if (localStorage.getItem('cartOwn')) {
-            this.getCartNotif(localStorage.getItem('cartOwn'))
+        if (localStorage.getItem('token')) {
+            return this.getCartNotif(localStorage.getItem('token'))
         }
         if (this.state.cartNotif.length > 0) {
             this.totalOrder(this.state.cartNotif)
         }
-        if (!localStorage.getItem('cartOwn')) {
+        if (!localStorage.getItem('token')) {
             this.state.cartNotif.splice(0, this.state.cartNotif.length)
             localStorage.removeItem('sumPrice')
             window.location.reload()
         }
     }
 
-    getCartNotif = (id) => {
-        Axios.get(API_URL + `/carts/getCart/${id}`)
+    getCartNotif = (token) => {
+        Axios.get(API_URL + `/carts/getCart`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then((res) => {
                 this.setState({ cartNotif: res.data })
             })

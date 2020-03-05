@@ -12,12 +12,22 @@ class TransactionPage extends Component {
     userCart: []
   }
 
-  componentDidMount() {
-    this.getCart(localStorage.getItem('cartOwn'))
+  componentDidUpdate() {
+    if (this.state.userCart.length > 0) {
+      this.totalOrder(this.state.userCart)
+    }
   }
 
-  getCart = (id) => {
-    Axios.get(API_URL + `/carts/getCart/${id}`)
+  componentDidMount() {
+    this.getCart(localStorage.getItem('token'))
+  }
+
+  getCart = (token) => {
+    Axios.get(API_URL + `/carts/getCart`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then((res) => {
         this.setState({ userCart: res.data })
         console.log(this.state.userCart)
@@ -25,6 +35,15 @@ class TransactionPage extends Component {
       .catch((err) => {
         console.log(err)
       })
+  }
+
+  totalOrder = (qty) => {
+    let count = 0
+    if (qty.length > 0) {
+      qty.map((val) => count += val.price)
+      // console.log(count)
+      localStorage.setItem('sumPrice', count)
+    }
   }
 
   renderData = () => {
@@ -53,7 +72,7 @@ class TransactionPage extends Component {
     Axios.delete(API_URL + `/carts/deleteCart/${id}`)
       .then((res) => {
         console.log(res.data)
-        this.getCart(localStorage.getItem('cartOwn'))
+        this.getCart(localStorage.getItem('token'))
       })
       .catch((err) => {
         console.log(err)
@@ -65,7 +84,7 @@ class TransactionPage extends Component {
       <div style={{}}>
         <div className="flexible-content">
           <SideNavigation />
-          <main id="content" className="p-5" style={{minHeight:720}}>
+          <main id="content" className="p-5" style={{ minHeight: 720 }}>
             <MDBTable>
               {/* <MDBTableBody> */}
               <MDBRow>
@@ -85,7 +104,7 @@ class TransactionPage extends Component {
                   </FormGroup>
                   <div style={{ textAlign: 'center' }}>
                     <Link to="/CheckoutPage">
-                      <MDBBtn outline color="warning" onClick={()=>!this.refs.noteOrder.value ? null : localStorage.setItem('noteOrder', this.refs.noteOrder.value)}>
+                      <MDBBtn outline color="warning" onClick={() => !this.refs.noteOrder.value ? null : localStorage.setItem('noteOrder', this.refs.noteOrder.value)}>
                         <i style={{ verticalAlign: 'middle' }} class="material-icons">next_week</i> Checkout
                     </MDBBtn>
                     </Link>

@@ -2,47 +2,27 @@ import React, { Component } from 'react';
 import { MDBJumbotron, MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCardTitle } from "mdbreact";
 import { Col, Input } from 'reactstrap';
 import { connect } from 'react-redux'
-import { login } from '../redux/action'
+import { accountVerification } from '../redux/action'
 import { Redirect } from 'react-router-dom';
-import { API_URL } from '../support/Backend_URL';
-import Axios from 'axios';
+// import { API_URL } from '../support/Backend_URL';
+// import Axios from 'axios';
 
 class VerificationPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            redirect: false
-        }
+    state = {
+        redirect: false
     }
-    componentDidMount() {
-        // const re = /\s*(?:;=&|$)\s*/
-        localStorage.removeItem('token')
-        console.log(this.props.location.search.split('?')[1])//akses data dari query/url
-        console.log(this.props.location.search.split('?')[2])
-        // this.props.location.search.split('&')[0].split('=')[1]
-        // this.props.location.search.split('&')[1].split('=')[1]
-    }
+
     verification = () => {
-        var username = this.props.location.search.split('?')[2]
-        var password = this.props.location.search.split('?')[1]
-        var otp = this.otp.value
-        Axios.post(API_URL + `/users/emailVerification`, {
-            username,
-            password,
-            otp
-        })
-            .then((res) => {
-                if (username.includes("@") === false) {
-                    this.props.login(username, password)//masuk authAction.js
-                } else {
-                    this.props.login(username, password)//masuk authAction.js      
-                }
-                this.setState({ redirect: true })
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+        let token = this.props.location.search.split('?')[1]
+        console.log(token)
+        let obj = {
+            token,
+            otp: this.otp.value
+        }
+        this.props.accountVerification(obj)
+        this.setState({ redirect: true })
     }
+
     render() {
         const { redirect } = this.state
         if (redirect) {
@@ -73,4 +53,10 @@ class VerificationPage extends Component {
     }
 }
 
-export default connect(null, { login })(VerificationPage)
+const makeStatetoProps = ({ user }) => {
+    return {
+        id: user.id
+    }
+}
+
+export default connect(makeStatetoProps, { accountVerification })(VerificationPage)
