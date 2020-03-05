@@ -32,7 +32,7 @@ class CheckoutPage extends React.Component {
           })
             .then((res) => {
                 this.setState({ userCart: res.data })
-                // console.log(this.state.userCart)
+                console.log(this.state.userCart)
                 this.getShippingWeight(this.state.userCart)
             })
             .catch((err) => {

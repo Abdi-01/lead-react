@@ -117,7 +117,7 @@ class ProductDetail extends Component {
             Axios.post(API_URL + `/carts/addToCart`, {
                 order: this.state.orderOption
             })
-                .then((res) => {
+            .then((res) => {
                     console.log('Success Add To Cart')
                     this.setState({ redirect: true })
                 })

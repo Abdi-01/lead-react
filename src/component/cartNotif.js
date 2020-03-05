@@ -50,7 +50,7 @@ class CartNotif extends React.Component {
         let count = 0
         if (qty.length > 0) {
             qty.map((val) => count += val.price)
-            // console.log(count)
+            console.log('total',count)
             localStorage.setItem('sumPrice', count)
         }
     }
