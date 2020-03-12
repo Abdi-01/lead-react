@@ -1,21 +1,25 @@
 import React, { Component } from 'react'
 import { CustomInput, Modal, ModalBody, Form, FormGroup } from 'reactstrap';
-import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge } from 'mdbreact'
+import {
+  MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBBtn, MDBBtnGroup,
+  MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge, MDBPagination, MDBPageItem, MDBPageNav
+} from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import '../assets/css/modal.css'
 import Axios from 'axios'
 import { API_URL } from '../support/Backend_URL';
-
+import { connect } from 'react-redux'
+import { getAllProduct, getProductPagination } from '../redux/action'
 // import { Link } from 'react-router-dom'
 
 class ProductPage extends Component {
   state = {
     addImageFileName: 'Select File',
     addImageFile: undefined,
-    data: [],
     size: [],
     sizeQty: [],
     stock: [],
+    categories: [],
     material: [],
     modal: false,
     editModal: false,
@@ -41,21 +45,12 @@ class ProductPage extends Component {
     }
   }
   componentDidMount() {
-    this.getProducts()
+    this.props.getAllProduct('All')
+    this.props.getProductPagination(0)
     this.getSizes()
     this.getMaterials()
     this.getStock()
-  }
-
-  getProducts = () => {
-    Axios.get(API_URL + '/products/getproducts')
-      .then((res) => {
-        this.setState({ data: res.data })
-        console.log(this.state.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this.getCategories()
   }
 
   getSizes = () => {
@@ -90,6 +85,16 @@ class ProductPage extends Component {
       })
   }
 
+  getCategories = () => {
+    Axios.get(API_URL + '/products/getCategories')
+      .then((res) => {
+        this.setState({ categories: res.data })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   editData = (id) => {
     console.log(id)
     this.setState({ selectedId: id })
@@ -98,8 +103,7 @@ class ProductPage extends Component {
   }
 
   renderEdit = () => {
-    let { data } = this.state;
-    return data.map((val) => {
+    return this.props.pagiProduct.map((val) => {
       if (this.state.selectedId === val.id) {
         return (
           <Modal contentClassName="modalBG" isOpen={this.state.editModal} toggle={() => this.toggle(2)}>
@@ -143,18 +147,17 @@ class ProductPage extends Component {
             </div>
           </Modal>
         )
-      }else{
+      } else {
         return null
       }
     })
   }
 
   renderData = () => {
-    let { data } = this.state;
-    return data.map((val, index) => {
+    return this.props.pagiProduct.map((val, index) => {
       return (
         <tr key={val.id}>
-          <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>{index + 1}</td>
+          {/* <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>{index + 1}</td> */}
           <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>
             <img src={API_URL + val.imagepath} alt='imagePoster' style={{ width: 100, verticalAlign: 'middle' }}></img>
             {/* <span><MDBIcon icon="edit" />Edit</span> */}
@@ -174,7 +177,7 @@ class ProductPage extends Component {
               <button className="element-FormEdit" id="rightForm" style={{ height: "30px", width: "54%" }} onClick={() => this.editData(val.id)}>Edit</button>
             </div>
           </td>
-        </tr>
+        </tr >
       )
     })
   }
@@ -187,11 +190,13 @@ class ProductPage extends Component {
             <MDBBadge color="light"> {item.size} = {item.stock}</MDBBadge>
           )
         }
-        else{
+        else {
           return null
         }
+
       })
-    } else {
+    }
+    else {
       return (
         <>
           <div style={{ textAlign: "center" }}>
@@ -242,7 +247,7 @@ class ProductPage extends Component {
       })
 
   }
-  
+
   noEdit = () => {
     this.setState({ selectedId: null })
     this.getProducts()//update data
@@ -253,6 +258,7 @@ class ProductPage extends Component {
       let formData = new FormData()
       let obj = {
         name: this.refs.nameProduct.value,
+        categoryID: this.state.addCategoryID,
         materialID: this.state.addMaterialID,
         description: this.refs.descriptionProduct.value,
         price: this.refs.priceProduct.value
@@ -313,6 +319,17 @@ class ProductPage extends Component {
         <option value={val.id}>{val.material}</option>
       )
     })
+  }
+  renderListCategories = () => {
+    return this.state.categories.map((val, index) => {
+      return (
+        <option value={val.id}>{val.category}</option>
+      )
+    })
+  }
+
+  onChangeSelectCategory = (e) => {
+    this.setState({ addCategoryID: parseInt(e.target.value) })
   }
 
   onChangeSelectMaterial = (e) => {
@@ -397,6 +414,20 @@ class ProductPage extends Component {
     </Modal>
   }
 
+  renderBtPagination = () => {
+    let btPag = []
+    let countGet = 0
+    for (var i = 1; i <= this.props.allProduct.length / 5; i++) {
+      btPag.push({ get: countGet, btPage: i })
+      countGet += 5
+    }
+    return btPag.map((item) => {
+      return (
+        <MDBBtn outline color="warning" onClick={() => this.props.getProductPagination(item.get)}>{item.btPage}/{item.get}</MDBBtn>
+      )
+    })
+  }
+
   render() {
     return (
       <div style={{ marginBottom: '10%' }}>
@@ -413,14 +444,14 @@ class ProductPage extends Component {
                     <MDBTable>
                       <MDBTableHead>
                         <tr style={{ textAlign: 'center' }}>
-                          <td>#</td>
+                          {/* <td>#</td> */}
                           <td style={{ width: 230 }}>Image</td>
                           <td style={{ width: 130 }}>Name</td>
                           <td style={{ width: 150 }}>Material</td>
                           <td style={{ width: 150 }}>Stock</td>
                           <td style={{ width: 190 }}>Price</td>
                           <td>Description</td>
-                          <td style={{ width: 250 }}>Action</td>
+                          <td style={{ width: 260 }}>Action</td>
                         </tr>
                       </MDBTableHead>
                       <MDBTableBody>
@@ -428,6 +459,11 @@ class ProductPage extends Component {
                       </MDBTableBody>
                     </MDBTable>
                     <div style={{ textAlign: "center" }}>
+                      <div>
+                        <MDBBtnGroup size="sm" className="mr-2">
+                          {this.renderBtPagination()}
+                        </MDBBtnGroup>
+                      </div>
                       <button className="BtAddProduct" onClick={() => this.toggle(1)}>Add Product</button>
                     </div>
                   </MDBCardBody>
@@ -448,6 +484,14 @@ class ProductPage extends Component {
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   Product Name
                   <input type="text" className="form-control form-control-sm" placeholder="Input Name" ref='nameProduct' />
+                </FormGroup>
+                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                  Category
+                  <select className="form-control form-control-sm" value={this.state.addCategoryID}
+                    onChange={this.onChangeSelectCategory}>
+                    <option value={0}>Choose Category</option>
+                    {this.renderListCategories()}
+                  </select>
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   Material
@@ -481,5 +525,8 @@ class ProductPage extends Component {
     )
   }
 }
+const mapToProps = ({ products }) => {
+  return { ...products }
+}
 
-export default ProductPage;
+export default connect(mapToProps, { getAllProduct, getProductPagination })(ProductPage);

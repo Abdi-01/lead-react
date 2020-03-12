@@ -4,15 +4,21 @@ import Jumbotron from '../component/jumbotron'
 import Carousle from '../component/carousle'
 import DivCard from '../component/leadDivisionCard'
 import Collection from '../component/collectionPreview'
+// import { connect } from 'react-redux'
+// import { getAllProduct } from '../redux/action'
 
 class HomePage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
+    state = {
+
     }
+
+    // componentDidMount = () => {
+    //     this.props.getAllProduct('All')
+    // }
+
     render() {
         return (
-            <div style={{marginBottom:"3%"}}>
+            <div style={{ marginBottom: "3%" }}>
                 <div>
                     <div id='sides' className="col">
                         <div className="element-jumbotron " id="left" style={{ width: '55%' }} >
@@ -29,7 +35,7 @@ class HomePage extends Component {
                     <div>
                         <h2>Design, Create and Produce What You Need </h2>
                     </div>
-                    <div style={{marginTop:'5%'}}>
+                    <div style={{ marginTop: '5%' }}>
                         <DivCard></DivCard>
                     </div>
                 </div>
@@ -42,3 +48,4 @@ class HomePage extends Component {
 }
 
 export default HomePage;
+// export default connect(null, { getAllProduct })(HomePage);

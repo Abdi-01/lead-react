@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import { API_URL } from '../../support/Backend_URL';
-import { LOGIN, LOGOUT } from '../action/types'
+import { LOGIN, LOGOUT, CLEAR_USER_CART_REDUCER } from '../action/types'
 import Swal from 'sweetalert2'
 
 export const login = (username, password) => {//satu fungsi menjalankan dua reducer yang berbeda
@@ -43,11 +43,12 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
 
 export const logout = () => {
     return (dispatch) => {
-        localStorage.removeItem('status')
         localStorage.removeItem('token')
-        localStorage.removeItem('sumPrice')
         dispatch({
             type: LOGOUT
+        })
+        dispatch({
+            type: CLEAR_USER_CART_REDUCER
         })
     }
 }

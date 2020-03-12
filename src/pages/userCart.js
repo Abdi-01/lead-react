@@ -3,7 +3,9 @@ import { CustomInput, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, 
 import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge, MDBBtn, MDBIcon } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import '../assets/css/modal.css'
+import { connect } from 'react-redux'
 import Axios from 'axios'
+import { getCart } from '../redux/action'
 import { API_URL } from '../support/Backend_URL';
 import { Link } from 'react-router-dom';
 
@@ -12,43 +14,8 @@ class TransactionPage extends Component {
     userCart: []
   }
 
-  componentDidUpdate() {
-    if (this.state.userCart.length > 0) {
-      this.totalOrder(this.state.userCart)
-    }
-  }
-
-  componentDidMount() {
-    this.getCart(localStorage.getItem('token'))
-  }
-
-  getCart = (token) => {
-    Axios.get(API_URL + `/carts/getCart`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then((res) => {
-        this.setState({ userCart: res.data })
-        console.log(this.state.userCart)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  totalOrder = (qty) => {
-    let count = 0
-    if (qty.length > 0) {
-      qty.map((val) => count += val.price)
-      // console.log(count)
-      localStorage.setItem('sumPrice', count)
-    }
-  }
-
   renderData = () => {
-    let { userCart } = this.state;
-    return userCart.map((val, index) => {
+    return this.props.cartUsers.map((val, index) => {
       return (
         <MDBCard key={val.id}>
           <MDBRow>
@@ -57,7 +24,7 @@ class TransactionPage extends Component {
             </MDBCol>
             <MDBCol md='7'>
               <p className="h5" style={{ margin: 0, color: 'orange' }}>{val.name}</p>
-              <p style={{ margin: 0, color: 'dimgrey' }}>Detail : Size {val.size} (Qty : {val.qty}) </p>
+              <p style={{ margin: 0, color: 'dimgrey' }}>Detail : Size {val.size} (Qty : {val.qty} x {val.productPrice.toLocaleString()}) </p>
               <p style={{ margin: 0, color: 'gray' }}>IDR. {val.price.toLocaleString()}</p>
             </MDBCol>
             <span style={{ margin: 0, color: 'gray', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => this.deleteCart(val.id)}>x Delete</span>
@@ -72,7 +39,7 @@ class TransactionPage extends Component {
     Axios.delete(API_URL + `/carts/deleteCart/${id}`)
       .then((res) => {
         console.log(res.data)
-        this.getCart(localStorage.getItem('token'))
+        this.props.getCart()
       })
       .catch((err) => {
         console.log(err)
@@ -97,7 +64,7 @@ class TransactionPage extends Component {
                   {this.renderData()}
                 </MDBCol>
                 <MDBCol md="5">
-                  <p className="h4 font-weight-bold" style={{ color: "gray" }}>Total Price : IDR. {parseInt(localStorage.getItem('sumPrice')).toLocaleString()}</p>
+                  <p className="h4 font-weight-bold" style={{ color: "gray" }}>Total Price : IDR. {this.props.cartUsers ? parseInt(this.props.cartUsers.totalPrice).toLocaleString() : 0}</p>
                   <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     Notes :
                   <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" ref='noteOrder' />
@@ -119,4 +86,8 @@ class TransactionPage extends Component {
   }
 }
 
-export default TransactionPage;
+const mapStatetoProps = ({ cartUsers, user }) => {
+  return { ...cartUsers, user }
+}
+
+export default connect(mapStatetoProps, { getCart })(TransactionPage);

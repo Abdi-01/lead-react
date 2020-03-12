@@ -4,3 +4,24 @@
     padding: 15;
     clip-path: polygon(0 0, 100% 0%, 85% 100%, 0 100%);
   }
+.invoiceTag:hover{
+    background-color: silver;
+    color: dimgray;
+    cursor: pointer;
+    padding: 15;
+    clip-path: polygon(0 0, 100% 0%, 85% 100%, 0 100%);
+  }
+
+  .btVerifie{
+    background-color: silver;
+    color: dimgray;
+    cursor: pointer;
+    border: unset;
+  }
+
+  .btVerifie:hover{
+    background-color: dimgray;
+    color: white;
+    cursor: pointer;
+    border: unset;
+  }

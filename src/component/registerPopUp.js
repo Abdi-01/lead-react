@@ -31,8 +31,6 @@ class RegisPopUp extends React.Component {
 
     componentDidUpdate() {
         if (this.props.register.redirect) {
-            // console.log(this.props.register.redirect)
-            // this.toggle()
             window.location.reload()
         }
     }

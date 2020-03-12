@@ -3,25 +3,23 @@ import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, 
 import SideNavigation from '../component/sideNavigation'
 import '../assets/css/trackingOrder.css'
 import Axios from 'axios'
-import { getUserTransaction } from '../redux/action'
+import { getUserTransaction, getDetailTransaction } from '../redux/action'
 import { connect } from 'react-redux'
 import { API_URL } from '../support/Backend_URL';
 
 class TrackingPage extends Component {
-    // state = {
-    //     userTransaction: []
-    // }
-
-    componentDidUpdate() {
-        if (this.props.transaction) {
-            console.log(this.props.transaction)
-        }
-        // this.setState({ userTransaction: this.props.transaction })
-        // console.log(this.state.userTransaction)
+    state = {
+        modal: false
     }
 
     componentDidMount() {
         this.props.getUserTransaction()
+    }
+
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal
+        })
     }
 
     renderTrackOrder = () => {
@@ -35,13 +33,13 @@ class TrackingPage extends Component {
                             </div>
                         </MDBCol>
                         <MDBCol sm='2'>
-                            <p style={{ margin: 2,marginTop:10, padding:0, color: 'gray' }}>02 Februari 2020</p>
+                            <p style={{ margin: 2, marginTop: 10, padding: 0, color: 'gray' }}>02 Februari 2020</p>
                         </MDBCol>
                         <MDBCol sm='3'>
-                            <p style={{ margin: 2, marginTop:10,padding:0, color: 'gray' }}>Payment : IDR. {item.payment.toLocaleString()}</p>
+                            <p style={{ margin: 2, marginTop: 10, padding: 0, color: 'gray' }}>Payment : IDR. {item.payment.toLocaleString()}</p>
                         </MDBCol>
                         <MDBCol >
-                            <MDBBtn outline color="warning" size="sm" style={{padding:2,margin:10}}>
+                            <MDBBtn outline color="warning" size="sm" style={{ padding: 2, margin: 10 }}>
                                 Upload Payment
                             </MDBBtn>
                         </MDBCol>

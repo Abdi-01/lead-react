@@ -53,7 +53,7 @@ class SideNav extends Component {
                                     Cart
                                 </MDBListGroupItem>
                             </NavLink>
-                            <NavLink to="/TrackingPage" activeClassName="activeClass">
+                            <NavLink to="/OrderProgressPage" activeClassName="activeClass">
                                 <MDBListGroupItem>
                                     <MDBIcon icon="truck" className="mr-3" />
                                     Tracking Order

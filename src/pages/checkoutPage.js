@@ -5,12 +5,12 @@ import { MDBRow, MDBCol, MDBCard, MDBContainer, MDBBtn } from 'mdbreact';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios'
+import { addTransaction } from '../redux/action'
 import { API_URL } from '../support/Backend_URL';
 import Swal from 'sweetalert2'
 
 class CheckoutPage extends React.Component {
     state = {
-        userCart: [],
         listCity: [],
         addCityID: 0,
         cityName: '',
@@ -20,41 +20,24 @@ class CheckoutPage extends React.Component {
     }
 
     componentDidMount() {
-        this.getCart(localStorage.getItem('token'))
         this.getCity()
-    }
-
-    getCart = (token) => {
-        Axios.get(API_URL + `/carts/getCart`,{
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          })
-            .then((res) => {
-                this.setState({ userCart: res.data })
-                console.log(this.state.userCart)
-                this.getShippingWeight(this.state.userCart)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
     }
 
     getCity = () => {
         Axios.get(API_URL + '/ongkir/getCity')
             .then((res) => {
                 this.setState({ listCity: res.data })
-                // console.log('listCity', this.state.listCity)
+                this.getShippingWeight()
             })
             .catch((err) => {
                 console.log(err)
             })
     }
 
-    getShippingWeight = (qty) => {
+    getShippingWeight = () => {
         let weight = 0
-        if (qty.length > 0) {
-            qty.map((val) => weight += 200 * parseInt(val.qty))
+        if (this.props.cartUsers.length > 0) {
+            this.props.cartUsers.map((val) => weight += 200 * parseInt(val.qty))
             console.log('berat', weight)
             this.setState({ shippingWeight: weight })
         }
@@ -64,7 +47,7 @@ class CheckoutPage extends React.Component {
         Axios.post(API_URL + '/ongkir/shippingCost', {
             origin: "222",
             destination: `${this.state.addCityID}`,
-            weight: this.state.shippingWeight,
+            weight: parseInt(this.props.cartUsers.totalWeight),
             courier: "jne"
         })
             .then((res) => {
@@ -88,45 +71,25 @@ class CheckoutPage extends React.Component {
                 timer: 1500
             });
         } else {
-            Axios.post(API_URL + `/transactions/addToTransaction/${this.state.userCart[0].userID}`, {
-                userID: this.state.userCart[0].userID,
-                cartPrice: parseInt(localStorage.getItem('sumPrice')),
+            let formTransaction = {
+                cartPrice: parseInt(this.props.cartUsers.totalPrice),
                 shippingPrice: this.state.shippingCost,
-                payment: this.state.shippingCost + parseInt(localStorage.getItem('sumPrice')),
+                payment: this.state.shippingCost + parseInt(this.props.cartUsers.totalPrice),
                 address: `${this.refs.addressOrder.value} Phone (${this.refs.phoneOrder.value}), ${this.state.cityName}, ${this.refs.provinceOrder.value}, ${this.refs.zipOrder.value}, ${this.refs.countryOrder.value} `,
                 courier: 'JNE REGULAR',
                 note: localStorage.getItem('noteOrder') ? localStorage.getItem('noteOrder') : '',
-                username: this.props.username,
                 mva: 3302 + this.props.phone
-            })
-                .then((res) => {
-                    console.log('Payment Success')
-                    Swal.fire({
-                        text: 'Thank You, please check your email for payment ',
-                        imageUrl: require('../image/ilustration/online_payment_.png'),
-                        imageWidth: 150,
-                        imageHeight: 150,
-                        imageAlt: 'Custom image',
-                        width: 400,
-                        showConfirmButton: false,
-                        timer: 4000
-                    });
-                    this.setState({ shippingCost: 0, cityName: '', addCityID: 0, shippingWeight: 0, setProvince: '', redirect: true })
-                    localStorage.removeItem('noteOrder')
-                    localStorage.removeItem('sumPrice')
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+            }
+            this.props.addTransaction(formTransaction)
+            this.setState({ shippingCost: 0, cityName: '', addCityID: 0, setProvince: '', redirect: true })
         }
 
     }
 
     renderData = () => {
-        let { userCart } = this.state;
-        return userCart.map((val, index) => {
+        return this.props.cartUsers.map((val, index) => {
             return (
-                <MDBCard>
+                <MDBCard key={val.id}>
                     <MDBRow >
                         <MDBCol md='3'>
                             <img src={API_URL + val.imagepath} style={{ margin: '4%' }} width='100%' alt="product" />
@@ -232,11 +195,11 @@ class CheckoutPage extends React.Component {
                                 <div className="float-right" style={{ marginRight: '1%' }}>
                                     <input type="checkbox" id="yesShipping" onChange={this.checkShippinghandler}></input>
                                 </div>
-                                <h6 className="font-weight-bold" style={{ color: "orange" }}>JNE REGULAR ( 2 - 3 Days) : IDR. {this.state.shippingCost.toLocaleString()} ({this.state.shippingWeight} gram)</h6>
+                                <h6 className="font-weight-bold" style={{ color: "orange" }}>JNE REGULAR ( 2 - 3 Days) : IDR. {this.state.shippingCost.toLocaleString()} ({this.props.cartUsers.totalWeight} gram)</h6>
                             </div>
 
                             <div>
-                                <p className="h5" style={{ color: "gray" }}>Cart Price    : IDR. {parseInt(localStorage.getItem('sumPrice')).toLocaleString()}</p>
+                                <p className="h5" style={{ color: "gray" }}>Cart Price    : IDR. {parseInt(this.props.cartUsers.totalPrice).toLocaleString()}</p>
                                 <p className="h5" style={{ color: "gray" }}>Shipping Cost : IDR. {this.state.shippingCost.toLocaleString()}</p>
                             </div>
                         </MDBCol>
@@ -271,7 +234,7 @@ class CheckoutPage extends React.Component {
                                         <button className="element-AddToCart h2" style={{ height: '100%' }} onClick={this.addToTransaction}><i style={{ verticalAlign: 'middle' }} class="material-icons">payment</i> Payment</button>
                                     </div>
                                     <div style={{ backgroundColor: 'silver', color: 'white', marginLeft: '1%', width: '95%', height: '88%' }}>
-                                        <h4 className="font-weight-bold" style={{ padding: '15px 0 15px 2%', color: 'black' }}>IDR. {(this.state.shippingCost + parseInt(localStorage.getItem('sumPrice'))).toLocaleString()}</h4>
+                                        <h4 className="font-weight-bold" style={{ padding: '15px 0 15px 2%', color: 'black' }}>IDR. {(this.state.shippingCost + parseInt(this.props.cartUsers.totalPrice)).toLocaleString()}</h4>
                                     </div>
                                 </div>
                             </MDBRow>
@@ -282,10 +245,11 @@ class CheckoutPage extends React.Component {
         );
     }
 }
-const mapStatetoProps = (state) => {
+const mapStatetoProps = ({ user, cartUsers }) => {
     return {
-        username: state.user.username,
-        phone: state.user.phone
+        username: user.username,
+        phone: user.phone,
+        ...cartUsers
     }
 }
-export default connect(mapStatetoProps)(CheckoutPage);
+export default connect(mapStatetoProps, { addTransaction })(CheckoutPage);

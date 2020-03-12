@@ -3,14 +3,9 @@ import {
     MDBBadge, MDBTooltip, MDBIcon, MDBNavLink, MDBRow, MDBCol
 } from "mdbreact";
 import { connect } from 'react-redux'
-import Axios from 'axios'
+import { getCart } from '../redux/action'
 import { API_URL } from '../support/Backend_URL';
 
-const mapStatetoProps = (state) => {
-    return {
-        id: state.user.id
-    }
-}
 
 class CartNotif extends React.Component {
     state = {
@@ -19,39 +14,8 @@ class CartNotif extends React.Component {
     }
 
     componentDidUpdate() {
-        if (localStorage.getItem('token')) {
-            return this.getCartNotif(localStorage.getItem('token'))
-        }
-        if (this.state.cartNotif.length > 0) {
-            this.totalOrder(this.state.cartNotif)
-        }
-        if (!localStorage.getItem('token')) {
-            this.state.cartNotif.splice(0, this.state.cartNotif.length)
-            localStorage.removeItem('sumPrice')
-            window.location.reload()
-        }
-    }
-
-    getCartNotif = (token) => {
-        Axios.get(API_URL + `/carts/getCart`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then((res) => {
-                this.setState({ cartNotif: res.data })
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
-
-    totalOrder = (qty) => {
-        let count = 0
-        if (qty.length > 0) {
-            qty.map((val) => count += val.price)
-            console.log('total',count)
-            localStorage.setItem('sumPrice', count)
+        if (this.props.user) {
+            return this.props.getCart()
         }
     }
 
@@ -62,13 +26,13 @@ class CartNotif extends React.Component {
                     <MDBNavLink className="waves-effect waves-light" to="/CartPage" >
                         <MDBIcon className="waves-effect waves-light" icon="shopping-cart" style={{ bottom: 0, top: 10, padding: 5 }}>
                             <MDBBadge pill color="primary" className="ml-1">
-                                {this.state.cartNotif.length}
+                                {this.props.cartUsers.length}
                             </MDBBadge>
                         </MDBIcon>
                     </MDBNavLink>
                 </span>
                 <div>
-                    {this.state.cartNotif.map((item) => {
+                    {this.props.cartUsers.map((item) => {
                         return (
                             <MDBRow key={item.id} style={{ borderBottom: '3 px solid white' }}>
                                 <MDBCol sm='5'>
@@ -76,7 +40,7 @@ class CartNotif extends React.Component {
                                 </MDBCol>
                                 <MDBCol>
                                     <p style={{ margin: 0 }}>Product : {item.name}</p>
-                                    <p style={{ margin: 0 }}>Qty : {item.qty}</p>
+                                    <p style={{ margin: 0 }}>Qty : {item.qty} (x {item.productPrice.toLocaleString()})</p>
                                     <p style={{ margin: 0 }}>IDR. {item.price.toLocaleString()}</p>
                                 </MDBCol>
                             </MDBRow>
@@ -87,7 +51,7 @@ class CartNotif extends React.Component {
                             <p>Your Cost:</p>
                         </MDBCol>
                         <MDBCol>
-                            <p style={{ margin: 0 }}>IDR. {localStorage.getItem('sumPrice') ? parseInt(localStorage.getItem('sumPrice')).toLocaleString() : 0}</p>
+                            <p style={{ margin: 0 }}>IDR. {this.props.cartUsers.length > 0 ? parseInt(this.props.cartUsers.totalPrice).toLocaleString() : 0}</p>
                         </MDBCol>
                     </MDBRow>
                 </div>
@@ -95,4 +59,9 @@ class CartNotif extends React.Component {
         );
     }
 }
-export default connect(mapStatetoProps)(CartNotif);
+
+const mapStatetoProps = ({ cartUsers, user }) => {
+    return { ...cartUsers, user }
+}
+
+export default connect(mapStatetoProps, { getCart })(CartNotif);

@@ -1,4 +1,4 @@
-import {LOGIN,LOGOUT} from '../action/types'
+import { LOGIN, LOGOUT } from '../action/types'
 
 const INITIAL_STATE = {
     id: 0,

@@ -46,7 +46,7 @@ class UserDropdown extends Component {
                         <>
                             <MDBDropdownItem>
                                 <i className="fas fa-truck" />
-                                <Link to='/TrackingPage'>
+                                <Link to='/OrderProgressPage'>
                                     Track Order
                             </Link>
                             </MDBDropdownItem>
@@ -79,4 +79,4 @@ const mapStatetoProps = (state) => {
     }
 }
 
-export default connect(mapStatetoProps, { logout })(UserDropdown)
+export default connect(mapStatetoProps, { logout})(UserDropdown)

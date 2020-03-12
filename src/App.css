@@ -37,6 +37,11 @@
   }
 }
 
+.pagination{
+  text-align: center;
+  width: 500;
+}
+
 /* MDBInput border */
 .formBorder{
   border: 1px solid gray;

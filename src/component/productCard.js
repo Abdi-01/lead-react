@@ -1,30 +1,28 @@
 import React, { Component } from 'react';
 import '../assets/css/card.css'
 import { MDBIcon, MDBCol, MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardFooter, MDBTooltip } from "mdbreact";
-import Axios from 'axios'
 import { Link } from 'react-router-dom'
 import { API_URL } from '../support/Backend_URL'
+import { connect } from 'react-redux'
+import { getAllProduct } from '../redux/action'
 
 class ProductCard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: []
-        }
-    }
 
     componentDidMount = () => {
-        Axios.get(API_URL + `/products/getproducts`)
-            .then((res) => {
-                this.setState({ data: res.data })
-            })
-            .catch((err) => console.log(err))
+        console.log('CP', this.props.children)
+        this.props.getAllProduct(this.props.children)
+    }
+
+    componentDidUpdate() {
+        if (this.props.children) {
+            this.props.getAllProduct(this.props.children)
+        }
     }
 
     render() {
         return (
             <div className="row">
-                {this.state.data.map((val, index) =>
+                {this.props.allProduct.map((val, index) =>
                     <MDBCol lg="3" md="12" style={{ marginTop: "2%" }} className="mb-lg-0 mb-4" key={val.id}>
                         <Link to={`/ProductDetail?id=${val.id}`}>
                             <MDBCard wide ecommerce>
@@ -72,4 +70,8 @@ class ProductCard extends Component {
     }
 }
 
-export default ProductCard;
+const mapToProps = ({ products }) => {
+    return { ...products }
+}
+
+export default connect(mapToProps, { getAllProduct })(ProductCard);

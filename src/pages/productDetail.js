@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { API_URL } from '../support/Backend_URL';
-import Axios from 'axios'
 import { MDBRow, MDBCol, MDBTooltip } from 'mdbreact';
-import '../assets/css/productDetail.css'
 import { Redirect } from 'react-router-dom';
+import Axios from 'axios'
+import { API_URL } from '../support/Backend_URL';
+import { connect } from 'react-redux'
+import { getCart } from '../redux/action'
+import '../assets/css/productDetail.css'
+
+import SizeCart from '../component/sizeCart'
 
 class ProductDetail extends Component {
     state = {
@@ -55,7 +58,7 @@ class ProductDetail extends Component {
             document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
             document.getElementById(`size${e.target.value}`).disabled = true
             if (qty !== null) {
-                orderOption.push([this.props.id,
+                orderOption.push([this.props.user.id,
                 parseInt(this.props.location.search.split('=')[1]),
                 parseInt(e.target.value),
                 parseInt(qty),
@@ -68,7 +71,8 @@ class ProductDetail extends Component {
 
     inQtyhandler = (e) => {
         console.log('check size', e.target.value)
-        let size = document.getElementById(`size${document.getElementById(`size${e.target.name}`).value}`)
+        console.log('check size', e.target.name)
+        let size = document.getElementById(`size${e.target.name}`)
         console.log('size', size)
         e.target.value > 0 ? size.disabled = false : size.disabled = true
     }
@@ -76,15 +80,15 @@ class ProductDetail extends Component {
     renderOrder = () => {
         return this.state.stockDetail.map((val, index) => {
             return (
-                <MDBCol sm="3" key={val.sizeID} style={{ padding: 0 }}>
+                <MDBCol key={val.id} sm="3" key={val.sizeID} style={{ padding: 0 }}>
                     <div className="input-group" style={{ height: '2%' }}>
                         <div className="input-group-prepend">
                             <div className="input-group-text" style={{ paddingLeft: 0 }}>
-                                <input type="checkbox" id={`size${val.sizeID}`} onChange={this.checkSizehandler} style={{ padding: 0 }} disabled aria-label="Checkbox for following text input" value={val.sizeID} />&nbsp;
+                                <input type="checkbox" id={`size${val.stock}`} onChange={this.checkSizehandler} style={{ padding: 0 }} disabled aria-label="Checkbox for following text input" value={val.stock} />&nbsp;
                                                     {val.size}
                             </div>
                         </div>
-                        <input type="text" id={`qty${val.sizeID}`} onChange={this.inQtyhandler} name={val.sizeID} className="form-control" aria-label="Text input with checkbox" />
+                        <input type="text" id={`qty${val.stock}`} onChange={this.inQtyhandler} name={val.stock} className="form-control" aria-label="Text input with checkbox" />
                     </div>
                 </MDBCol>
             )
@@ -117,8 +121,9 @@ class ProductDetail extends Component {
             Axios.post(API_URL + `/carts/addToCart`, {
                 order: this.state.orderOption
             })
-            .then((res) => {
+                .then((res) => {
                     console.log('Success Add To Cart')
+                    this.props.getCart()
                     this.setState({ redirect: true })
                 })
                 .catch((err) => {
@@ -162,9 +167,10 @@ class ProductDetail extends Component {
                                 <MDBCol sm="8">
                                     <p style={{ margin: 0, padding: 0, height: '30%' }} className="font-small grey-text d-flex">
                                         Ready :
-                                    <p className="dark-grey-text font-weight-bold ml-1">
+                                        <p className="dark-grey-text font-weight-bold ml-1">
                                             {this.state.totalStock}
                                         </p>
+                                        <SizeCart></SizeCart>
                                     </p>
                                     <MDBRow style={{ paddingLeft: '13px' }}>{this.renderOrder()}
                                         <MDBTooltip domElement placement="top">
@@ -198,11 +204,8 @@ class ProductDetail extends Component {
     }
 }
 
-const mapStatetoProps = (state) => {
-    return {
-        id: state.user.id,
-        username: state.user.username,
-        role: state.user.role
-    }
+const mapStatetoProps = ({ cartUsers, user }) => {
+    return { cartUsers, user }
 }
-export default connect(mapStatetoProps)(ProductDetail);
+
+export default connect(mapStatetoProps, { getCart })(ProductDetail);

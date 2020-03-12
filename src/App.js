@@ -14,13 +14,14 @@ import LeadSquad from './pages/info/leadsquad'
 import ProductDetail from './pages/productDetail'
 import CartPage from './pages/userCart'
 import TrackingPage from './pages/trackingPage'
-import OrderProgressPage from './pages/orderProgressAdmin'
+import OrderProgressPage from './pages/orderProgress'
 import HistoryPage from './pages/historyPage'
 import CheckoutPage from './pages/checkoutPage'
 import CustomOrder from './pages/customOrder'
 import SizeCart from './pages/info/sizeCart'
 import PrivacyFaq from './pages/info/privacyFAQ'
 import ResultPage from './pages/resultPage'
+import Paggination from './pages/paggination'
 import ProfilePage from './pages/ProfilePage';//adminpage
 import ProductPage from './pages/ProductPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -59,10 +60,11 @@ class App extends Component {
           <Route path='/ProfilePage' component={ProfilePage} />
           <Route path='/CheckoutPage' component={CheckoutPage} />
           <Route path='/verification' component={VerificationPage} />
+          <Route path='/OrderProgressPage' component={OrderProgressPage} />
+          <Route path='/paggination' component={Paggination} />
           {this.props.role === "admin"
             ?<div>
               <Route path='/ProductPage' component={ProductPage} />
-              <Route path='/OrderProgressPage' component={OrderProgressPage} />
               <Route path='/ResultPage' component={ResultPage} />
             </div>
             :
