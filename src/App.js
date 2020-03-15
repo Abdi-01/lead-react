@@ -13,11 +13,12 @@ import AboutPage from './pages/info/aboutCompany'
 import LeadSquad from './pages/info/leadsquad'
 import ProductDetail from './pages/productDetail'
 import CartPage from './pages/userCart'
-import TrackingPage from './pages/trackingPage'
 import OrderProgressPage from './pages/orderProgress'
 import HistoryPage from './pages/historyPage'
 import CheckoutPage from './pages/checkoutPage'
+import CheckoutCustomPage from './pages/checkoutCustomOrder'
 import CustomOrder from './pages/customOrder'
+import CustomDesign from './pages/customDesign'
 import SizeCart from './pages/info/sizeCart'
 import PrivacyFaq from './pages/info/privacyFAQ'
 import ResultPage from './pages/resultPage'
@@ -53,12 +54,14 @@ class App extends Component {
           <Route path='/Collection' component={Collection}></Route>
           <Route path='/AboutPage' component={AboutPage}></Route>
           <Route path='/CustomOrder' component={CustomOrder}></Route>
+          <Route path='/CustomDesign' component={CustomDesign}></Route>
           <Route path='/LeadSquad' component={LeadSquad}></Route>
           <Route path='/SizeCart' component={SizeCart}></Route>
           <Route path='/PrivacyFAQ' component={PrivacyFaq}></Route>
           <Route path='/ProductDetail' component={ProductDetail}></Route>
           <Route path='/ProfilePage' component={ProfilePage} />
           <Route path='/CheckoutPage' component={CheckoutPage} />
+          <Route path='/CheckoutCustomPage' component={CheckoutCustomPage} />
           <Route path='/verification' component={VerificationPage} />
           <Route path='/OrderProgressPage' component={OrderProgressPage} />
           <Route path='/paggination' component={Paggination} />
@@ -70,7 +73,6 @@ class App extends Component {
             :
             <div>
               <Route path='/CartPage' component={CartPage} />
-              <Route path='/TrackingPage' component={TrackingPage} />
               <Route path='/HistoryPage' component={HistoryPage} />
             </div>
           }

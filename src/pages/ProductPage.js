@@ -9,22 +9,22 @@ import '../assets/css/modal.css'
 import Axios from 'axios'
 import { API_URL } from '../support/Backend_URL';
 import { connect } from 'react-redux'
-import { getAllProduct, getProductPagination } from '../redux/action'
+import { getAllProduct, getProductPagination, getSizes,
+  getMaterials,getStock,getCategories } from '../redux/action'
 // import { Link } from 'react-router-dom'
 
 class ProductPage extends Component {
   state = {
     addImageFileName: 'Select File',
     addImageFile: undefined,
-    size: [],
     sizeQty: [],
-    stock: [],
-    categories: [],
-    material: [],
+    sizeEditQty: [],
     modal: false,
     editModal: false,
     sizeModal: false,
-    selectedId: null
+    editSizeModal: false,
+    selectedId: null,
+    editStock: true
   }
   toggle = (a) => {
     if (a === 1) {
@@ -43,56 +43,20 @@ class ProductPage extends Component {
         sizeModal: !this.state.sizeModal
       });
     }
+    else if (a === 4) {
+      // console.log(a)
+      this.setState({
+        editSizeModal: !this.state.editSizeModal
+      });
+    }
   }
   componentDidMount() {
     this.props.getAllProduct('All')
     this.props.getProductPagination(0)
-    this.getSizes()
-    this.getMaterials()
-    this.getStock()
-    this.getCategories()
-  }
-
-  getSizes = () => {
-    Axios.get(API_URL + '/products/getSize')
-      .then((res) => {
-        this.setState({ size: res.data })
-        console.log(this.state.size)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  getMaterials = () => {
-    Axios.get(API_URL + '/products/getMaterial')
-      .then((res) => {
-        this.setState({ material: res.data })
-        console.log('material', this.state.material)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  getStock = () => {
-    Axios.get(API_URL + '/products/getStock')
-      .then((res) => {
-        this.setState({ stock: res.data })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  getCategories = () => {
-    Axios.get(API_URL + '/products/getCategories')
-      .then((res) => {
-        this.setState({ categories: res.data })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this.props.getSizes()
+    this.props.getMaterials()
+    this.props.getStock()
+    this.props.getCategories()
   }
 
   editData = (id) => {
@@ -183,18 +147,19 @@ class ProductPage extends Component {
   }
 
   renderSize = (id, name) => {
-    if (this.state.stock.some(item => item.id === id)) {
-      return this.state.stock.map((item, index) => {
-        if (item.id === id) {
-          return (
-            <MDBBadge color="light"> {item.size} = {item.stock}</MDBBadge>
-          )
-        }
-        else {
-          return null
-        }
-
-      })
+    if (this.props.stocks.some(item => item.id === id)) { //jika ada item.id stock yang sama dengan id maka akan execute
+      console.log(this.props.stocks.some(item => item.id === id))
+      return <div style={{}}>
+        {this.props.stocks.map((item, index) => {
+          if (item.id === id) {
+            return (
+              <MDBBadge color="light"> {item.size} = {item.stock}</MDBBadge>
+            )
+          }
+        })}
+        <button onClick={() => this.editStock(id)}>Edit</button>
+        {this.state.selectedId === id ? this.renderEditSize(id) : null}
+      </div>
     }
     else {
       return (
@@ -202,11 +167,113 @@ class ProductPage extends Component {
           <div style={{ textAlign: "center" }}>
             <button className="BtAddStock" onClick={() => this.addStock(id)}>Add Stock</button>
           </div>
-          {/* <button className="btn btn-danger btn-sm" onClick={() => this.addStock(id)}>Add Stock</button> */}
+
           {this.state.selectedId === id ? this.renderAddSize(id, name) : null}
         </>
       )
     }
+  }
+
+  addStock = (id) => {
+    console.log(id)
+    this.setState({ selectedId: id })
+    this.toggle(3);
+  }
+  editStock = (id) => {
+    // console.log(id)
+    this.setState({ selectedId: id })
+    this.toggle(4);
+    // this.getStockDetail(id)
+  }
+
+  renderAddSize = (id, name) => {
+    return <Modal contentClassName="modalBG" isOpen={this.state.sizeModal} toggle={() => this.toggle(3)}>
+      <div className="text-center headerModalBG">
+        <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Add Stock</h4>
+      </div>
+      <ModalBody >
+        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+          <MDBFormInline>
+            {this.props.sizes.map((val, index) => {
+              return (
+                <MDBCol lg="4" md="12" className="mb-lg-0 mb-4" key={val.id}>
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
+                        <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
+                                {val.size}&nbsp;
+                          </div>
+                    </div>
+                    <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" />
+                  </div>
+                </MDBCol>
+              )
+            })
+            }
+          </MDBFormInline>
+        </FormGroup>
+        <span onClick={this.resetOrder}>
+          <p style={{ padding: 5, marginBottom: 0 }}>Reset Stock &nbsp;
+            <i style={{ verticalAlign: 'middle', cursor: 'pointer' }} class="material-icons">settings_backup_restore</i>
+          </p>
+        </span>
+      </ModalBody>
+      <div id="sidesModal">
+        <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.toggle(3)}>Cancel</button>
+        <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.submitStock(id)}>Submit</button>
+      </div>
+    </Modal>
+  }
+
+  renderEditSize = (id, name) => {
+    // return this.props.stocks.map((data) => {
+    //   if (this.state.selectedId === data.productID) {
+    return (<Modal contentClassName="modalBG" isOpen={this.state.editSizeModal} toggle={() => this.toggle(4)}>
+      <div className="text-center headerModalBG">
+        <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Add Stock</h4>
+      </div>
+      <ModalBody >
+        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+          <MDBFormInline>
+            {this.props.sizes.map((val, index) => {
+              return (
+                <MDBCol lg="4" md="12" className="mb-lg-0 mb-4" key={val.id}>
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
+                        <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
+                                {val.size}&nbsp;
+                          </div>
+                    </div>
+                    {
+                      this.props.stocks.some(item => item.id === id && val.size === item.size) ?
+                        this.props.stocks.map((data) => {
+                          if (id === data.id && val.size === data.size) {
+                            return <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" defaultValue={data.stock} />
+                          }
+                        })
+                        :
+                        <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" />
+                    }
+                  </div>
+                </MDBCol>
+              )
+            })
+            }
+          </MDBFormInline>
+        </FormGroup>
+        <span onClick={this.resetOrder}>
+          <p style={{ padding: 5, marginBottom: 0 }}>Reset Stock &nbsp;
+            <i style={{ verticalAlign: 'middle', cursor: 'pointer' }} className="material-icons">settings_backup_restore</i>
+          </p>
+        </span>
+      </ModalBody>
+      <div id="sidesModal">
+        <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.toggle(4)}>Cancel</button>
+        <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.submitStock(id)}>Submit</button>
+      </div>
+    </Modal>
+    )
   }
 
   yesEdit = (id) => {
@@ -240,7 +307,7 @@ class ProductPage extends Component {
       .then((res) => {
         console.log(res.data)
         this.setState({ addImageFileName: 'Select Image', addImageFile: undefined, selectedId: null })
-        this.getProducts()
+        this.props.getAllProduct('All')
       })
       .catch((err) => {
         console.log(err)
@@ -250,7 +317,7 @@ class ProductPage extends Component {
 
   noEdit = () => {
     this.setState({ selectedId: null })
-    this.getProducts()//update data
+    this.props.getAllProduct('All')//update data
   }
   submitData = () => {
     let { addImageFile } = this.state;
@@ -271,7 +338,7 @@ class ProductPage extends Component {
           console.log(res.data)
           this.setState({ addImageFileName: 'Select Image', addImageFile: undefined })
           this.toggle(1)
-          this.getProducts()
+          this.props.getAllProduct('All')
         })
         .catch((err) => {
           console.log(err)
@@ -285,8 +352,9 @@ class ProductPage extends Component {
     })
       .then((resQty) => {
         console.log(resQty.data)
+        this.setState({ editStock: false, selectedId: null })
         this.toggle(3)
-        this.getStock()
+        this.props.getStock()
       })
   }
 
@@ -306,7 +374,7 @@ class ProductPage extends Component {
     Axios.delete(API_URL + `/products/delete?idproduct=${id}&imagepath=${imagepath}`)
       .then((res) => {
         console.log(res.data)
-        this.getProducts()
+        this.props.getAllProduct('All')
       })
       .catch((err) => {
         console.log(err)
@@ -314,14 +382,14 @@ class ProductPage extends Component {
   }
 
   renderListMaterial = () => {
-    return this.state.material.map((val, index) => {
+    return this.props.materials.map((val, index) => {
       return (
         <option value={val.id}>{val.material}</option>
       )
     })
   }
   renderListCategories = () => {
-    return this.state.categories.map((val, index) => {
+    return this.props.categories.map((val, index) => {
       return (
         <option value={val.id}>{val.category}</option>
       )
@@ -352,6 +420,21 @@ class ProductPage extends Component {
     }
   }
 
+  // checkSizeEdithandler = (e) => {
+  //   let { sizeQty } = this.state
+  //   let qty = document.getElementById(`qty${e.target.value}`).value
+  //   if (!e.target.checked) {
+  //     document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
+  //   } else if (e.target.checked) {
+  //     document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
+  //     document.getElementById(`size${e.target.value}`).disabled = true
+  //     if (qty !== null) {
+  //       sizeQty.push([parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
+  //       console.log(sizeQty)
+  //     }
+  //   }
+  // }
+
   inQtyhandler = (e) => {
     console.log('check size', e.target.value)
     let size = document.getElementById(`size${document.getElementById(`size${e.target.name}`).value}`)
@@ -362,56 +445,10 @@ class ProductPage extends Component {
   resetOrder = () => {
     this.setState({ sizeQty: [] })
     console.log(this.state.orderOption)
-    this.state.size.forEach((val) => {
+    this.props.sizes.forEach((val) => {
       document.getElementById(`size${val.id}`).checked = false
       document.getElementById(`qty${val.id}`).disabled = false
     })
-  }
-
-  addStock = (id) => {
-    console.log(id)
-    this.setState({ selectedId: id })
-    console.log(this.state.selectedId)
-    this.toggle(3);
-  }
-
-  renderAddSize = (id, name) => {
-    return <Modal contentClassName="modalBG" isOpen={this.state.sizeModal} toggle={() => this.toggle(3)}>
-      <div className="text-center headerModalBG">
-        <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Add Stock</h4>
-      </div>
-      <ModalBody >
-        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-          <MDBFormInline>
-            {this.state.size.map((val, index) => {
-              return (
-                <MDBCol lg="4" md="12" className="mb-lg-0 mb-4" key={val.id}>
-                  <div className="input-group mb-3">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
-                        <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
-                          {val.size}&nbsp;
-                        </div>
-                    </div>
-                    <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" />
-                  </div>
-                </MDBCol>
-              )
-            })
-            }
-          </MDBFormInline>
-        </FormGroup>
-        <span onClick={this.resetOrder}>
-          <p style={{ padding: 5, marginBottom: 0 }}>Reset Stock &nbsp;
-            <i style={{ verticalAlign: 'middle', cursor: 'pointer' }} class="material-icons">settings_backup_restore</i>
-          </p>
-        </span>
-      </ModalBody>
-      <div id="sidesModal">
-        <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.toggle(3)}>Cancel</button>
-        <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.submitStock(id)}>Submit</button>
-      </div>
-    </Modal>
   }
 
   renderBtPagination = () => {
@@ -423,7 +460,7 @@ class ProductPage extends Component {
     }
     return btPag.map((item) => {
       return (
-        <MDBBtn outline color="warning" onClick={() => this.props.getProductPagination(item.get)}>{item.btPage}/{item.get}</MDBBtn>
+        <MDBBtn outline color="warning" onClick={() => this.props.getProductPagination(item.get)}>{item.btPage}</MDBBtn>
       )
     })
   }
@@ -529,4 +566,4 @@ const mapToProps = ({ products }) => {
   return { ...products }
 }
 
-export default connect(mapToProps, { getAllProduct, getProductPagination })(ProductPage);
+export default connect(mapToProps, { getAllProduct, getProductPagination, getSizes,getMaterials,getStock,getCategories })(ProductPage);

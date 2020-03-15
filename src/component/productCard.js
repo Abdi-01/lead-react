@@ -23,7 +23,7 @@ class ProductCard extends Component {
         return (
             <div className="row">
                 {this.props.allProduct.map((val, index) =>
-                    <MDBCol lg="3" md="12" style={{ marginTop: "2%" }} className="mb-lg-0 mb-4" key={val.id}>
+                    <MDBCol lg="3" style={{ marginTop: "2%" }}  key={val.id}>
                         <Link to={`/ProductDetail?id=${val.id}`}>
                             <MDBCard wide ecommerce>
                                 <MDBCardImage

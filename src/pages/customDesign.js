@@ -9,7 +9,7 @@ import { MDBListGroup, MDBListGroupItem, MDBBtn } from 'mdbreact';
 import { CustomInput } from 'reactstrap';
 // import SideNavCustom from '../component/sideNavCustom'
 
-class CustomOrder extends React.Component {
+class CustomDesign extends React.Component {
   state = {
     Category: null,
     Clothing: templateWhite
@@ -114,4 +114,4 @@ class CustomOrder extends React.Component {
   }
 }
 
-export default CustomOrder;
+export default CustomDesign;

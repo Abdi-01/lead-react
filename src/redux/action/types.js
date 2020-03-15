@@ -5,10 +5,15 @@ export const LOGOUT = 'LOGOUT'
 //action.type transaction.js
 export const USER_GET_TRANSACTION = 'USER_GET_TRANSACTION'
 export const GET_DETAIL_TRANSACTION = 'GET_DETAIL_TRANSACTION'
+export const GET_CUSTOM_DETAIL_TRANSACTION = 'GET_CUSTOM_DETAIL_TRANSACTION'
 
 //action.type product
 export const GET_ALL_PRODUCT = 'GET_ALL_PRODUCT'
 export const GET_PRODUCT_PAGINATION = 'GET_PRODUCT_PAGINATION'
+export const GET_SIZES = 'GET_SIZES'
+export const GET_MATERIALS = 'GET_MATERIALS'
+export const GET_STOCK = 'GET_STOCK'
+export const GET_CATEGORIES = 'GET_CATEGORIES'
 
 //action.type registerReducer dan action.js
 export const REGIS_USER = 'REGIS_USER'

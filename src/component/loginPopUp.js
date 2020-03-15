@@ -47,7 +47,6 @@ class LoginPopUp extends React.Component {
         }
     }
     render() {
-
         return (
             <div style={{ marginRight: 10 }}>
                 <div id="leftLogin">

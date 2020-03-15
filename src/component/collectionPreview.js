@@ -1,416 +1,87 @@
-import React from "react";
-import { MDBRow, MDBCol, MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardFooter, MDBTooltip, MDBCarousel, MDBCarouselInner, MDBCarouselItem } from "mdbreact";
+import React, { Component } from 'react';
+import '../assets/css/card.css'
+import { MDBIcon, MDBCol, MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardFooter, MDBTooltip } from "mdbreact";
+import { Link } from 'react-router-dom'
+import Axios from 'axios'
+import { API_URL } from '../support/Backend_URL';
 
-const EcommercePage = () => {
-    return (
-        <section className="text-center  my-5">
-            <h2 className="h1-responsive font-weight-bold text-center my-5">
-                Our bestsellers
-      </h2>
-            <p className="grey-text text-center w-responsive mx-auto mb-5">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit,
-                error amet numquam iure provident voluptate esse quasi, veritatis
-                totam voluptas nostrum quisquam eum porro a pariatur veniam.
-      </p>
-            <MDBCarousel
-                activeItem={1}
-                length={3}
-                slide={true}
-                showControls={true}
-                showIndicators={false}
-                multiItem
-            >
-                <MDBCarouselInner>
-                    <MDBCarouselItem itemId="1">
-                        <MDBRow>
-                            <MDBCol md="4">
-                                <MDBCard narrow ecommerce className="mb-2">
-                                    <MDBCardImage
-                                        cascade
-                                        top
-                                        src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(39).jpg"
-                                        alt="sample photo"
-                                    />
-                                    <MDBCardBody cascade>
-                                        <a href="#!" className="text-muted">
-                                            <h5>Shoes</h5>
-                                        </a>
-                                        <MDBCardTitle>
-                                            <strong>
-                                                <a href="#!">Leather boots</a>
-                                            </strong>
-                                        </MDBCardTitle>
-                                        <MDBCardText>
-                                            Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                            sit amet, consectetur, adipisci.
-                                        </MDBCardText>
-                                        <span className="float-left">69$</span>
-                                        <span className="float-right">
-                                            </span>
-                                        <MDBCardFooter>
-                                                
-                                        </MDBCardFooter>
-                                    </MDBCardBody>
-                                </MDBCard>
-                            </MDBCol>
-                            <MDBCol md="4" className="clearfix d-none d-md-block">
-                                <MDBCard narrow ecommerce className="mb-2">
-                                    <MDBCardImage
-                                        cascade
-                                        top
-                                        src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(22).jpg"
-                                        alt="sample photo"
-                                    />
-                                    <MDBCardBody cascade>
-                                        <a href="#!" className="text-muted">
-                                            <h5>Jeans</h5>
-                                        </a>
-                                        <MDBCardTitle>
-                                            <strong>
-                                                <a href="#!">Slim jeans</a>
-                                            </strong>
-                                        </MDBCardTitle>
-                                        <MDBCardText>
-                                            Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                            sit amet, consectetur, adipisci.
-                                        </MDBCardText>
-                                        <MDBCardFooter>
-                                            <span className="float-left">99$</span>
-                                            <span className="float-right">
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-eye grey-text ml-3"
-                                                    tooltipContent="Quick look"
-                                                />
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-heart grey-text ml-3"
-                                                    tooltipContent="Add to watchlist"
-                                                />
-                                            </span>
-                                        </MDBCardFooter>
-                                    </MDBCardBody>
-                                </MDBCard>
-                            </MDBCol>
-                            <MDBCol md="4" className="clearfix d-none d-md-block">
-                                <MDBCard narrow ecommerce className="mb-2">
-                                    <MDBCardImage
-                                        cascade
-                                        top
-                                        src="https://mdbootstrap.com/img/Photos/Others/img%20(31).jpg"
-                                        alt="sample photo"
-                                    />
-                                    <MDBCardBody cascade>
-                                        <a href="#!" className="text-muted">
-                                            <h5>Shorts</h5>
-                                        </a>
-                                        <MDBCardTitle>
-                                            <strong>
-                                                <a href="#!">Denim shorts</a>
-                                            </strong>
-                                        </MDBCardTitle>
-                                        <MDBCardText>
-                                            Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                            sit amet, consectetur, adipisci.
-                                        </MDBCardText>
-                                        <MDBCardFooter className="px-1">
-                                            <span className="float-left">49$</span>
-                                            <span className="float-right">
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-eye grey-text ml-3"
-                                                    tooltipContent="Quick look"
-                                                />
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-heart grey-text ml-3"
-                                                    tooltipContent="Add to watchlist"
-                                                />
-                                            </span>
-                                        </MDBCardFooter>
-                                    </MDBCardBody>
-                                </MDBCard>
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBCarouselItem>
-                    <MDBCarouselItem itemId="2">
-                        <MDBRow>
-                            <MDBCol md="4">
-                                <MDBCard narrow ecommerce className="mb-2">
-                                    <MDBCardImage
-                                        cascade
-                                        top
-                                        src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(30).jpg"
-                                        alt="sample photo"
-                                    />
-                                    <MDBCardBody cascade>
-                                        <a href="#!" className="text-muted">
-                                            <h5>Shoes</h5>
-                                        </a>
-                                        <MDBCardTitle>
-                                            <strong>
-                                                <a href="#!">Leather boots</a>
-                                            </strong>
-                                        </MDBCardTitle>
-                                        <MDBCardText>
-                                            Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                            sit amet, consectetur, adipisci.
-                                        </MDBCardText>
-                                        <MDBCardFooter className="px-1">
-                                            <span className="float-left">69$</span>
-                                            <span className="float-right">
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-eye grey-text ml-3"
-                                                    tooltipContent="Quick look"
-                                                />
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-heart grey-text ml-3"
-                                                    tooltipContent="Add to watchlist"
-                                                />
-                                            </span>
-                                        </MDBCardFooter>
-                                    </MDBCardBody>
-                                </MDBCard>
-                            </MDBCol>
-                            <MDBCol md="4" className="clearfix d-none d-md-block">
-                                <MDBCard narrow ecommerce className="mb-2">
-                                    <MDBCardImage
-                                        cascade
-                                        top
-                                        src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(37).jpg"
-                                        alt="sample photo"
-                                    />
-                                    <MDBCardBody cascade>
-                                        <a href="#!" className="text-muted">
-                                            <h5>Jeans</h5>
-                                        </a>
-                                        <MDBCardTitle>
-                                            <strong>
-                                                <a href="#!">Slim jeans</a>
-                                            </strong>
-                                        </MDBCardTitle>
-                                        <MDBCardText>
-                                            Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                            sit amet, consectetur, adipisci.
-                                        </MDBCardText>
-                                        <MDBCardFooter className="px-1">
-                                            <span className="float-left">99$</span>
-                                            <span className="float-right">
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-eye grey-text ml-3"
-                                                    tooltipContent="Quick look"
-                                                />
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-heart grey-text ml-3"
-                                                    tooltipContent="Add to watchlist"
-                                                />
-                                            </span>
-                                        </MDBCardFooter>
-                                    </MDBCardBody>
-                                </MDBCard>
-                            </MDBCol>
-                            <MDBCol md="4" className="clearfix d-none d-md-block">
-                                <MDBCard narrow ecommerce className="mb-2">
-                                    <MDBCardImage
-                                        cascade
-                                        top
-                                        src="https://mdbootstrap.com/img/Photos/Others/img%20(35).jpg"
-                                        alt="sample photo"
-                                    />
-                                    <MDBCardBody cascade>
-                                        <a href="#!" className="text-muted">
-                                            <h5>Shorts</h5>
-                                        </a>
-                                        <MDBCardTitle>
-                                            <strong>
-                                                <a href="#!">Denim shorts</a>
-                                            </strong>
-                                        </MDBCardTitle>
-                                        <MDBCardText>
-                                            Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                            sit amet, consectetur, adipisci.
-                                        </MDBCardText>
-                                        <MDBCardFooter className="px-1">
-                                            <span className="float-left">49$</span>
-                                            <span className="float-right">
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-eye grey-text ml-3"
-                                                    tooltipContent="Quick look"
-                                                />
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-heart grey-text ml-3"
-                                                    tooltipContent="Add to watchlist"
-                                                />
-                                            </span>
-                                        </MDBCardFooter>
-                                    </MDBCardBody>
-                                </MDBCard>
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBCarouselItem>
-                    <MDBCarouselItem itemId="3">
-                        <MDBRow>
-                            <MDBCol md="4">
-                                <MDBCard narrow ecommerce className="mb-2">
-                                    <MDBCardImage
-                                        cascade
-                                        top
-                                        src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(32).jpg"
-                                        alt="sample photo"
-                                    />
-                                    <MDBCardBody cascade>
-                                        <a href="#!" className="text-muted">
-                                            <h5>Shoes</h5>
-                                        </a>
-                                        <MDBCardTitle>
-                                            <strong>
-                                                <a href="#!">Leather boots</a>
-                                            </strong>
-                                        </MDBCardTitle>
-                                        <MDBCardText>
-                                            Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                            sit amet, consectetur, adipisci.
-                                        </MDBCardText>
-                                        <MDBCardFooter className="px-1">
-                                            <span className="float-left">69$</span>
-                                            <span className="float-right">
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-eye grey-text ml-3"
-                                                    tooltipContent="Quick look"
-                                                />
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-heart grey-text ml-3"
-                                                    tooltipContent="Add to watchlist"
-                                                />
-                                            </span>
-                                        </MDBCardFooter>
-                                    </MDBCardBody>
-                                </MDBCard>
-                            </MDBCol>
-                            <MDBCol md="4" className="clearfix d-none d-md-block">
-                                <MDBCard narrow ecommerce className="mb-2">
-                                    <MDBCardImage
-                                        cascade
-                                        top
-                                        src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/img%20(33).jpg"
-                                        alt="sample photo"
-                                    />
-                                    <MDBCardBody cascade>
-                                        <a href="#!" className="text-muted">
-                                            <h5>Jeans</h5>
-                                        </a>
-                                        <MDBCardTitle>
-                                            <strong>
-                                                <a href="#!">Slim jeans</a>
-                                            </strong>
-                                        </MDBCardTitle>
-                                        <MDBCardText>
-                                            Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                            sit amet, consectetur, adipisci.
-                                        </MDBCardText>
-                                        <MDBCardFooter className="px-1">
-                                            <span className="float-left">99$</span>
-                                            <span className="float-right">
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-eye grey-text ml-3"
-                                                    tooltipContent="Quick look"
-                                                />
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-heart grey-text ml-3"
-                                                    tooltipContent="Add to watchlist"
-                                                />
-                                            </span>
-                                        </MDBCardFooter>
-                                    </MDBCardBody>
-                                </MDBCard>
-                            </MDBCol>
-                            <MDBCol md="4" className="clearfix d-none d-md-block">
-                                <MDBCard narrow ecommerce className="mb-2">
-                                    <MDBCardImage
-                                        cascade
-                                        top
-                                        src="https://mdbootstrap.com/img/Photos/Others/img%20(38).jpg"
-                                        alt="sample photo"
-                                    />
-                                    <MDBCardBody cascade>
-                                        <a href="#!" className="text-muted">
-                                            <h5>Shorts</h5>
-                                        </a>
-                                        <MDBCardTitle>
-                                            <strong>
-                                                <a href="#!">Denim shorts</a>
-                                            </strong>
-                                        </MDBCardTitle>
-                                        <MDBCardText>
-                                            Neque porro quisquam est, qui dolorem ipsum quia dolor
-                                            sit amet, consectetur, adipisci.
-                                        </MDBCardText>
-                                        <MDBCardFooter className="px-1">
-                                            <span className="float-left">49$</span>
-                                            <span className="float-right">
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-eye grey-text ml-3"
-                                                    tooltipContent="Quick look"
-                                                />
-                                                <MDBTooltip
-                                                    placement="top"
-                                                    tag="a"
-                                                    component="i"
-                                                    componentClass="fa fa-heart grey-text ml-3"
-                                                    tooltipContent="Add to watchlist"
-                                                />
-                                            </span>
-                                        </MDBCardFooter>
-                                    </MDBCardBody>
-                                </MDBCard>
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBCarouselItem>
-                </MDBCarouselInner>
-            </MDBCarousel>
-        </section>
-    );
+class ProductBest extends Component {
+
+    state = {
+        data:[]
+    }
+
+    componentDidMount = () => {
+        this.getBestSaler()
+    }
+
+    getBestSaler = () => {
+        Axios.get(API_URL + '/results/getBestSaler')
+            .then((res) => {
+                this.setState({ data: res.data })
+                console.log(this.state.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    renderCard = () => {
+        let {data} = this.state
+        return data.map((val, index) => {
+            return (
+                <MDBCol md='4' style={{ marginTop: "2%" }} key={val.id}>
+                    <Link to={`/ProductDetail?id=${val.id}`}>
+                        <MDBCard wide ecommerce>
+                            <MDBCardImage
+                                hover
+                                cascade
+                                src={API_URL + val.imagepath}
+                                top
+                                alt="sample photo"
+                                height="350px"
+                                className="objectFit"
+                            />
+                            <MDBCardBody cascade className="text-center">
+                                {/* <a href="#!" className="text-muted">
+                            <h6>{val.category}</h6>
+                        </a> */}
+                                <MDBCardTitle>
+                                    <strong>
+                                        <h5>{val.name}</h5>
+                                    </strong>
+                                </MDBCardTitle>
+                                <div className="float-left price">
+                                    <strong>IDR. {val.price.toLocaleString()}</strong>
+                                </div>
+                                <div className="float-right">
+                                    <MDBTooltip domElement placement="top">
+                                        <span>
+                                            <MDBIcon id={`quickDetail${val.id}`} icon="eye" style={{ cursor: 'pointer' }} />
+                                        </span>
+                                        <ul className="list-group" >
+                                            {/* <li className="list-group-item bg-transparent text-white" style={{ padding: 0 }}>Bahan : {val.product_bahan}</li> */}
+                                            {/* <li className="list-group-item bg-transparent text-white" style={{ padding: 0 }}>Rating : {val.product_rating}/5</li> */}
+                                            <li className="list-group-item bg-transparent text-white" style={{ padding: 0 }}>Description : {val.description}</li>
+                                        </ul>
+                                    </MDBTooltip>
+                                </div>
+                                <MDBCardFooter transparent />
+                            </MDBCardBody>
+                        </MDBCard>
+                    </Link>
+                </MDBCol>
+            )
+        })
+    }
+
+    render() {
+        return (
+            <div className="row text-center">
+                {this.renderCard()}
+            </div>
+        );
+    }
 }
 
-export default EcommercePage;
+export default ProductBest;

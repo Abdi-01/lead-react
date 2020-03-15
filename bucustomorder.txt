@@ -2,10 +2,7 @@ import React from "react";
 import '../assets/css/custompage.css'
 import { MDBRow, MDBCol, MDBTooltip } from 'mdbreact';
 import { CustomInput } from 'reactstrap';
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Axios from 'axios'
-import { API_URL } from '../support/Backend_URL';
 import { getSizes, getMaterials, getStock, getCategories } from '../redux/action'
 
 class CustomOrder extends React.Component {
@@ -16,9 +13,7 @@ class CustomOrder extends React.Component {
     addCategoryID: 0,
     addMaterialID: 0,
     addPrice: 0,
-    totalPrice: 0,
-    orderQty: 0,
-    detailOrder: ''
+    totalPrice:0
   }
 
   componentDidMount() {
@@ -54,7 +49,7 @@ class CustomOrder extends React.Component {
     return this.props.categories.map((val, index) => {
       return (
         <option value={val.id} onClick={() => {
-          this.setState({ addPrice: val.customPrice, addCategory: val.category })
+          this.setState({ addPrice: val.customPrice })
           this.resetOrder()
         }}>{val.category}</option>
       )
@@ -64,28 +59,22 @@ class CustomOrder extends React.Component {
   renderListMaterial = () => {
     return this.props.materials.map((val, index) => {
       return (
-        <option value={val.id} onClick={() => {
-          this.setState({ addMaterial: val.material })
-        }}>{val.material}</option>
+        <option value={val.id}>{val.material}</option>
       )
     })
   }
 
-  generateOrder = (orderOption) => {
+  totalOrder = (qty) => {
     let count = 0
-    if (orderOption.length > 0) {
-      orderOption.map((val) => count += val.qty)
-      let detail = ''
-      for (let i = 0; i < orderOption.length; i++) {
-        detail += `${orderOption[i].size} = ${orderOption[i].qty}/`
-      }
+    if (qty.length > 0) {
+      qty.map((val) => count += val[4])
       console.log(count)
-      this.setState({ totalPrice: this.state.addPrice * count, orderQty: count, detailOrder: detail })
+      this.setState({ totalPrice: this.state.addPrice * count })
     }
   }
 
   checkSizehandler = (e) => {
-    let { orderOption } = this.state
+    let { orderOption, addCategoryID, addMaterialID, addPrice } = this.state
     let qty = document.getElementById(`qty${e.target.value}`).value
     if (!e.target.checked) {
       document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
@@ -93,8 +82,13 @@ class CustomOrder extends React.Component {
       document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
       document.getElementById(`size${e.target.value}`).disabled = true
       if (qty !== null) {
-        orderOption.push({ size: e.target.value, qty: parseInt(qty) })
-        this.generateOrder(this.state.orderOption)
+        orderOption.push([this.props.user.id,
+        parseInt(addCategoryID),
+        parseInt(addMaterialID),
+        parseInt(e.target.value),
+        parseInt(qty),
+        parseInt(addPrice)])
+        this.totalOrder(this.state.orderOption)
         console.log(orderOption)
       }
     }
@@ -112,49 +106,12 @@ class CustomOrder extends React.Component {
     this.state.orderOption.splice(0, this.state.orderOption.length)
     this.setState({ orderOption: [], totalPrice: 0 })
     this.props.sizes.forEach((val) => {
-      document.getElementById(`qty${val.size}`).value = null
-      document.getElementById(`size${val.size}`).checked = false
-      document.getElementById(`size${val.size}`).disabled = true
-      document.getElementById(`qty${val.size}`).disabled = false
+      document.getElementById(`qty${val.id}`).value = null
+      document.getElementById(`size${val.id}`).checked = false
+      document.getElementById(`size${val.id}`).disabled = true
+      document.getElementById(`qty${val.id}`).disabled = false
     })
     console.log(this.state.orderOption)
-  }
-
-  orderNow = () => {
-    let { addPrice, addImageFile, orderQty, detailOrder } = this.state
-    if (addImageFile) {
-      let formData = new FormData()
-      let data = {
-        userID: this.props.user.id,
-        category: this.state.addCategory,
-        material: this.state.addMaterial,
-        detail: detailOrder,
-        qty: orderQty,
-        price: addPrice,
-        note: this.refs.orderNote.value
-      }
-      console.log(data)
-      formData.append('data', JSON.stringify(data))
-      formData.append('image', addImageFile)
-      console.log('form', formData)
-      Axios.post(API_URL + '/carts/customOrder', formData)
-        .then((res) => {
-          console.log(res.data)
-          this.setState({
-            addImageFileName: 'Select Image', addImageFile: undefined, orderOption: [],
-            addCategoryID: 0,
-            addMaterialID: 0,
-            addPrice: 0,
-            totalPrice: 0,
-            orderQty: 0,
-            detailOrder: ''
-          })
-          return (<Redirect to='/CheckoutCustomPage'></Redirect>)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
   }
 
   render() {
@@ -184,7 +141,7 @@ class CustomOrder extends React.Component {
                     </select>
                   </MDBCol>
                 </MDBRow>
-                <br />
+                <br/>
                 <MDBRow>
                   <MDBCol sm="3"><p className="h6 text-muted" >PRICE</p></MDBCol>
                   <MDBCol sm="8"><p className="h4 font-weight-bold" style={{ color: "orange" }} >IDR. {parseInt(this.state.addPrice).toLocaleString()}/pcs</p></MDBCol>
@@ -212,11 +169,11 @@ class CustomOrder extends React.Component {
                               <div className="input-group mb-3">
                                 <div className="input-group-prepend">
                                   <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
-                                    <input type="checkbox" id={`size${val.size}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" value={val.size} />&nbsp;
+                                    <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
                                           {val.size}&nbsp;
                                     </div>
                                 </div>
-                                <input type="text" id={`qty${val.size}`} onChange={this.inQtyhandler} name={val.size} className="form-control" aria-label="Text input with checkbox" />
+                                <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" />
                               </div>
                             </MDBCol>
                           )
@@ -238,7 +195,7 @@ class CustomOrder extends React.Component {
                 <MDBRow>
                   <MDBCol sm="3"><p className="h6 text-muted" >NOTE</p></MDBCol>
                   <MDBCol sm="8">
-                    <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" ref='orderNote' />
+                    <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" ref='descriptionProduct' />
                   </MDBCol>
                 </MDBRow>
               </div>
@@ -248,7 +205,7 @@ class CustomOrder extends React.Component {
           <MDBRow>
             <div style={{ width: '100%' }}>
               <div className="float-right" style={{ marginRight: '1%' }}>
-                <button className="element-AddToCart h2" style={{ height: '100%' }} onClick={this.orderNow}>Order Now</button>
+                <button className="element-AddToCart h2" style={{ height: '100%' }} onClick={this.addTocart}>Order Now</button>
               </div>
               <div style={{ backgroundColor: 'silver', color: 'white', marginLeft: '1%', width: '95%', height: '88%' }}>
                 <h4 className="font-weight-bold" style={{ padding: '15px 0 15px 2%', color: 'black' }}>Total : IDR. {parseInt(this.state.totalPrice).toLocaleString()} </h4>

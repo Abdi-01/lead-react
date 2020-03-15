@@ -4,9 +4,6 @@ import { MDBInput, MDBModal, MDBModalBody, MDBProgress } from 'mdbreact';
 import { connect } from 'react-redux'
 import { registerUser } from '../redux/action'
 import Swal from 'sweetalert2'
-// import { Redirect } from 'react-router-dom';
-// import Axios from 'axios'
-// import { API_URL } from '../support/Backend_URL';
 
 class RegisPopUp extends React.Component {
     state = {

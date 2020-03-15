@@ -1,8 +1,9 @@
-import { USER_GET_TRANSACTION, GET_DETAIL_TRANSACTION } from '../action/types'
+import { USER_GET_TRANSACTION, GET_DETAIL_TRANSACTION, GET_CUSTOM_DETAIL_TRANSACTION } from '../action/types'
 
 const INITIAL_STATE = {
     userTransReducer: [],
-    getDetailReducer: []
+    getDetailReducer: [],
+    getCustomDetailReducer: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -13,6 +14,9 @@ export default (state = INITIAL_STATE, action) => {
         case GET_DETAIL_TRANSACTION:
             console.log("GDT", action.payload)
             return { ...state, getDetailReducer: action.payload }
+        case GET_CUSTOM_DETAIL_TRANSACTION:
+            console.log("GDT", action.payload)
+            return { ...state, getCustomDetailReducer: action.payload }
         default:
             return state
     }

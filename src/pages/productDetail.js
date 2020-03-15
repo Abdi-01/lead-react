@@ -51,12 +51,12 @@ class ProductDetail extends Component {
 
     checkSizehandler = (e) => {
         let { orderOption } = this.state
-        let qty = document.getElementById(`qty${e.target.value}`).value
+        let qty = document.getElementById(`qty${e.target.name}`).value
         if (!e.target.checked) {
-            document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
+            document.getElementById(`qty${e.target.name}`).disabled = e.target.checked
         } else if (e.target.checked) {
-            document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
-            document.getElementById(`size${e.target.value}`).disabled = true
+            document.getElementById(`qty${e.target.name}`).disabled = e.target.checked
+            document.getElementById(`size${e.target.name}`).disabled = true
             if (qty !== null) {
                 orderOption.push([this.props.user.id,
                 parseInt(this.props.location.search.split('=')[1]),
@@ -84,11 +84,11 @@ class ProductDetail extends Component {
                     <div className="input-group" style={{ height: '2%' }}>
                         <div className="input-group-prepend">
                             <div className="input-group-text" style={{ paddingLeft: 0 }}>
-                                <input type="checkbox" id={`size${val.stock}`} onChange={this.checkSizehandler} style={{ padding: 0 }} disabled aria-label="Checkbox for following text input" value={val.stock} />&nbsp;
+                                <input type="checkbox" id={`size${val.size}`} name={val.size} onChange={this.checkSizehandler} style={{ padding: 0 }} disabled aria-label="Checkbox for following text input" value={val.stockID} />&nbsp;
                                                     {val.size}
                             </div>
                         </div>
-                        <input type="text" id={`qty${val.stock}`} onChange={this.inQtyhandler} name={val.stock} className="form-control" aria-label="Text input with checkbox" />
+                        <input type="text" id={`qty${val.size}`} onChange={this.inQtyhandler} name={val.size} className="form-control" aria-label="Text input with checkbox" />
                     </div>
                 </MDBCol>
             )
@@ -115,7 +115,7 @@ class ProductDetail extends Component {
         })
         console.log(this.state.orderOption)
     }
-
+    
     addTocart = () => {
         if (this.state.orderOption.length > 0) {
             Axios.post(API_URL + `/carts/addToCart`, {

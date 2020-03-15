@@ -16,7 +16,6 @@ class SideNav extends Component {
                     <img alt="MDB React Logo" className="img-fluid" width="100px" src={profile} />
                 </div>
                 <MDBListGroup className="list-group-flush">
-
                     <NavLink to="/ProfilePage" activeClassName="activeClass">
                         <MDBListGroupItem>
                             <MDBIcon icon="user" className="mr-3" />

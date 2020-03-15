@@ -11,8 +11,15 @@ select * from tb_productcat;
 select * from tb_cart;
 select * from tb_transactions;
 select * from tb_history;
+select * from tb_custom;
+select stockID,qty from tb_history where invoice = 'LEAD_3JTC63' ;
 -- truncate tb_history;
 -- truncate tb_history;
+
+SELECT c.id, c.category, c.customPrice 
+        FROM tb_categories c 
+        LEFT JOIN tb_categories cc ON cc.parentId = c.id
+        WHERE cc.id IS NULL;
 
 -- get by category
 select * from tb_products p join tb_productcat pc on p.id=pc.productID
@@ -28,12 +35,17 @@ select  p.id, p.name,p.imagepath,m.material,p.description,p.price
         from tb_products p join tb_materials m
         on p.materialID = m.id LIMIT 0,5; 
 
-select h.id,h.invoice,h.userID, u.username, p.name, p.imagepath, sz.size, p.price as productPrice,h.qty, h.price from tb_transactions t join tb_history h on t.invoice = h.invoice 
+select h.id,h.invoice,h.userID, u.username, p.name, p.imagepath, sz.size, p.price as productPrice,h.qty, h.price 
+from tb_transactions t join tb_history h on t.invoice = h.invoice 
 join tb_users u on h.userID = u.id
 join tb_products p on h.productID = p.id 
-join tb_sizes sz on h.sizeID = sz.id  
-join tb_stock st on st.sizeID = h.sizeID and st.productID = h.productID;
+join tb_stock st on st.id = h.stockID
+join tb_sizes sz on st.sizeID = sz.id ;
 
+-- tb_cart c join tb_users u on c.userID = u.id
+--         join tb_products p on c.productID = p.id 
+--         join tb_stock st on st.id = c.stockID 
+--         join tb_sizes sz on sz.id = st.sizeID
 
 -- ambil stock berdasarkan produk dan ukuran
 select p.id,sz.size,sum(s.stock) from tb_products p join tb_stock s
@@ -59,7 +71,8 @@ join tb_stock st on st.sizeID = c.sizeID and st.productID = c.productID;
 SELECT * FROM tb_cart WHERE userID = 9;
 
 -- Getcart new
-select c.id, u.username, p.name, p.imagepath,c.qty,c.price,st.id as stockID,sz.size from tb_cart c join tb_users u on c.userID = u.id
+select c.id, u.username, p.name, p.imagepath,c.qty,c.price,st.id as stockID,sz.size 
+from tb_cart c join tb_users u on c.userID = u.id
 join tb_products p on c.productID = p.id 
 join tb_stock st on st.id = c.stockID 
 join tb_sizes sz on sz.id = st.sizeID;
@@ -98,3 +111,23 @@ WITH RECURSIVE category_path (id, category, parentId) AS
               ON cp.parentId = c.id
         )
         SELECT * FROM category_path;
+
+-- get total keuntungan
+select sum(payment) from tb_transactions ;
+
+
+-- get bestsaler 
+select *,sum(qty) as saleAmount from tb_history group by productID LIMIT 3;
+
+select h.invoice,p.*,m.material,sum(h.qty) as saleAmount from tb_history h join tb_products p on p.id = h.productID join tb_materials m
+            on p.materialID = m.id group by productID LIMIT 3;
+            
+-- update invoice custom transaction
+Select * from tb_custom WHERE userID = 8 and status='On Transaction';
+UPDATE tb_custom SET invoice='LEAD_${invoice}' WHERE userID = 8 and status='On Transaction';
+SET SQL_SAFE_UPDATES=0; -- Mematikan safe update 
+UPDATE tb_custom SET invoice='LEAD_${invoice}' WHERE userID = 8 and statusOrder='On Transaction';
+SET SQL_SAFE_UPDATES=1; -- Menyalakan safe update
+
+-- Get detail custom order
+Select cst.*, t.orderType from tb_custom cst join tb_transactions t on t.invoice = cst.invoice where t.userID=8; 
