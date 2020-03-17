@@ -2,15 +2,17 @@ import React, { Component } from 'react'
 import { CustomInput, Modal, ModalBody, Form, FormGroup } from 'reactstrap';
 import {
   MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBBtn, MDBBtnGroup,
-  MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge, MDBPagination, MDBPageItem, MDBPageNav
+  MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge
 } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import '../assets/css/modal.css'
 import Axios from 'axios'
 import { API_URL } from '../support/Backend_URL';
 import { connect } from 'react-redux'
-import { getAllProduct, getProductPagination, getSizes,
-  getMaterials,getStock,getCategories } from '../redux/action'
+import {
+  getAllProduct, getProductPagination, getSizes,
+  getMaterials, getStock, getCategories
+} from '../redux/action'
 // import { Link } from 'react-router-dom'
 
 class ProductPage extends Component {
@@ -167,7 +169,6 @@ class ProductPage extends Component {
           <div style={{ textAlign: "center" }}>
             <button className="BtAddStock" onClick={() => this.addStock(id)}>Add Stock</button>
           </div>
-
           {this.state.selectedId === id ? this.renderAddSize(id, name) : null}
         </>
       )
@@ -194,22 +195,24 @@ class ProductPage extends Component {
       <ModalBody >
         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
           <MDBFormInline>
-            {this.props.sizes.map((val, index) => {
-              return (
-                <MDBCol lg="4" md="12" className="mb-lg-0 mb-4" key={val.id}>
-                  <div className="input-group mb-3">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
-                        <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
+            <MDBRow>
+              {this.props.sizes.map((val, index) => {
+                return (
+                  <MDBCol lg="4" md="12" className="mb-lg-0 mb-4" key={val.id}>
+                    <div className="input-group mb-3">
+                      <div className="input-group-prepend">
+                        <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
+                          <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
                                 {val.size}&nbsp;
                           </div>
+                      </div>
+                      <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" />
                     </div>
-                    <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" />
-                  </div>
-                </MDBCol>
-              )
-            })
-            }
+                  </MDBCol>
+                )
+              })
+              }
+            </MDBRow>
           </MDBFormInline>
         </FormGroup>
         <span onClick={this.resetOrder}>
@@ -306,8 +309,9 @@ class ProductPage extends Component {
     Axios.post(API_URL + `/products/edit?id=${id}`, formData)
       .then((res) => {
         console.log(res.data)
-        this.setState({ addImageFileName: 'Select Image', addImageFile: undefined, selectedId: null })
         this.props.getAllProduct('All')
+        this.props.getProductPagination(0)
+        this.setState({ addImageFileName: 'Select Image', addImageFile: undefined, selectedId: null })
       })
       .catch((err) => {
         console.log(err)
@@ -352,9 +356,9 @@ class ProductPage extends Component {
     })
       .then((resQty) => {
         console.log(resQty.data)
-        this.setState({ editStock: false, selectedId: null })
-        this.toggle(3)
         this.props.getStock()
+        this.setState({ editStock: false, selectedId: null, sizeQty: []})
+        this.toggle(3)
       })
   }
 
@@ -566,4 +570,4 @@ const mapToProps = ({ products }) => {
   return { ...products }
 }
 
-export default connect(mapToProps, { getAllProduct, getProductPagination, getSizes,getMaterials,getStock,getCategories })(ProductPage);
+export default connect(mapToProps, { getAllProduct, getProductPagination, getSizes, getMaterials, getStock, getCategories })(ProductPage);

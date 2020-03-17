@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { CustomInput, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup } from 'reactstrap';
-import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge, MDBBtn, MDBIcon } from 'mdbreact'
+import { FormGroup } from 'reactstrap';
+import { MDBCard, MDBView, MDBRow, MDBCol, MDBTable, MDBBtn } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import '../assets/css/modal.css'
 import { connect } from 'react-redux'

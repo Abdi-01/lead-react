@@ -13,8 +13,11 @@ select * from tb_transactions;
 select * from tb_history;
 select * from tb_custom;
 select stockID,qty from tb_history where invoice = 'LEAD_3JTC63' ;
+truncate tb_stock;
 -- truncate tb_history;
--- truncate tb_history;
+
+-- padd admin :70f1eb493da68571cb88985c3cbbefcdc0cc763b806b5eb4ad4db6ed8edc64ba
+ 
 
 SELECT c.id, c.category, c.customPrice 
         FROM tb_categories c 
@@ -131,3 +134,10 @@ SET SQL_SAFE_UPDATES=1; -- Menyalakan safe update
 
 -- Get detail custom order
 Select cst.*, t.orderType from tb_custom cst join tb_transactions t on t.invoice = cst.invoice where t.userID=8; 
+
+select h.id,h.invoice,h.userID, u.username, p.name, p.imagepath, sz.size, p.price as productPrice,h.qty, h.price 
+            ,t.orderType from tb_transactions t join tb_history h on t.invoice = h.invoice 
+            join tb_users u on h.userID = u.id
+            join tb_products p on h.productID = p.id 
+            join tb_stock st on st.id = h.stockID
+            join tb_sizes sz on st.sizeID = sz.id where t.status = 'Unpaid';

@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from '../image/lead.png'
 import { Form, FormGroup } from 'reactstrap';
-import { MDBRow, MDBCol, MDBCard, MDBContainer, MDBBtn } from 'mdbreact';
+import { MDBRow, MDBCol, MDBCard, MDBContainer } from 'mdbreact';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios'
@@ -77,11 +76,13 @@ class CheckoutPage extends React.Component {
                 payment: this.state.shippingCost + parseInt(this.props.cartUsers.totalPrice),
                 address: `${this.refs.addressOrder.value} Phone (${this.refs.phoneOrder.value}), ${this.state.cityName}, ${this.refs.provinceOrder.value}, ${this.refs.zipOrder.value}, ${this.refs.countryOrder.value} `,
                 courier: 'JNE REGULAR',
+                orderType : 'General',
                 note: localStorage.getItem('noteOrder') ? localStorage.getItem('noteOrder') : '',
                 mva: 3302 + this.props.phone
             }
             this.props.addTransaction(formTransaction)
             this.setState({ shippingCost: 0, cityName: '', addCityID: 0, setProvince: '', redirect: true })
+            localStorage.removeItem('noteOrder')
         }
 
     }
@@ -120,7 +121,7 @@ class CheckoutPage extends React.Component {
 
     getProvince = (cityID) => {
         return this.state.listCity.map((val, index) => {
-            if (cityID == val.city_id) {
+            if (cityID === val.city_id) {
                 this.setState({ setProvince: val.province })
                 // this.getCost()
             }

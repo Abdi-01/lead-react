@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from '../image/lead.png'
 import { Form, FormGroup } from 'reactstrap';
-import { MDBRow, MDBCol, MDBCard, MDBContainer, MDBBtn } from 'mdbreact';
+import { MDBRow, MDBCol, MDBCard, MDBContainer } from 'mdbreact';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios'
@@ -188,7 +187,7 @@ class CheckoutPage extends React.Component {
 
     getProvince = (cityID) => {
         return this.state.listCity.map((val, index) => {
-            if (cityID == val.city_id) {
+            if (cityID === val.city_id) {
                 this.setState({ setProvince: val.province })
                 // this.getCost()
             }

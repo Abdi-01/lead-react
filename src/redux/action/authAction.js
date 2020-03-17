@@ -32,6 +32,16 @@ export const login = (username, password) => {//satu fungsi menjalankan dua redu
                 }
             })
             .catch((err) => {
+                Swal.fire({
+                    text: 'Username or password invalid!',
+                    imageUrl: require('../../image/ilustration/security.png'),
+                    imageWidth: 190,
+                    imageHeight: 150,
+                    imageAlt: 'Custom image',
+                    width: 210,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 console.log(err)
                 dispatch({
                     type: LOGOUT
@@ -68,6 +78,70 @@ export const Keeplogin = () => {//satu fungsi menjalankan dua reducer yang berbe
                 .then((res) => {
                     localStorage.setItem('token', res.data.token)//data dari userController backend API
                     // console.log(res.data)//data dari userController backend API
+                    dispatch({
+                        type: LOGIN,
+                        payload: res.data
+                    })
+                })
+                .catch((err) => {
+                    // localStorage.removeItem('token')
+                    console.log(err)
+                    dispatch({
+                        type: LOGOUT,
+                    })
+                }
+                )
+        }
+    }
+}
+
+export const EditProfile = (data) => {//satu fungsi menjalankan dua reducer yang berbeda
+    // let { username, password } = data
+    return (dispatch) => {
+        const token = localStorage.getItem('token')//ambil token dari localstorage
+        console.log(token)
+        if (token) {
+            const headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+            Axios.post(API_URL + `/users/editProfile`, data, headers)
+                .then((res) => {
+                    localStorage.setItem('token', res.data.token)//data dari userController backend API
+                    console.log(res.data)//data dari userController backend API
+                    dispatch({
+                        type: LOGIN,
+                        payload: res.data
+                    })
+                })
+                .catch((err) => {
+                    // localStorage.removeItem('token')
+                    console.log(err)
+                    dispatch({
+                        type: LOGOUT,
+                    })
+                }
+                )
+        }
+    }
+}
+
+export const EditPassword = (data) => {//satu fungsi menjalankan dua reducer yang berbeda
+    // let { username, password } = data
+    return (dispatch) => {
+        const token = localStorage.getItem('token')//ambil token dari localstorage
+        console.log(token)
+        if (token) {
+            const headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+            Axios.post(API_URL + `/users/editPassword`, data, headers)
+                .then((res) => {
+                    localStorage.setItem('token', res.data.token)//data dari userController backend API
+                    console.log(res.data)//data dari userController backend API
                     dispatch({
                         type: LOGIN,
                         payload: res.data

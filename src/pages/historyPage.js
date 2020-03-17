@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { CustomInput, Modal, ModalBody, Form, FormGroup } from 'reactstrap';
-import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge, MDBBtn, MDBIcon } from 'mdbreact'
+import { CustomInput, Modal, ModalBody } from 'reactstrap';
+import { MDBCard, MDBView, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import '../assets/css/trackingOrder.css'
 import '../assets/css/modal.css'
@@ -8,7 +8,6 @@ import Axios from 'axios'
 import { getUserTransaction, getDetailTransaction, getCustomDetailTransaction } from '../redux/action'
 import { connect } from 'react-redux'
 import { API_URL } from '../support/Backend_URL';
-import Swal from 'sweetalert2'
 import moment from 'moment'
 
 class HistoryPage extends Component {
@@ -123,7 +122,7 @@ class HistoryPage extends Component {
               <MDBCol sm='2'>
                 <p style={{ margin: 2, marginTop: 10, padding: 0, color: 'gray' }}>{moment(item.time).format('DD MMMM YYYY')}</p>
               </MDBCol>
-              <MDBCol sm='2'>
+              <MDBCol sm='3'>
                 <p style={{ margin: 2, marginRight: 0, marginTop: 10, padding: 0, color: 'gray' }}>Payment : IDR. {item.payment.toLocaleString()}</p>
               </MDBCol>
               {this.props.user.role === 'admin' ?
@@ -341,6 +340,7 @@ class HistoryPage extends Component {
 }
 
 const mapStateToProps = ({ transaction, user }) => {
+  console.log('cek',transaction)
   return {
     user,
     ...transaction

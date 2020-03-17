@@ -3,6 +3,7 @@ import { MDBCard, MDBCol, MDBRow, MDBCardBody, MDBCardTitle, MDBBtn } from 'mdbr
 import SideNavigation from '../component/sideNavigation'
 import Axios from 'axios';
 import { connect } from 'react-redux'
+import { EditProfile, EditPassword } from '../redux/action'
 import { API_URL } from '../support/Backend_URL';
 
 class ProfilePage extends Component {
@@ -15,38 +16,24 @@ class ProfilePage extends Component {
     let usernameNew = this.refs.userName.value
     let emailNew = this.refs.userEmail.value
     let phoneNew = this.refs.userPhone.value
-    Axios.post(API_URL + `/users/editProfile/${this.props.id}`, {
+    let data = {
       newuser: usernameNew,
       newemail: emailNew,
       newphone: phoneNew
-    })
-      .then((res) => {
-        console.log(res.data)
-        window.location.reload();
-        // this.props.login()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    }
+    this.props.EditProfile(data)
   }
 
   editPassword = () => {
     let oldPass = this.refs.oldPass.value
     let newPass = this.refs.newPass.value
     let confPass = this.refs.confPass.value
+    let data = {
+      oldpass: oldPass,
+      newpass: newPass
+    }
     if (newPass === confPass) {
-      Axios.post(API_URL + `/users/editPassword/${this.props.id}`, {
-        oldpass: oldPass,
-        newpass: newPass
-      })
-        .then((res) => {
-          console.log(res.data)
-          window.location.reload();
-          // this.props.login()
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      this.props.EditPassword(data)
     }
   }
 
@@ -57,7 +44,7 @@ class ProfilePage extends Component {
     console.log(this.props.username)
     return (
       <div >
-        <SideNavigation/>
+        <SideNavigation />
         <main id="content" className="p-5">
           {/* <React.Fragment> */}
           <MDBRow className="justify-content-center">
@@ -166,5 +153,5 @@ const mapStatetoProps = (state) => {
     role: state.user.role
   }
 }
-export default connect(mapStatetoProps)(ProfilePage);
+export default connect(mapStatetoProps, { EditProfile, EditPassword })(ProfilePage);
 

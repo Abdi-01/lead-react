@@ -2,7 +2,6 @@ import React from 'react';
 import '../assets/css/modal.css'
 import '../assets/css/alert.css'
 import { MDBInput, MDBModal, MDBModalBody } from 'mdbreact';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { login, getCart } from '../redux/action'
 import Swal from 'sweetalert2'

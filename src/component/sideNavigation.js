@@ -33,8 +33,14 @@ class SideNav extends Component {
                             </NavLink>
                             <NavLink to="/OrderProgressPage" activeClassName="activeClass">
                                 <MDBListGroupItem>
+                                    <MDBIcon icon="business-time" className="mr-3" />
+                                    Pending Order
+                            </MDBListGroupItem>
+                            </NavLink>
+                            <NavLink to="/HistoryPage" activeClassName="activeClass">
+                                <MDBListGroupItem>
                                     <MDBIcon icon="truck" className="mr-3" />
-                                    Order Progress
+                                    Order to Deliver
                             </MDBListGroupItem>
                             </NavLink>
                             <NavLink to="/ResultPage" activeClassName="activeClass">

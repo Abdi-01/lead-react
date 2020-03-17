@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import '../assets/css/home.css'
 import '../assets/css/modal.css'
-import { MDBInput, MDBModal, MDBIcon, MDBModalBody } from 'mdbreact';
+import { MDBModal, MDBIcon } from 'mdbreact';
 import { Link } from "react-router-dom";
-import Jumbotron from '../component/jumbotron'
 import Carousle from '../component/carousle'
-import DivCard from '../component/leadDivisionCard'
+import DivCard from '../component/leadDivision'
 import Collection from '../component/collectionPreview'
 // import { connect } from 'react-redux'
 // import { getAllProduct } from '../redux/action'
@@ -71,10 +70,10 @@ class HomePage extends Component {
                             <button className="element-FormCancel text-center" id="leftForm" style={{ height: "200px", width: "54%", padding: '0' }} onClick={this.toggle}>
                                 <i className="fas fa-upload fa-6x"></i><p>Upload Design</p></button>
                         </Link>
-                        <Link to='/CustomDesign'>
+                        {/* <Link to='/CustomDesign'> */}
                             <button className="element-FormLogin text-center" id="rightForm" style={{ height: "200px", width: "54%", padding: '0' }} onClick={this.loginUser}>
                                 <i className="fas fa-edit fa-6x"></i><p>Make Your Design</p></button>
-                        </Link>
+                        {/* </Link> */}
                     </div>
                     {/* </MDBModalBody> */}
                 </MDBModal>

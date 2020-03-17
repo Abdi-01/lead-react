@@ -65,6 +65,7 @@ class App extends Component {
           <Route path='/verification' component={VerificationPage} />
           <Route path='/OrderProgressPage' component={OrderProgressPage} />
           <Route path='/paggination' component={Paggination} />
+          <Route path='/HistoryPage' component={HistoryPage} />
           {this.props.role === "admin"
             ?<div>
               <Route path='/ProductPage' component={ProductPage} />
@@ -73,7 +74,6 @@ class App extends Component {
             :
             <div>
               <Route path='/CartPage' component={CartPage} />
-              <Route path='/HistoryPage' component={HistoryPage} />
             </div>
           }
           {/* <Route path='/maps' component={MapsPage} /> */}

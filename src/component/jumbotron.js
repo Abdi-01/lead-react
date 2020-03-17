@@ -1,7 +1,7 @@
 import React from "react";
 import '../assets/css/modal.css'
-import { MDBInput, MDBModal, MDBIcon, MDBModalBody } from 'mdbreact';
-import { Link } from "react-router-dom";
+import { MDBModal, MDBIcon, MDBModalBody } from 'mdbreact';
+// import { Link } from "react-router-dom";
 
 class JumbotronPage extends React.Component {
     state = {

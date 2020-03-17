@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { CustomInput, Modal, ModalBody, Form, FormGroup } from 'reactstrap';
-import { MDBCard, MDBView, MDBCardBody, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody, MDBFormInline, MDBBadge, MDBBtn, MDBIcon } from 'mdbreact'
+import { CustomInput, Modal, ModalBody} from 'reactstrap';
+import { MDBCard, MDBView, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import '../assets/css/trackingOrder.css'
 import '../assets/css/modal.css'
@@ -81,6 +81,7 @@ class TrackingPage extends Component {
           this.props.getUserTransaction('Unpaid')
           this.props.getDetailTransaction('Unpaid')
           this.props.getCustomDetailTransaction('Unpaid')
+          this.toggle(2)
         })
         .catch((err) => {
           console.log(err)
@@ -124,7 +125,7 @@ class TrackingPage extends Component {
               <MDBCol sm='2'>
                 <p style={{ margin: 2, marginTop: 10, padding: 0, color: 'gray' }}>{moment(item.time).format('DD MMMM YYYY')}</p>
               </MDBCol>
-              <MDBCol sm='2'>
+              <MDBCol sm='3'>
                 <p style={{ margin: 2, marginRight: 0, marginTop: 10, padding: 0, color: 'gray' }}>Payment : IDR. {item.payment.toLocaleString()}</p>
               </MDBCol>
               {this.props.user.role === 'admin' ?
@@ -137,7 +138,7 @@ class TrackingPage extends Component {
                       </div>}
                   </MDBCol>
                   <MDBCol>
-                    <select style={{ margin: 2, marginTop: 6, padding: 0, color: 'gray' }} className="form-control form-control-sm" value={item.status}
+                    <select style={{ margin: 2, marginTop: 6, padding: 0, color: 'gray' }} className="form-control form-control-sm" value={this.state.statusVerification}
                       onChange={this.onChangeSelectStatus}>
                       <option value={item.status !== 'Unpaid' ? 'Unpaid' : item.status}>{item.status !== 'Unpaid' ? 'Unpaid' : item.status}</option>
                       <option value='Paid'>Paid</option>

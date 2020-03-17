@@ -22,12 +22,12 @@ const FooterPage = () => {
                                 <li className="list-unstyled">
                                     <Link to="/HowToOrder">How to order </Link>
                                 </li>
-                                <li className="list-unstyled">
+                                {/* <li className="list-unstyled">
                                     <Link to="/SizeCart">Size Cart</Link>
-                                </li>
-                                <li className="list-unstyled">
+                                </li> */}
+                                {/* <li className="list-unstyled">
                                     <Link to="/PrivacyFAQ">Privacy, Police and FAQ</Link>
-                                </li>
+                                </li> */}
                                 {/* <li className="list-unstyled">
                                 <a href="#!">FAQ</a>
                             </li> */}
@@ -37,11 +37,11 @@ const FooterPage = () => {
                             <h5 className="title">About</h5>
                             <ul>
                                 <li className="list-unstyled">
-                                    <Link to="/AboutPage">Profile</Link>
+                                    <Link to="/AboutPage">About Us</Link>
                                 </li>
-                                <li className="list-unstyled">
+                                {/* <li className="list-unstyled">
                                     <Link to="/LeadSquad">LEAD Squad</Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </MDBCol>
                         <MDBCol md="3">

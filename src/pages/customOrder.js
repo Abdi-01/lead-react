@@ -147,9 +147,9 @@ class CustomOrder extends React.Component {
             addPrice: 0,
             totalPrice: 0,
             orderQty: 0,
-            detailOrder: ''
+            detailOrder: '',
+            redirect:true
           })
-          return (<Redirect to='/CheckoutCustomPage'></Redirect>)
         })
         .catch((err) => {
           console.log(err)
@@ -158,6 +158,9 @@ class CustomOrder extends React.Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      return (<Redirect to='/CheckoutCustomPage'></Redirect>)
+    }
     return (
       // <div style={{ marginBottom: '25%' }}>
       <div className="flexible-content">

@@ -65,6 +65,10 @@
   object-fit: cover;
 }
 
+.cursorOff{
+  cursor: none;
+}
+
 /* Button add product */
 .BtAddProduct {
   /* background-color: goldenrod; */

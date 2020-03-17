@@ -80,7 +80,7 @@ class ProductDetail extends Component {
     renderOrder = () => {
         return this.state.stockDetail.map((val, index) => {
             return (
-                <MDBCol key={val.id} sm="3" key={val.sizeID} style={{ padding: 0 }}>
+                <MDBCol key={val.id} sm="3" style={{ padding: 0 }}>
                     <div className="input-group" style={{ height: '2%' }}>
                         <div className="input-group-prepend">
                             <div className="input-group-text" style={{ paddingLeft: 0 }}>

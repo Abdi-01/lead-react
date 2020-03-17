@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-    MDBNavbar, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBNavbarBrand, MDBFormInline
+    MDBNavbar, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBNavbarBrand
 } from "mdbreact";// MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem,MDBDropdown,
 import '../assets/css/navbar.css'
 import { connect } from 'react-redux'
