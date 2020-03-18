@@ -22,7 +22,6 @@ import CustomDesign from './pages/customDesign'
 import SizeCart from './pages/info/sizeCart'
 import PrivacyFaq from './pages/info/privacyFAQ'
 import ResultPage from './pages/resultPage'
-import Paggination from './pages/paggination'
 import ProfilePage from './pages/ProfilePage';//adminpage
 import ProductPage from './pages/ProductPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -59,22 +58,27 @@ class App extends Component {
           <Route path='/SizeCart' component={SizeCart}></Route>
           <Route path='/PrivacyFAQ' component={PrivacyFaq}></Route>
           <Route path='/ProductDetail' component={ProductDetail}></Route>
-          <Route path='/ProfilePage' component={ProfilePage} />
-          <Route path='/CheckoutPage' component={CheckoutPage} />
-          <Route path='/CheckoutCustomPage' component={CheckoutCustomPage} />
           <Route path='/verification' component={VerificationPage} />
-          <Route path='/OrderProgressPage' component={OrderProgressPage} />
-          <Route path='/paggination' component={Paggination} />
-          <Route path='/HistoryPage' component={HistoryPage} />
-          {this.props.role === "admin"
-            ?<div>
-              <Route path='/ProductPage' component={ProductPage} />
-              <Route path='/ResultPage' component={ResultPage} />
-            </div>
+          {this.props.id ?
+            <>
+              <Route path='/ProfilePage' component={ProfilePage} />
+              <Route path='/CheckoutPage' component={CheckoutPage} />
+              <Route path='/CheckoutCustomPage' component={CheckoutCustomPage} />
+              <Route path='/OrderProgressPage' component={OrderProgressPage} />
+              <Route path='/HistoryPage' component={HistoryPage} />
+              {this.props.role === "admin"
+                ? <div>
+                  <Route path='/ProductPage' component={ProductPage} />
+                  <Route path='/ResultPage' component={ResultPage} />
+                </div>
+                :
+                <div>
+                  <Route path='/CartPage' component={CartPage} />
+                </div>
+              }
+            </>
             :
-            <div>
-              <Route path='/CartPage' component={CartPage} />
-            </div>
+            <Route path='*' component={NotFoundPage} />
           }
           {/* <Route path='/maps' component={MapsPage} /> */}
           <Route path='*' component={NotFoundPage} />

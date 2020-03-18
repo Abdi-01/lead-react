@@ -33,19 +33,25 @@ class CustomDesign extends React.Component {
       imgObj.src = event.target.result;
       imgObj.onload = function () {
         var image = new fabric.Image(imgObj);
-        // image.
-        image.set({
-          angle: 0,
-          padding: 10
-        });
-        // canvas.centerObject(image);
+        image.set({ angle: 0, padding: 10 }).scaleToWidth(150);
+        canvas.centerObject(image);
         canvas.add(image);
-        canvas.renderAll();
+        canvas.setActiveObject(image);
+        // canvas.renderAll();
       }
     }
     reader.readAsDataURL(e.target.files[0]);
   }
-
+  
+  removeImage = () => {
+    var canvas = new fabric.Canvas('c');
+    var object = canvas.getActiveObject();
+    if (!object) {
+      alert('Please select the element to remove');
+      return '';
+    }
+    canvas.remove(object);
+  }
 
   clothingCategory = (sel) => {
     console.log(sel.refs.template.value)
@@ -58,8 +64,6 @@ class CustomDesign extends React.Component {
   }
 
   render() {
-    var canvas = new fabric.Canvas('c');
-
     return (
       // <div style={{ marginBottom: '25%' }}>
       <div className="flexible-content">
@@ -89,22 +93,20 @@ class CustomDesign extends React.Component {
             <MDBListGroupItem>
               Add Picture
                         <div style={{ textAlign: 'center' }}>
-                <img src="https://carolinadojo.com/wp-content/uploads/2017/04/default-image.jpg" alt="" id="imgpreview" className="img-fluid" width="200px" />
+                {/* <img src="https://carolinadojo.com/wp-content/uploads/2017/04/default-image.jpg" alt="" id="imgpreview" className="img-fluid" width="200px" /> */}
               </div>
               {/* <CustomInput className="form-control btn-sm" id='upload' onChange={this.onBtnAddImageFile} label={this.state.addImageFileName} type='file' /> */}
+              {/* <input type="file" id='upload' onChange={this.handleImage}/> */}
               <CustomInput className="form-control btn-sm" id='upload' onChange={this.handleImage} label={this.state.addImageFileName} type='file' />
+              <button onClick={this.removeImage}>Delete</button>
             </MDBListGroupItem>
           </MDBListGroup>
         </div>
-        <main id="content" className="p-5" style={{height:"1300px"}}>
-          <div style={{ width: "100%",position: "relative" }}>
-            {/* {console.log(this.state.Clothing)} */}
-            {/* <img src={this.state.Clothing} alt="" id="imgpreview" className="img-fluid" width="100%" /> */}
-            <div style={{ position: "absolute",width: "100%"}}>
-              <img src={this.state.Clothing} style={{position:"relative"}} alt="" width="100%" />
-            </div>
-            <div style={{position:"relative",zIndex:10}}>
-              <canvas style={{right:"-3px",bottom:0,zIndex:10}} width="415" height="570" id="c"></canvas>
+        <main id="content" className="p-5" style={{ height: "1300px" }}>
+          <div id="canvas-wrapper" className="editor-area">
+            <div className="canvas-bg-wrapper">
+              <img className="canvas-bg" alt="" src={this.state.Clothing} />
+              <canvas width="390" height="540" id="c"></canvas>
             </div>
           </div>
         </main>

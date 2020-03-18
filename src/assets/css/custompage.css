@@ -1,58 +1,48 @@
+
 .hideOperations {
-    display: none;
-  }
-  
-  .displayOperations {
-    display: block;
-  }
-  
-  .editor-area {
-    overflow: hidden;
-    float: left;
-  }
-  
-  .controls {
-    width: 100px;
-    overflow: hidden;
-    float: right;
-    position: relative;
-  }
-  
-  .canvas-bg-wrapper {
-    position: relative;
-    width: 600px;
-    height: 560px;
-  }
-  
-  .canvas-bg {
-    position: relative;
-  }
-  
+  display: none;
+}
 
+.displayOperations {
+  display: block;
+}
 
-  .canvas-container {
-    top: 375px;
-    left: 465px;
-    /* border: 1px solid black; */
-    /* display: block; */
-  }
-  .canvas-container:hover {
-    top: 375px;
-    left: 465px;
-    border: 1px solid black;
-    /* display: block; */
-  }
-  /* .canvas-container:hover {
-    top: 75px;
-    left: 155px;
-    border-style: solid;
-  border-width: 19px 22px 22px 19px;
-  -moz-border-image: url(https://drive.google.com/uc?export=view&id=0B3ubyt3iIvkabEZhbkJseW5IZWc) 19 22 21 19 round;
-  -webkit-border-image: url(https://drive.google.com/uc?export=view&id=0B3ubyt3iIvkabEZhbkJseW5IZWc) 19 22 21 19 round;
-  -o-border-image: url(https://drive.google.com/uc?export=view&id=0B3ubyt3iIvkabEZhbkJseW5IZWc) 19 22 21 19 round;
-  border-image: url(https://drive.google.com/uc?export=view&id=0B3ubyt3iIvkabEZhbkJseW5IZWc) 19 22 21 19 round;
-  } */
-  
-  #c {
-    position: relative;
-  }
+.editor-area {
+  overflow: hidden;
+  float: left;
+  width: 100%;
+  height: 100%;
+}
+
+.controls {
+  width: 100px;
+  overflow: hidden;
+  float: right;
+  position: relative;
+}
+
+.canvas-bg-wrapper {
+  position: relative;
+  width: 100%;
+  /* height: 560px; */
+}
+
+.canvas-bg {
+  position: absolute;
+  width: 100%;
+}
+
+.canvas-container {
+  top: 320px;
+  left: 400px;
+  border-style: solid;
+border-width: 19px 22px 22px 19px;
+-moz-border-image: url(https://drive.google.com/uc?export=view&id=0B3ubyt3iIvkabEZhbkJseW5IZWc) 19 22 21 19 round;
+-webkit-border-image: url(https://drive.google.com/uc?export=view&id=0B3ubyt3iIvkabEZhbkJseW5IZWc) 19 22 21 19 round;
+-o-border-image: url(https://drive.google.com/uc?export=view&id=0B3ubyt3iIvkabEZhbkJseW5IZWc) 19 22 21 19 round;
+border-image: url(https://drive.google.com/uc?export=view&id=0B3ubyt3iIvkabEZhbkJseW5IZWc) 19 22 21 19 round;
+}
+
+#c {
+  position: relative;
+}

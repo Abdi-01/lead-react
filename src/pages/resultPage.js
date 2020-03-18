@@ -15,7 +15,7 @@ const DashboardPage = () => {
     <SideNavigation />
     <main id="content" className="p-5">
     <React.Fragment>
-        <AdminCardSection2 />
+        {/* <AdminCardSection2 /> */}
         <AdminCardSection1 />
         <ChartSection1 />
         <TableSection />

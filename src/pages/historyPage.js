@@ -15,9 +15,7 @@ class HistoryPage extends Component {
     selectedInvoice: '',
     statusVerification: '',
     modal1: false,
-    modal2: false,
-    addImageReceiptName: 'Upload Transfer Receipt',
-    addImageReceipt: undefined
+    modal2: false
   }
 
   toggle = (a) => {
@@ -40,51 +38,6 @@ class HistoryPage extends Component {
     this.props.getDetailTransaction('Paid')
     this.props.getCustomDetailTransaction('Paid')
   }
-
-  // onBtnAddImageReceipt = (e) => {
-  //   console.log('gambar', e.target.files[0])
-  //   if (e.target.files[0]) {
-  //     this.setState({ addImageReceiptName: e.target.files[0].name, addImageReceipt: e.target.files[0] })
-  //     let cek = document.getElementById('imgReceipt')
-  //     console.log(cek)
-  //     cek.src = URL.createObjectURL(e.target.files[0])
-  //   } else {
-  //     this.setState({ addImageReceiptName: 'Upload Transfer Receipt', addImageReceipt: undefined })
-  //   }
-  // }
-
-  // uploadTransfer = () => {
-  //   let { addImageReceipt, selectedInvoice } = this.state;
-  //   const token = localStorage.getItem('token')
-  //   let formData = new FormData()
-  //   if (addImageReceipt) {
-  //     formData.append('image', addImageReceipt)
-  //     Axios.put(API_URL + `/transactions/addTransferReceipt?invoice=${selectedInvoice}`, formData, {
-  //       headers: {
-  //         'Authorization': `Bearer ${token}`
-  //       }
-  //     })
-  //       .then((res) => {
-  //         console.log(res.data)
-  //         this.setState({ addImageReceiptName: 'Upload Transfer Receipt', addImageReceipt: undefined, selectedId: null })
-  //         Swal.fire({
-  //           text: 'Your transfer receipt has been sent, wait verification from LEAD Project Team',
-  //           imageUrl: require('../image/money_transfer_.png'),
-  //           imageWidth: 150,
-  //           imageHeight: 150,
-  //           imageAlt: 'Custom image',
-  //           width: 400,
-  //           showConfirmButton: false,
-  //           timer: 3000
-  //         });
-  //         this.props.getUserTransaction()
-  //         this.props.getDetailTransaction()
-  //       })
-  //       .catch((err) => {
-  //         console.log(err)
-  //       })
-  //   }
-  // }
 
   onChangeSelectStatus = (e) => {
     console.log("Status Choose", e.target.value)
@@ -172,10 +125,6 @@ class HistoryPage extends Component {
     this.setState({ selectedInvoice: invoice, selectedorderType: orderType })
     this.toggle(1)
   }
-  // uploadTransferReceipt = (invoice) => {
-  //   this.setState({ selectedInvoice: invoice })
-  //   this.toggle(2)
-  // }
 
   renderDetail = () => {
     if (this.state.selectedorderType === 'General') {
@@ -203,9 +152,7 @@ class HistoryPage extends Component {
             <tr key={val.id}>
               <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>
                 <img src={API_URL + val.imagepath} alt='imagePoster' style={{ width: '100%', verticalAlign: 'middle' }}></img>
-                {/* <span><MDBIcon icon="edit" />Edit</span> */}
               </td>
-              {/* <td style={{ verticalAlign: 'middle', paddingLeft: 0, paddingRight: 0 }}>{val.category}</td> */}
               <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>{val.detail}</td>
               <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>{val.qty}</td>
               <td style={{ verticalAlign: 'middle' }}>IDR. {val.price.toLocaleString()}/pcs</td>
@@ -224,10 +171,10 @@ class HistoryPage extends Component {
           <MDBRow key={val.id}>
             {/* <MDBRow> */}
             <MDBCol md='8' ><p style={{ fontWeight: 'bold' }}>Shipping ({val.courier})</p></MDBCol>
-            <MDBCol><p style={{ textAlign: 'right',marginRight:22 }}>IDR. {val.shippingPrice.toLocaleString()}</p></MDBCol>
+            <MDBCol><p style={{ textAlign: 'right', marginRight: 22 }}>IDR. {val.shippingPrice.toLocaleString()}</p></MDBCol>
             {/* </MDBRow> */}
             <MDBCol md='8'><p style={{ fontWeight: 'bold' }}>Amount</p></MDBCol>
-            <MDBCol ><p style={{ textAlign: 'right',marginRight:22 }}>IDR. {val.payment.toLocaleString()}</p></MDBCol>
+            <MDBCol ><p style={{ textAlign: 'right', marginRight: 22 }}>IDR. {val.payment.toLocaleString()}</p></MDBCol>
             <MDBCol>
               Name : {val.username}
               <br />
@@ -305,7 +252,6 @@ class HistoryPage extends Component {
           <SideNavigation />
           <main id="content" className="p-5">
             <MDBTable>
-              {/* <MDBTableBody> */}
               <MDBRow>
                 <MDBCol>
                   <MDBCard>
@@ -318,7 +264,6 @@ class HistoryPage extends Component {
               </MDBRow>
             </MDBTable>
             <MDBTable>
-              {/* <MDBTableBody> */}
               <MDBRow>
                 <MDBCol>
                   <MDBCard>
@@ -340,11 +285,11 @@ class HistoryPage extends Component {
 }
 
 const mapStateToProps = ({ transaction, user }) => {
-  console.log('cek',transaction)
+  console.log('cek', transaction)
   return {
     user,
     ...transaction
   }
 }
 
-export default connect(mapStateToProps, { getUserTransaction, getDetailTransaction,getCustomDetailTransaction })(HistoryPage);
+export default connect(mapStateToProps, { getUserTransaction, getDetailTransaction, getCustomDetailTransaction })(HistoryPage);

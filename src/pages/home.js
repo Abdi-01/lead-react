@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import Carousle from '../component/carousle'
 import DivCard from '../component/leadDivision'
 import Collection from '../component/collectionPreview'
-// import { connect } from 'react-redux'
-// import { getAllProduct } from '../redux/action'
 
 class HomePage extends Component {
     state = {
@@ -26,19 +24,15 @@ class HomePage extends Component {
                     <div id='sides' className="col">
                         <div className="element-jumbotron " id="left" style={{ width: '55%' }} >
                             <div className="text-white jumbotronBG" style={{ width: '100%', height: '450px' }}>
-                                {/* <Link to='/CustomOrder'> */}
                                 <button className="element-BtCustom" style={{ marginTop: '390px', float: 'right', right: '-1px' }} onClick={this.toggle}>
                                     <MDBIcon icon="edit" className="mr-2"></MDBIcon>
                                                 Custom Order
                                 </button>
-                                {/* </Link> */}
                             </div>
                         </div>
                         <div id="right" className='element-carousle ' style={{ width: '65%' }}>
                             <Carousle></Carousle>
                         </div>
-                        {/* <div style={{maxWidth:'50%'}}>
-                </div> */}
                     </div>
                 </div>
                 <div className="container tagLine">
@@ -62,20 +56,17 @@ class HomePage extends Component {
                         <Collection></Collection>
                     </div>
                 </div>
-
                 <MDBModal centered contentClassName="modalBG" isOpen={this.state.modal} toggle={this.toggle}>
-                    {/* <MDBModalBody> */}
                     <div id="sidesModal">
                         <Link to='/CustomOrder'>
                             <button className="element-FormCancel text-center" id="leftForm" style={{ height: "200px", width: "54%", padding: '0' }} onClick={this.toggle}>
                                 <i className="fas fa-upload fa-6x"></i><p>Upload Design</p></button>
                         </Link>
                         {/* <Link to='/CustomDesign'> */}
-                            <button className="element-FormLogin text-center" id="rightForm" style={{ height: "200px", width: "54%", padding: '0' }} onClick={this.loginUser}>
-                                <i className="fas fa-edit fa-6x"></i><p>Make Your Design</p></button>
+                        <button className="element-FormLogin text-center" id="rightForm" style={{ height: "200px", width: "54%", padding: '0' }} onClick={this.loginUser}>
+                            <i className="fas fa-edit fa-6x"></i><p>Make Your Design</p></button>
                         {/* </Link> */}
                     </div>
-                    {/* </MDBModalBody> */}
                 </MDBModal>
             </div>
         );

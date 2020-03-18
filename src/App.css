@@ -42,6 +42,11 @@
   width: 500;
 }
 
+/* canvas */
+.upper-canvas{
+  position: none !important  ;
+}
+
 /* MDBInput border */
 .formBorder{
   border: 1px solid gray;
