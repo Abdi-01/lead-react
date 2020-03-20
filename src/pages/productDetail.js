@@ -6,8 +6,8 @@ import { API_URL } from '../support/Backend_URL';
 import { connect } from 'react-redux'
 import { getCart } from '../redux/action'
 import '../assets/css/productDetail.css'
-
 import SizeCart from '../component/sizeCart'
+import Swal from 'sweetalert2'
 
 class ProductDetail extends Component {
     state = {
@@ -58,6 +58,7 @@ class ProductDetail extends Component {
             document.getElementById(`qty${e.target.name}`).disabled = e.target.checked
             document.getElementById(`size${e.target.name}`).disabled = true
             if (qty !== null) {
+                
                 orderOption.push([this.props.user.id,
                 parseInt(this.props.location.search.split('=')[1]),
                 parseInt(e.target.value),
@@ -115,23 +116,37 @@ class ProductDetail extends Component {
         })
         console.log(this.state.orderOption)
     }
-    
+
     addTocart = () => {
-        if (this.state.orderOption.length > 0) {
-            Axios.post(API_URL + `/carts/addToCart`, {
-                order: this.state.orderOption
-            })
-                .then((res) => {
-                    console.log('Success Add To Cart')
-                    this.props.getCart()
-                    this.setState({ redirect: true })
+        if (this.props.user.id) {
+            if (this.state.orderOption.length > 0) {
+                Axios.post(API_URL + `/carts/addToCart`, {
+                    order: this.state.orderOption
                 })
-                .catch((err) => {
-                    console.log(err)
-                })
+                    .then((res) => {
+                        console.log('Success Add To Cart')
+                        this.props.getCart()
+                        this.setState({ redirect: true })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+            else {
+                alert('Choose your order first')
+            }
         }
         else {
-            alert('Choose your order first')
+            Swal.fire({
+                text: 'Please login first',
+                imageUrl: require('../image/ilustration/authentication.svg'),
+                imageWidth: 150,
+                imageHeight: 150,
+                imageAlt: 'Custom image',
+                width: 200,
+                showConfirmButton: false,
+                timer: 3000
+            });
         }
     }
 

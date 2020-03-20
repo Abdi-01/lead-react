@@ -38,9 +38,9 @@ class LoginPopUp extends React.Component {
                 // this.setState({ redirect: true })
             } else {
                 this.props.login(username, password)//masuk authAction.js
-                if (this.props.username) {
-                    this.props.getCart()
-                }
+                // if (this.props.username) { //DELETE KALO FIX GAG GUNA
+                //     this.props.getCart()
+                // }
                 // this.setState({ redirect: true })
             }
         }

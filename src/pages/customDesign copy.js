@@ -28,35 +28,36 @@ class CustomDesign extends React.Component {
   handleImage = (e) => {
     var canvas = new fabric.Canvas('c');
     var reader = new FileReader();
-    if (localStorage.getItem('imgOn')) {
-      canvas.remove(this.state.imgOn);
-    }
     reader.onload = function (event) {
       var imgObj = new Image();
       imgObj.src = event.target.result;
       imgObj.onload = function () {
         var image = new fabric.Image(imgObj);
         image.set({ angle: 0, padding: 10 }).scaleToWidth(150);
-        canvas.setActiveObject(image);
         canvas.centerObject(image);
         canvas.add(image);
-        console.log('remove', canvas.setActiveObject(image))
-        console.log('get', canvas.getActiveObject())
-        // localStorage.setItem('imgOn', canvas.getActiveObject())
-        canvas.toDataURL()
-        console.log(canvas.toDataURL())
+        canvas.setActiveObject(image);
         // canvas.renderAll();
       }
     }
     reader.readAsDataURL(e.target.files[0]);
+    let data = JSON.stringify(canvas)
+    console.log('designA', data)
+    canvas.loadFromJSON(data, canvas.renderAll.bind(canvas));
+    console.log('designB', canvas.loadFromJSON(data, canvas.renderAll.bind(canvas)))
+    var canvas1 = document.getElementById("c");
+    var image = canvas1.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    window.location.href = image;
   }
-  
+
   removeImage = () => {
     var canvas = new fabric.Canvas('c');
-    // if (!object) {
-    //   alert('Please select the element to remove');
-    //   return '';
-    // }
+    var object = canvas.getActiveObject();
+    if (!object) {
+      alert('Please select the element to remove');
+      return '';
+    }
+    canvas.remove(object);
   }
 
   clothingCategory = (sel) => {

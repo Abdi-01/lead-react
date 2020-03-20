@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import Axios from 'axios'
 import { API_URL } from '../support/Backend_URL';
 import { getSizes, getMaterials, getStock, getCategories } from '../redux/action'
+import Swal from 'sweetalert2'
 
 class CustomOrder extends React.Component {
   state = {
@@ -122,38 +123,63 @@ class CustomOrder extends React.Component {
 
   orderNow = () => {
     let { addPrice, addImageFile, orderQty, detailOrder } = this.state
-    if (addImageFile) {
-      let formData = new FormData()
-      let data = {
-        userID: this.props.user.id,
-        category: this.state.addCategory,
-        material: this.state.addMaterial,
-        detail: detailOrder,
-        qty: orderQty,
-        price: addPrice,
-        note: this.refs.orderNote.value
-      }
-      console.log(data)
-      formData.append('data', JSON.stringify(data))
-      formData.append('image', addImageFile)
-      console.log('form', formData)
-      Axios.post(API_URL + '/carts/customOrder', formData)
-        .then((res) => {
-          console.log(res.data)
-          this.setState({
-            addImageFileName: 'Select Image', addImageFile: undefined, orderOption: [],
-            addCategoryID: 0,
-            addMaterialID: 0,
-            addPrice: 0,
-            totalPrice: 0,
-            orderQty: 0,
-            detailOrder: '',
-            redirect:true
+    if (!this.state.addCategory || !this.state.addMaterial || detailOrder === '') {
+      Swal.fire({
+        text: 'Complete your custom order form',
+        imageUrl: require('../image/ilustration/personal_data_.png'),
+        imageWidth: 150,
+        imageHeight: 150,
+        imageAlt: 'Custom image',
+        width: 200,
+        showConfirmButton: false,
+        timer: 2500
+      });
+    } else {
+      if (addImageFile) {
+        let formData = new FormData()
+        let data = {
+          userID: this.props.user.id,
+          category: this.state.addCategory,
+          material: this.state.addMaterial,
+          detail: detailOrder,
+          qty: orderQty,
+          price: addPrice,
+          note: this.refs.orderNote.value
+        }
+        console.log(data)
+        formData.append('data', JSON.stringify(data))
+        formData.append('image', addImageFile)
+        console.log('form', formData)
+        Axios.post(API_URL + '/carts/customOrder', formData)
+          .then((res) => {
+            console.log(res.data)
+            this.setState({
+              addImageFileName: 'Select Image', addImageFile: undefined, orderOption: [],
+              addCategoryID: 0,
+              addMaterialID: 0,
+              addPrice: 0,
+              totalPrice: 0,
+              orderQty: 0,
+              detailOrder: '',
+              redirect: true
+            })
           })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+      else {
+        Swal.fire({
+          text: 'Upload your image order',
+          imageUrl: require('../image/ilustration/ui_design_.png'),
+          imageWidth: 150,
+          imageHeight: 150,
+          imageAlt: 'Custom image',
+          width: 200,
+          showConfirmButton: false,
+          timer: 2500
+        });
+      }
     }
   }
 
@@ -251,7 +277,7 @@ class CustomOrder extends React.Component {
           <MDBRow>
             <div style={{ width: '100%' }}>
               <div className="float-right" style={{ marginRight: '1%' }}>
-                <button className="element-AddToCart h2" style={{ height: '100%' }} onClick={this.orderNow}>Order Now</button>
+                <button className="element-AddToCart h2" style={{ height: '100%' }} disabled={!this.props.user.id ? true : false} onClick={this.orderNow}>Order Now</button>
               </div>
               <div style={{ backgroundColor: 'silver', color: 'white', marginLeft: '1%', width: '95%', height: '88%' }}>
                 <h4 className="font-weight-bold" style={{ padding: '15px 0 15px 2%', color: 'black' }}>Total : IDR. {parseInt(this.state.totalPrice).toLocaleString()} </h4>

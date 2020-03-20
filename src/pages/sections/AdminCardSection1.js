@@ -46,19 +46,19 @@ class AdminCardSection1 extends React.Component {
             <div className="admin-up">
               <MDBIcon icon="money-bill-alt" className="primary-color" />
               <div className="data">
-                <p>SALES</p>
-                <h3>
-                  <strong>IDR. {this.state.salesAmount.toLocaleString()}</strong>
-                </h3>
+                <h4>SALES</h4>
               </div>
+              <h3 style={{ textAlign: 'right', marginTop: 20 }}>
+                <strong>IDR. {this.state.salesAmount.toLocaleString()}</strong>
+              </h3>
             </div>
-            <MDBCardBody>
-              {/* <div className="progress">
+            {/* <MDBCardBody>
+              <div className="progress">
                 <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" className="progress-bar bg-primary" role="progressbar"
                   style={{ width: '25%' }}></div>
               </div>
-              <MDBCardText>Better than last week (25%)</MDBCardText> */}
-            </MDBCardBody>
+              <MDBCardText>Better than last week (25%)</MDBCardText>
+            </MDBCardBody> */}
           </MDBCard>
         </MDBCol>
         <MDBCol xl="3" md="6" className="mb-r">
@@ -66,19 +66,19 @@ class AdminCardSection1 extends React.Component {
             <div className="admin-up">
               <MDBIcon icon="user" className="warning-color" />
               <div className="data">
-                <p>USER ACCOUNT</p>
-                <h3>
-                  <strong>{this.state.userAmount.toLocaleString()} Person</strong>
-                </h3>
+                <h4>USER</h4>
               </div>
+              <h3 style={{ textAlign: 'right', marginTop: 20 }}>
+                <strong>{this.state.userAmount.toLocaleString()} Person</strong>
+              </h3>
             </div>
-            <MDBCardBody>
-              {/* <div className="progress">
+            {/* <MDBCardBody>
+              <div className="progress">
                 <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" className="progress-bar bg grey" role="progressbar"
                   style={{ width: '25%' }}></div>
               </div>
-              <MDBCardText>Worse than last week (25%)</MDBCardText> */}
-            </MDBCardBody>
+              <MDBCardText>Worse than last week (25%)</MDBCardText>
+            </MDBCardBody> */}
           </MDBCard>
         </MDBCol>
         <MDBCol xl="3" md="6" className="mb-r">

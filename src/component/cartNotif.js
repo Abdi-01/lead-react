@@ -5,7 +5,7 @@ import {
 import { connect } from 'react-redux'
 import { getCart } from '../redux/action'
 import { API_URL } from '../support/Backend_URL';
-
+import Axios from 'axios'
 
 class CartNotif extends React.Component {
     state = {
@@ -17,6 +17,18 @@ class CartNotif extends React.Component {
         if (this.props.user) {
             return this.props.getCart()
         }
+    }
+
+    deleteCart = (id) => {
+        console.log(id)
+        Axios.delete(API_URL + `/carts/deleteCart/${id}`)
+            .then((res) => {
+                console.log(res.data)
+                this.props.getCart()
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     render() {
@@ -43,6 +55,7 @@ class CartNotif extends React.Component {
                                     <p style={{ margin: 0 }}>Qty : {item.qty} (x {item.productPrice.toLocaleString()})</p>
                                     <p style={{ margin: 0 }}>IDR. {item.price.toLocaleString()}</p>
                                 </MDBCol>
+                                {/* <span style={{ margin: 0, color: 'gray', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => this.deleteCart(item.id)}>x Delete</span> */}
                             </MDBRow>
                         )
                     })}

@@ -27,6 +27,7 @@ import ProductPage from './pages/ProductPage';
 import NotFoundPage from './pages/NotFoundPage';
 import VerificationPage from './pages/verificationPage'
 import Footer from './component/footer'
+import ChatRoom from './component/chatComponent'
 
 class App extends Component {
   constructor(props) {
@@ -84,6 +85,7 @@ class App extends Component {
           <Route path='*' component={NotFoundPage} />
         </Switch>
         <Footer></Footer>
+        <ChatRoom></ChatRoom>
       </div>
     );
   }

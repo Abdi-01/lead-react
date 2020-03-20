@@ -46,12 +46,10 @@ class ProfilePage extends Component {
       <div >
         <SideNavigation />
         <main id="content" className="p-5">
-          {/* <React.Fragment> */}
           <MDBRow className="justify-content-center">
             <MDBCol md="11">
               <MDBCard>
-                {/* <MDBCardImage className="img-fluid" src={src1} /> */}
-                <MDBCardBody>
+               <MDBCardBody>
                   <MDBCardTitle className="mb-2 font-bold">Edit Profile</MDBCardTitle>
                   <div className="form-group row">
                     <label htmlFor="inlineFormInputName" className="col-sm-3 col-form-label">Username</label>
@@ -137,7 +135,6 @@ class ProfilePage extends Component {
               </MDBCard>
             </MDBCol>
           </MDBRow>
-          {/* </React.Fragment> */}
         </main>
       </div >
     );

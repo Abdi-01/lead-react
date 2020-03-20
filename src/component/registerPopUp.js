@@ -86,6 +86,7 @@ class RegisPopUp extends React.Component {
             border: (abjad.test(pass) && num.test(pass) && spec.test(pass) && (pass.length > 7))
         })
     }
+    
     showReq = () => {
         this.setState({ show: true })
     }
