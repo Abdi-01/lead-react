@@ -6,12 +6,16 @@ import { API_URL } from '../../support/Backend_URL';
 class AdminCardSection1 extends React.Component {
   state = {
     salesAmount: 0,
-    userAmount: 0
+    userAmount: 0,
+    pendingAmount:0,
+    successAmount:0
   }
 
   componentDidMount = () => {
     this.getSalesAmount()
     this.getUserAmount()
+    this.getPendingOrderAmount()
+    this.getSuccessOrderAmount()
   }
 
   getSalesAmount = () => {
@@ -34,6 +38,30 @@ class AdminCardSection1 extends React.Component {
       })
       .catch((err) => {
         this.setState({ userAmount: 0 })
+        console.log(err)
+      })
+  }
+
+  getPendingOrderAmount = () => {
+    Axios.get(API_URL + '/results/getPendingOrderAmount')
+      .then((res) => {
+        this.setState({ pendingAmount: res.data[0].pendingAmount })
+        console.log(this.state.pendingAmount)
+      })
+      .catch((err) => {
+        this.setState({ pendingAmount: 0 })
+        console.log(err)
+      })
+  }
+
+  getSuccessOrderAmount = () => {
+    Axios.get(API_URL + '/results/getSuccessOrderAmount')
+      .then((res) => {
+        this.setState({ successAmount: res.data[0].successAmount })
+        console.log(this.state.successAmount)
+      })
+      .catch((err) => {
+        this.setState({ successAmount: 0 })
         console.log(err)
       })
   }
@@ -90,7 +118,7 @@ class AdminCardSection1 extends React.Component {
                 <h5 style={{ fontWeight: 'bold', color: '#999999' }}>ORDER</h5>
               </div>
               <h3 style={{ textAlign: 'right', marginTop: 20 }}>
-                <strong>20000</strong>
+                <strong>{this.state.pendingAmount}</strong>
               </h3>
             </div>
             {/* <MDBCardBody>
@@ -111,7 +139,7 @@ class AdminCardSection1 extends React.Component {
                 <h5 style={{ fontWeight: 'bold', color: '#999999' }}>ORDER</h5>
               </div>
               <h3 style={{ textAlign: 'right', marginTop: 20 }}>
-                <strong>2000</strong>
+                <strong>{this.state.successAmount}</strong>
               </h3>
             </div>
             {/* <MDBCardBody>

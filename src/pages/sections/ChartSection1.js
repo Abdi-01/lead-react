@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
 import { MDBCol, MDBCard, MDBCardBody, MDBCardHeader, MDBRow, MDBListGroup, MDBListGroupItem, MDBBadge, MDBIcon } from 'mdbreact';
 import { Bar, Pie } from 'react-chartjs-2';
+import Axios from 'axios'
+import { API_URL } from '../../support/Backend_URL';
 
 class ChartSection1 extends Component {
+    
+
+    getCategorySale=()=>{
+        Axios.get(API_URL+'/results/getCategorySale')
+        .then((res)=>{
+
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+
     render(){
         const dataBar = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],

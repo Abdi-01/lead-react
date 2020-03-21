@@ -143,6 +143,14 @@ select h.id,h.invoice,h.userID, u.username, p.name, p.imagepath, sz.size, p.pric
             join tb_sizes sz on st.sizeID = sz.id where t.status = 'Unpaid';
             
 -- Get total pending order
-select count(id) from tb_transactions where status ='Unpaid';
+select count(id) as pendingAmount from tb_transactions where status ='Unpaid';
 
 -- Get total Sucess order
+select count(id) as successAmount from tb_transactions where status ='Paid';
+
+-- gsopc        
+select c.category, sum(h.qty) from tb_history h join tb_products p on p.id = h.productID
+join tb_productcat pc on pc.productID = p.id 
+join tb_categories c on c.id = pc.categoryID
+LEFT JOIN tb_categories cc ON cc.parentId = c.id
+WHERE cc.id IS NULL;

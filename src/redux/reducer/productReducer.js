@@ -21,6 +21,7 @@ export default (state = INITIAL_STATE, action) => {
         case GET_MATERIALS:
             return { ...state, materials: action.payload }
         case GET_STOCK:
+            console.log(action.payload)
             return { ...state, stocks: action.payload }
         case GET_CATEGORIES:
             return { ...state, categories: action.payload }

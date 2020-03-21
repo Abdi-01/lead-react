@@ -247,8 +247,6 @@ class ProductPage extends Component {
   }
 
   renderEditSize = (id, name) => {
-    // return this.props.stocks.map((data) => {
-    //   if (this.state.selectedId === data.productID) {
     return (<Modal contentClassName="modalBG" isOpen={this.state.editSizeModal} toggle={() => this.toggle(4)}>
       <div className="text-center headerModalBG">
         <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Add Stock</h4>
@@ -260,21 +258,34 @@ class ProductPage extends Component {
               return (
                 <MDBCol lg="4" md="12" className="mb-lg-0 mb-4" key={val.id}>
                   <div className="input-group mb-3">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
-                        <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" ref={`size${val.id}`} value={val.id} />&nbsp;
-                                {val.size}&nbsp;
-                          </div>
-                    </div>
                     {
                       this.props.stocks.some(item => item.id === id && val.size === item.size) ?
                         this.props.stocks.map((data) => {
                           if (id === data.id && val.size === data.size) {
-                            return <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" defaultValue={data.stock} />
+                            // console.log(this.props.stocks)
+                            return (
+                              <>
+                                <div className="input-group-prepend">
+                                  <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
+                                    <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} name={data.stockId} aria-label="Checkbox for following text input" value={val.id} />&nbsp;
+                                        {val.size}&nbsp;
+                                </div>
+                                </div>
+                                <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" defaultValue={data.stock} />
+                              </>
+                            )
                           }
                         })
                         :
-                        <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" />
+                        <>
+                          <div className="input-group-prepend">
+                            <div className="input-group-text" style={{ padding: 0, width: 63, paddingLeft: 2 }}>
+                              <input type="checkbox" id={`size${val.id}`} onChange={this.checkSizehandler} disabled aria-label="Checkbox for following text input" value={val.id} />&nbsp;
+                                {val.size}&nbsp;
+                                </div>
+                          </div>
+                          <input type="text" id={`qty${val.id}`} onChange={this.inQtyhandler} name={val.id} className="form-control" aria-label="Text input with checkbox" />
+                        </>
                     }
                   </div>
                 </MDBCol>
@@ -291,7 +302,7 @@ class ProductPage extends Component {
       </ModalBody>
       <div id="sidesModal">
         <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.toggle(4)}>Cancel</button>
-        <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.submitStock(id)}>Submit</button>
+        <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.submitEditStock(id)}>Submit</button>
       </div>
     </Modal>
     )
@@ -305,8 +316,14 @@ class ProductPage extends Component {
     } else if (e.target.checked) {
       document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
       document.getElementById(`size${e.target.value}`).disabled = true
+      console.log(e.target.value)
+      console.log(e.target.name)
       if (qty !== null) {
-        sizeQty.push([parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
+        if (e.target.name > 0) {
+          sizeQty.push([parseInt(e.target.name), parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
+        } else {
+          sizeQty.push([, parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
+        }
         console.log(sizeQty)
       }
     }
@@ -315,7 +332,7 @@ class ProductPage extends Component {
 
   inQtyhandler = (e) => {
     console.log('check size', e.target.value)
-    let size = document.getElementById(`size${document.getElementById(`size${e.target.name}`).value}`)
+    let size = document.getElementById(`size${e.target.name}`)
     console.log('size', size)
     e.target.value > 0 ? size.disabled = false : size.disabled = true
   }
@@ -393,6 +410,18 @@ class ProductPage extends Component {
 
   submitStock = (id) => {
     Axios.post(API_URL + '/products/addStock', {
+      stock: this.state.sizeQty
+    })
+      .then((resQty) => {
+        console.log(resQty.data)
+        this.props.getStock()
+        this.setState({ editStock: false, selectedId: null, sizeQty: [] })
+        this.toggle(3)
+      })
+  }
+  
+  submitEditStock = (id) => {
+    Axios.post(API_URL + '/products/editStock', {
       stock: this.state.sizeQty
     })
       .then((resQty) => {
@@ -576,6 +605,7 @@ class ProductPage extends Component {
   }
 }
 const mapToProps = ({ products }) => {
+  // console.log(products.stocks)
   return { ...products }
 }
 
