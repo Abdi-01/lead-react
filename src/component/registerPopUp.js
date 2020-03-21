@@ -14,6 +14,7 @@ class RegisPopUp extends React.Component {
         abjad: false,
         char: false,
         border: false,
+        formPass: 'password'
     }
     toggle = () => {
         this.setState({
@@ -86,7 +87,7 @@ class RegisPopUp extends React.Component {
             border: (abjad.test(pass) && num.test(pass) && spec.test(pass) && (pass.length > 7))
         })
     }
-    
+
     showReq = () => {
         this.setState({ show: true })
     }
@@ -105,7 +106,14 @@ class RegisPopUp extends React.Component {
         } else {
             return <MDBProgress className="my-2" material value={100} color="danger">Minimum 8 Character</MDBProgress>
         }
+    }
 
+    visiblePass = (a) => {
+        if (a === 'show') {
+            this.setState({ formPass: 'text' })
+        } else if (a === 'hide') {
+            this.setState({ formPass: 'password' })
+        }
     }
 
     render() {
@@ -155,11 +163,21 @@ class RegisPopUp extends React.Component {
                                 group
                                 onChange={this.handleChange}
                                 onFocus={this.showReq}
-                                type="password"
+                                type={this.state.formPass}
                                 validate
                                 inputRef={(pass) => this.pass = pass}
                                 style={{ marginBottom: 0 }}
                             >
+                                <p style={{ marginTop: -30, cursor: 'pointer' }} className="font-small grey-text d-flex justify-content-end text-center">
+                                    {this.state.formPass === 'password'
+                                        ?
+                                        <span onClick={() => this.visiblePass('show')} className="material-icons">
+                                            visibility</span>
+                                        :
+                                        <span onClick={() => this.visiblePass('hide')} className="material-icons">
+                                            visibility_off</span>
+                                    }
+                                </p>
                                 <div style={{ width: 150, marginLeft: 40 }}>
                                     {
                                         this.state.show
@@ -174,7 +192,7 @@ class RegisPopUp extends React.Component {
                                 label="Confirm your password"
                                 icon="exclamation-triangle"
                                 group
-                                type="password"
+                                type={this.state.formPass}
                                 validate
                                 inputRef={(confpass) => this.confpass = confpass}
                             />

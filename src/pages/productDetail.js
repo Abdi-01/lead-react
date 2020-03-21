@@ -81,7 +81,7 @@ class ProductDetail extends Component {
     renderOrder = () => {
         return this.state.stockDetail.map((val, index) => {
             return (
-                <MDBCol key={val.id} sm="3" style={{ padding: 0 }}>
+                <MDBCol sm="3" style={{ padding: 0 }}>
                     <div className="input-group" style={{ height: '2%' }}>
                         <div className="input-group-prepend">
                             <div className="input-group-text" style={{ paddingLeft: 0 }}>
@@ -190,7 +190,7 @@ class ProductDetail extends Component {
                                     <MDBRow style={{ paddingLeft: '13px' }}>{this.renderOrder()}
                                         <MDBTooltip domElement placement="top">
                                             <span style={{ margin: 'auto' }} onClick={this.resetOrder}>
-                                                <i style={{ verticalAlign: 'middle', cursor: 'pointer' }} class="material-icons">settings_backup_restore</i>
+                                                <i style={{ verticalAlign: 'middle', cursor: 'pointer' }} className="material-icons">settings_backup_restore</i>
                                             </span>
                                             <p style={{ padding: 0 }}>Reset Order</p>
                                         </MDBTooltip>

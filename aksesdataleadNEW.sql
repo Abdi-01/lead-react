@@ -132,7 +132,7 @@ SET SQL_SAFE_UPDATES=0; -- Mematikan safe update
 UPDATE tb_custom SET invoice='LEAD_${invoice}' WHERE userID = 8 and statusOrder='On Transaction';
 SET SQL_SAFE_UPDATES=1; -- Menyalakan safe update
 
--- Get detail custom order
+-- Get detail cu'stom order
 Select cst.*, t.orderType from tb_custom cst join tb_transactions t on t.invoice = cst.invoice where t.userID=8; 
 
 select h.id,h.invoice,h.userID, u.username, p.name, p.imagepath, sz.size, p.price as productPrice,h.qty, h.price 
@@ -141,3 +141,8 @@ select h.id,h.invoice,h.userID, u.username, p.name, p.imagepath, sz.size, p.pric
             join tb_products p on h.productID = p.id 
             join tb_stock st on st.id = h.stockID
             join tb_sizes sz on st.sizeID = sz.id where t.status = 'Unpaid';
+            
+-- Get total pending order
+select count(id) from tb_transactions where status ='Unpaid';
+
+-- Get total Sucess order

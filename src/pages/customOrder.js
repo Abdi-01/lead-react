@@ -42,7 +42,6 @@ class CustomOrder extends React.Component {
 
   onChangeSelectCategory = (e) => {
     console.log(e.target.value)
-    // console.log(this.state.addPrice)
     this.setState({ addCategoryID: parseInt(e.target.value) })
   }
 
@@ -110,15 +109,20 @@ class CustomOrder extends React.Component {
   }
 
   resetOrder = () => {
-    this.state.orderOption.splice(0, this.state.orderOption.length)
-    this.setState({ orderOption: [], totalPrice: 0 })
-    this.props.sizes.forEach((val) => {
-      document.getElementById(`qty${val.size}`).value = null
-      document.getElementById(`size${val.size}`).checked = false
-      document.getElementById(`size${val.size}`).disabled = true
-      document.getElementById(`qty${val.size}`).disabled = false
-    })
-    console.log(this.state.orderOption)
+    if (this.state.orderOption.length > 0) {
+      this.state.orderOption.splice(0, this.state.orderOption.length)
+      this.setState({ orderOption: [], totalPrice: 0 })
+      this.props.sizes.forEach((val) => {
+        document.getElementById(`qty${val.size}`).value = null
+        document.getElementById(`size${val.size}`).checked = false
+        document.getElementById(`size${val.size}`).disabled = true
+        document.getElementById(`qty${val.size}`).disabled = false
+      })
+      console.log(this.state.orderOption)
+    }
+    else{
+      return null
+    }
   }
 
   orderNow = () => {

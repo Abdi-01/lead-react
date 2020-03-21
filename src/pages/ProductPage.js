@@ -19,6 +19,7 @@ class ProductPage extends Component {
   state = {
     addImageFileName: 'Select File',
     addImageFile: undefined,
+    sortBy: 'none',
     sizeQty: [],
     sizeEditQty: [],
     modal: false,
@@ -119,8 +120,25 @@ class ProductPage extends Component {
     })
   }
 
+  sortData = (arr, cbfn) => {
+    let hasil = ''
+    for (let k = 0; k < arr.length - 1; k++) {//berhenti sebelum melebihi index
+      for (let l = k + 1; l < arr.length; l++) {
+        if (this.state.sortBy === 'name') {
+          hasil = cbfn(typeof (arr[k].name) === 'string' ? arr[k].name.charCodeAt(0) : arr[k].name, typeof (arr[l].name) === 'string' ? arr[l].name.charCodeAt(0) : arr[l].name)//membandingkan setiap item dengan semua item satu persatu
+        } else if (this.state.sortBy === 'price') {
+          hasil = cbfn(typeof (arr[k].price) === 'string' ? arr[k].price.charCodeAt(0) : arr[k].price, typeof (arr[l].price) === 'string' ? arr[l].price.charCodeAt(0) : arr[l].price)//membandingkan setiap item dengan semua item satu persatu
+        }
+        if (hasil > 0) {
+          [arr[k], arr[l]] = [arr[l], arr[k]]
+        }
+      }
+    }
+    return arr
+  }
+
   renderData = () => {
-    return this.props.pagiProduct.map((val, index) => {
+    return this.sortData(this.props.pagiProduct, (a, b) => { return a - b }).map((val, index) => {
       return (
         <tr key={val.id}>
           {/* <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>{index + 1}</td> */}
@@ -279,6 +297,29 @@ class ProductPage extends Component {
     )
   }
 
+  checkSizehandler = (e) => {
+    let { sizeQty } = this.state
+    let qty = document.getElementById(`qty${e.target.value}`).value
+    if (!e.target.checked) {
+      document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
+    } else if (e.target.checked) {
+      document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
+      document.getElementById(`size${e.target.value}`).disabled = true
+      if (qty !== null) {
+        sizeQty.push([parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
+        console.log(sizeQty)
+      }
+    }
+  }
+
+
+  inQtyhandler = (e) => {
+    console.log('check size', e.target.value)
+    let size = document.getElementById(`size${document.getElementById(`size${e.target.name}`).value}`)
+    console.log('size', size)
+    e.target.value > 0 ? size.disabled = false : size.disabled = true
+  }
+
   yesEdit = (id) => {
     let { addImageFile } = this.state;
     let formData = new FormData()
@@ -357,7 +398,7 @@ class ProductPage extends Component {
       .then((resQty) => {
         console.log(resQty.data)
         this.props.getStock()
-        this.setState({ editStock: false, selectedId: null, sizeQty: []})
+        this.setState({ editStock: false, selectedId: null, sizeQty: [] })
         this.toggle(3)
       })
   }
@@ -409,43 +450,6 @@ class ProductPage extends Component {
     this.setState({ addMaterialID: parseInt(e.target.value) })
   }
 
-  checkSizehandler = (e) => {
-    let { sizeQty } = this.state
-    let qty = document.getElementById(`qty${e.target.value}`).value
-    if (!e.target.checked) {
-      document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
-    } else if (e.target.checked) {
-      document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
-      document.getElementById(`size${e.target.value}`).disabled = true
-      if (qty !== null) {
-        sizeQty.push([parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
-        console.log(sizeQty)
-      }
-    }
-  }
-
-  // checkSizeEdithandler = (e) => {
-  //   let { sizeQty } = this.state
-  //   let qty = document.getElementById(`qty${e.target.value}`).value
-  //   if (!e.target.checked) {
-  //     document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
-  //   } else if (e.target.checked) {
-  //     document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
-  //     document.getElementById(`size${e.target.value}`).disabled = true
-  //     if (qty !== null) {
-  //       sizeQty.push([parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
-  //       console.log(sizeQty)
-  //     }
-  //   }
-  // }
-
-  inQtyhandler = (e) => {
-    console.log('check size', e.target.value)
-    let size = document.getElementById(`size${document.getElementById(`size${e.target.name}`).value}`)
-    console.log('size', size)
-    e.target.value >= 1 ? size.disabled = false : size.disabled = true
-  }
-
   resetOrder = () => {
     this.setState({ sizeQty: [] })
     console.log(this.state.orderOption)
@@ -482,6 +486,11 @@ class ProductPage extends Component {
                     <h4 className="h4-responsive text-white">All Product</h4>
                   </MDBView>
                   <MDBCardBody>
+                    <select style={{ width: 100 }} className="form-control form-control-sm" >
+                      <option value={0} onClick={() => this.setState({ sortBy: 'none' })}>Sort by </option>
+                      <option value={1} onClick={() => this.setState({ sortBy: 'name' })}>Name</option>
+                      <option value={2} onClick={() => this.setState({ sortBy: 'price' })}>Price</option>
+                    </select>
                     <MDBTable>
                       <MDBTableHead>
                         <tr style={{ textAlign: 'center' }}>

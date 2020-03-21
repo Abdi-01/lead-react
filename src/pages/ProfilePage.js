@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { MDBCard, MDBCol, MDBRow, MDBCardBody, MDBCardTitle, MDBBtn } from 'mdbreact';//MDBCardImage,
 import SideNavigation from '../component/sideNavigation'
-import Axios from 'axios';
 import { connect } from 'react-redux'
 import { EditProfile, EditPassword } from '../redux/action'
-import { API_URL } from '../support/Backend_URL';
 
 class ProfilePage extends Component {
   state = {
@@ -94,8 +92,8 @@ class ProfilePage extends Component {
                   <div className="row justify-content-end pr-1">
                     <MDBBtn size="sm" color="dark" onClick={this.editPassword}>Save Password</MDBBtn>
                   </div>
-                  <MDBCardTitle className="mb-2 font-bold">Edit Personal Address</MDBCardTitle>
-                  <div className="form-group row">
+                  {/* <MDBCardTitle className="mb-2 font-bold">Edit Personal Address</MDBCardTitle> */}
+                  {/* <div className="form-group row">
                     <label htmlFor="inputAddress2" className="col-sm-3 col-form-label">Address</label>
                     <div className="col-sm-9">
                       <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
@@ -130,7 +128,7 @@ class ProfilePage extends Component {
                   </div>
                   <div className="row justify-content-end pr-1">
                     <MDBBtn size="sm" color="dark">Save Address</MDBBtn>
-                  </div>
+                  </div> */}
                 </MDBCardBody>
               </MDBCard>
             </MDBCol>

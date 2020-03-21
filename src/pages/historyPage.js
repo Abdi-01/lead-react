@@ -84,7 +84,7 @@ class HistoryPage extends Component {
                     {item.imgpayment === null ?
                       <p className="text-center" style={{ margin: 2, marginTop: 10, padding: 0, color: 'gray' }}>Waiting Payment</p>
                       : <div style={{ textAlign: 'center' }}>
-                        <img src={API_URL + item.imgpayment} id='imgpreview' style={{ width: 100 }}></img>
+                        <img src={API_URL + item.imgpayment} alt="preview" id='imgpreview' style={{ width: 100 }}></img>
                       </div>}
                   </MDBCol>
                   <MDBCol>
@@ -105,9 +105,9 @@ class HistoryPage extends Component {
                   <MDBCol sm='2' >
                     {item.imgpayment === null ?
                       <p style={{ margin: 2, marginTop: 10, padding: 0 }}>
-                        <a style={{ cursor: 'pointer', marginTop: 30, color: 'gray', fontWeight: 'bold', textDecoration: 'underline' }} onClick={() => this.uploadTransferReceipt(item.invoice)}>Upload Payment</a>
+                        <span style={{ cursor: 'pointer', marginTop: 30, color: 'gray', fontWeight: 'bold', textDecoration: 'underline' }} onClick={() => this.uploadTransferReceipt(item.invoice)}>Upload Payment</span>
                       </p>
-                      : <img src={API_URL + item.imgpayment} id='imgReceiptFix' style={{ width: 100, verticalAlign: 'middle' }}></img>}
+                      : <img src={API_URL + item.imgpayment} alt="imgReceipt" id='imgReceiptFix' style={{ width: 100, verticalAlign: 'middle' }}></img>}
                   </MDBCol>
                   <MDBCol>
                     <p style={{ margin: 2, marginTop: 10, padding: 0, color: 'gray' }}>{item.status}</p>
@@ -117,6 +117,8 @@ class HistoryPage extends Component {
             </MDBRow>
           </MDBCard >
         )
+      }else{
+        return null
       }
     })
   }
@@ -143,7 +145,7 @@ class HistoryPage extends Component {
               <td style={{ verticalAlign: 'middle' }}>IDR. {val.price.toLocaleString()}</td>
             </tr>
           )
-        }
+        }else{return null}
       })
     } else {
       return this.props.getCustomDetailReducer.map((val, index) => {
@@ -159,7 +161,7 @@ class HistoryPage extends Component {
               <td style={{ verticalAlign: 'middle' }}>IDR. {(val.qty * val.price).toLocaleString()}</td>
             </tr>
           )
-        }
+        }else{return null}
       })
     }
   }
@@ -199,7 +201,7 @@ class HistoryPage extends Component {
           <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Upload Your Transfer</h4>
         </div>
         <ModalBody>
-          <img id="imgReceipt" className="img-fluid" width="200px" />
+          <img id="imgReceipt" className="img-fluid" alt="receipt" width="200px" />
           < CustomInput className="form-control btn-sm" id='upload' onChange={this.onBtnAddImageReceipt} label={this.state.addImageReceiptName} type='file' />
         </ModalBody>
         <button onClick={() => this.uploadTransfer(this.state.selectedInvoice)}>Upload</button>
@@ -250,7 +252,7 @@ class HistoryPage extends Component {
       <div style={{}} >
         <div className="flexible-content">
           <SideNavigation />
-          <main id="content" className="p-5">
+          <main id="content" className="p-5" style={{ minHeight: 670 }}>
             <MDBTable>
               <MDBRow>
                 <MDBCol>

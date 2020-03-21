@@ -1,7 +1,7 @@
 import React from 'react';
 import '../assets/css/modal.css'
 import '../assets/css/alert.css'
-import { MDBInput, MDBModal, MDBModalBody } from 'mdbreact';
+import { MDBInput, MDBModal, MDBModalBody, MDBIcon } from 'mdbreact';
 import { connect } from 'react-redux'
 import { login, getCart } from '../redux/action'
 import Swal from 'sweetalert2'
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 class LoginPopUp extends React.Component {
     state = {
         modal: false,
+        formPass: 'password'
     }
     toggle = () => {
         this.setState({
@@ -45,6 +46,15 @@ class LoginPopUp extends React.Component {
             }
         }
     }
+
+    visiblePass = (a) => {
+        if (a === 'show') {
+            this.setState({ formPass: 'text' })
+        } else if (a === 'hide') {
+            this.setState({ formPass: 'password' })
+        }
+    }
+
     render() {
         return (
             <div style={{ marginRight: 10 }}>
@@ -63,21 +73,29 @@ class LoginPopUp extends React.Component {
                                 icon="user"
                                 group
                                 type="text"
-                                validate
-                                error="wrong"
-                                success="right"
                                 inputRef={(text) => this.text = text}
                             />
                             <MDBInput
                                 label="Type your password"
                                 icon="lock"
                                 group
-                                type="password"
-                                validate
+                                type={this.state.formPass}
                                 inputRef={(pass) => this.pass = pass}
-                            />
+                            >
+                                <p style={{ marginTop: -34, cursor: 'pointer' }} className="font-small grey-text d-flex justify-content-end text-center">
+                                    {this.state.formPass === 'password'
+                                        ?
+                                        <span onClick={() => this.visiblePass('show')} className="material-icons">
+                                            visibility</span>
+                                        :
+                                        <span onClick={() => this.visiblePass('hide')} className="material-icons">
+                                            visibility_off</span>
+                                    }
+                                </p>
+                            </MDBInput>
                         </div>
-                        <p style={{ margin: 0 }} className="font-small grey-text d-flex justify-content-end text-center">
+                        {/* <MDBIcon style={{ marginTop: -30 }} far icon="eye-slash" /> */}
+                        {/* <p style={{ marginTop:-30 }} className="font-small grey-text d-flex justify-content-end text-center">
                             Forgot
                             <a
                                 href="#!"
@@ -85,7 +103,7 @@ class LoginPopUp extends React.Component {
                             >
                                 Password?
                             </a>
-                        </p>
+                        </p> */}
                     </MDBModalBody>
                     <div id="sidesModal">
                         <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.toggle}>Cancel</button>

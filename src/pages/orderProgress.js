@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CustomInput, Modal, ModalBody} from 'reactstrap';
+import { CustomInput, Modal, ModalBody } from 'reactstrap';
 import { MDBCard, MDBView, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody } from 'mdbreact'
 import SideNavigation from '../component/sideNavigation'
 import '../assets/css/trackingOrder.css'
@@ -131,14 +131,16 @@ class TrackingPage extends Component {
               {this.props.user.role === 'admin' ?
                 <>
                   <MDBCol sm='2' >
-                    {item.imgpayment === null ?
-                      <p className="text-center" style={{ margin: 2, marginTop: 10, padding: 0, color: 'gray' }}>Waiting Payment</p>
-                      : <div style={{ textAlign: 'center' }}>
-                        <img src={API_URL + item.imgpayment} id='imgpreview' style={{ width: 100 }}></img>
-                      </div>}
+                    {
+                      item.imgpayment === null ?
+                        <p className="text-center" style={{ margin: 2, marginTop: 10, padding: 0, color: 'gray' }}>Waiting Payment</p>
+                        : <div style={{ textAlign: 'center' }}>
+                          <img src={API_URL + item.imgpayment} id='imgpreview' style={{ width: 100 }} alt="preview"></img>
+                        </div>
+                    }
                   </MDBCol>
                   <MDBCol>
-                    <select style={{ margin: 2, marginTop: 6, padding: 0, color: 'gray' }} className="form-control form-control-sm" value={this.state.statusVerification}
+                    <select style={{ margin: 2, marginTop: 6, padding: 0, color: 'gray' }} className="form-control form-control-sm"
                       onChange={this.onChangeSelectStatus}>
                       <option value={item.status !== 'Unpaid' ? 'Unpaid' : item.status}>{item.status !== 'Unpaid' ? 'Unpaid' : item.status}</option>
                       <option value='Paid'>Paid</option>
@@ -155,7 +157,7 @@ class TrackingPage extends Component {
                   <MDBCol sm='2' >
                     {item.imgpayment === null ?
                       <p style={{ margin: 2, marginTop: 10, padding: 0 }}>
-                        <a style={{ cursor: 'pointer', marginTop: 30, color: 'gray', fontWeight: 'bold', textDecoration: 'underline' }} onClick={() => this.uploadTransferReceipt(item.invoice)}>Upload Payment</a>
+                        <span style={{ cursor: 'pointer', marginTop: 30, color: 'gray', fontWeight: 'bold', textDecoration: 'underline' }} onClick={() => this.uploadTransferReceipt(item.invoice)}>Upload Payment</span>
                       </p>
                       : <img src={API_URL + item.imgpayment} id='imgReceiptFix' style={{ width: 100, verticalAlign: 'middle' }}></img>}
                   </MDBCol>
@@ -167,7 +169,7 @@ class TrackingPage extends Component {
             </MDBRow>
           </MDBCard >
         )
-      }
+      }else{return null}
     })
   }
 
@@ -175,6 +177,7 @@ class TrackingPage extends Component {
     this.setState({ selectedInvoice: invoice, selectedorderType: orderType })
     this.toggle(1)
   }
+  
   uploadTransferReceipt = (invoice) => {
     this.setState({ selectedInvoice: invoice })
     this.toggle(2)
@@ -227,10 +230,10 @@ class TrackingPage extends Component {
           <MDBRow key={val.id}>
             {/* <MDBRow> */}
             <MDBCol md='8' ><p style={{ fontWeight: 'bold' }}>Shipping ({val.courier})</p></MDBCol>
-            <MDBCol><p style={{ textAlign: 'right',marginRight:22 }}>IDR. {val.shippingPrice.toLocaleString()}</p></MDBCol>
+            <MDBCol><p style={{ textAlign: 'right', marginRight: 22 }}>IDR. {val.shippingPrice.toLocaleString()}</p></MDBCol>
             {/* </MDBRow> */}
             <MDBCol md='8'><p style={{ fontWeight: 'bold' }}>Amount</p></MDBCol>
-            <MDBCol ><p style={{ textAlign: 'right',marginRight:22 }}>IDR. {val.payment.toLocaleString()}</p></MDBCol>
+            <MDBCol ><p style={{ textAlign: 'right', marginRight: 22 }}>IDR. {val.payment.toLocaleString()}</p></MDBCol>
             <MDBCol>
               Name : {val.username}
               <br />
@@ -255,7 +258,7 @@ class TrackingPage extends Component {
           <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Upload Your Transfer</h4>
         </div>
         <ModalBody>
-          <img id="imgReceipt" className="img-fluid" width="200px" />
+          <img id="imgReceipt" className="img-fluid" width="200px" alt="a"/>
           < CustomInput className="form-control btn-sm" id='upload' onChange={this.onBtnAddImageReceipt} label={this.state.addImageReceiptName} type='file' />
         </ModalBody>
         <button onClick={() => this.uploadTransfer(this.state.selectedInvoice)}>Upload</button>
@@ -284,10 +287,10 @@ class TrackingPage extends Component {
                 :
                 <tr style={{ textAlign: 'center' }}>
                   <td style={{ width: 200 }}>Product</td>
-                  <td style={{ width: 30 }}>Detail</td>
+                  <td style={{ width: 100 }}>Detail</td>
                   <td style={{ width: 30 }}>qty</td>
-                  <td style={{ width: 300 }}>Price</td>
-                  <td style={{ width: 300 }}>Total</td>
+                  <td style={{ width: 200 }}>Price</td>
+                  <td style={{ width: 200 }}>Total</td>
                 </tr>
             }
             </MDBTableHead>
@@ -306,7 +309,7 @@ class TrackingPage extends Component {
       <div style={{}} >
         <div className="flexible-content">
           <SideNavigation />
-          <main id="content" className="p-5">
+          <main id="content" className="p-5" style={{minHeight:670}}>
             <MDBTable>
               {/* <MDBTableBody> */}
               <MDBRow>

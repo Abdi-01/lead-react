@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { MDBJumbotron, MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCardTitle } from "mdbreact";
-import { Col, Input } from 'reactstrap';
+import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCardTitle } from "mdbreact";
+import { Input } from 'reactstrap';
 import { connect } from 'react-redux'
 import { accountVerification } from '../redux/action'
 import { Redirect } from 'react-router-dom';

@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 import Axios from 'axios'
 import { connect } from 'react-redux'
 import { API_URL } from '../support/Backend_URL';
-import { Widget, addResponseMessage, addLinkSnippet, addUserMessage } from 'react-chat-widget';
+import { Widget, addResponseMessage } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 
 class ChatAdmin extends React.Component {
@@ -36,6 +36,7 @@ class ChatAdmin extends React.Component {
         console.log(`New message incoming! ${newMessage}`);
         // Now send the message throught the backend API
         Axios.post('http://localhost:2020/chat/sendMessages', {
+            id: this.props.id,
             user: this.props.role,
             message: newMessage
         }).then((res) => {
@@ -46,20 +47,18 @@ class ChatAdmin extends React.Component {
     renderResponse = () => {
         const { messages } = this.state
         for (let i = 1; i <= messages.length; i++) {
-            if (i == messages.length) {
-                if (this.props.role === 'user') {
-                    if (messages[i - 1].user === 'admin') {
+            if (i === messages.length) {
+                if (this.props.role === 'admin') {
+                    if (messages[i - 1].user === 'user' || messages[i - 1].user === undefined ) {
                         addResponseMessage(messages[i - 1].message)
                     }
                 } else {
-                    if (messages[i - 1].user === 'user') {
+                    if (messages[i - 1].user === 'admin') {
                         addResponseMessage(messages[i - 1].message)
                     }
                 }
             }
         }
-        // messages.map((item) => {
-        // })
     }
 
     render() {
@@ -69,7 +68,7 @@ class ChatAdmin extends React.Component {
                 <Widget
                     title="Lead Project Messages Box"
                     subtitle="Consulting your order in here"
-                    profileAvatar={this.props.role==='admin'?"https://i7.pngguru.com/preview/178/419/741/computer-icons-avatar-login-user-avatar.jpg":require('../image/profil.png')}
+                    profileAvatar={this.props.role === 'admin' ? `https://api.adorable.io/avatars/285/${localStorage.getItem('chatUser')}.png` : require('../image/profil.png')}
                     handleNewUserMessage={this.handleNewUserMessage} />
             </div>
         );

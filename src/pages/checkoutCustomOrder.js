@@ -190,7 +190,7 @@ class CheckoutPage extends React.Component {
             if (cityID === val.city_id) {
                 this.setState({ setProvince: val.province })
                 // this.getCost()
-            }
+            }else{return null}
         })
     }
 
@@ -285,7 +285,7 @@ class CheckoutPage extends React.Component {
                             <MDBRow>
                                 <MDBCol sm='4'>
                                     <img src='https://1.bp.blogspot.com/-epxOcwo446g/Vxw_q2mS5VI/AAAAAAAAXCs/md15WqOgYdMNg5zK0sYoe91Q9EYlSJySQCLcB/s1600/Bank%2BMandiri%2BLogo.png'
-                                        width="110px" height="50px"
+                                        width="110px" height="50px" alt="a"
                                     ></img>
                                 </MDBCol>
                                 <MDBCol>
