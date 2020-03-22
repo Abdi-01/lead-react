@@ -120,7 +120,7 @@ class ProductDetail extends Component {
     }
 
     addTocart = () => {
-        if (this.props.user.id) {
+        if (this.props.user.role==='user') {
             if (this.state.orderOption.length > 0) {
                 Axios.post(API_URL + `/carts/addToCart`, {
                     order: this.state.orderOption
@@ -140,7 +140,7 @@ class ProductDetail extends Component {
         }
         else {
             Swal.fire({
-                text: 'Please login first',
+                text: 'Please login user account',
                 imageUrl: require('../image/ilustration/authentication.svg'),
                 imageWidth: 150,
                 imageHeight: 150,

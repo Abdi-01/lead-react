@@ -129,8 +129,7 @@ class CustomOrder extends React.Component {
 
   orderNow = () => {
     let { addPrice, addImageFile, orderQty, detailOrder } = this.state
-    if(this.props.user.id){
-
+    if(this.props.user.role==='user'){
       if (!this.state.addCategory || !this.state.addMaterial || detailOrder === '') {
         Swal.fire({
           text: 'Complete your custom order form',

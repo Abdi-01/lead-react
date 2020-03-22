@@ -19,11 +19,29 @@ class ProductCard extends Component {
         }
     }
 
+    sortData = (arr, cbfn) => {
+        let hasil = ''
+        for (let k = 0; k < arr.length - 1; k++) {//berhenti sebelum melebihi index
+            for (let l = k + 1; l < arr.length; l++) {
+                hasil = cbfn(typeof (arr[k].price) === 'string' ? arr[k].price.charCodeAt(0) : arr[k].price, typeof (arr[l].price) === 'string' ? arr[l].price.charCodeAt(0) : arr[l].price)//membandingkan setiap item dengan semua item satu persatu
+                if (hasil > 0) {
+                    [arr[k], arr[l]] = [arr[l], arr[k]]
+                }
+            }
+        }
+        return arr
+    }
+
     render() {
         return (
             <div className="row">
-                {this.props.allProduct.map((val, index) =>
-                    <MDBCol lg="3" style={{ marginTop: "2%" }}  key={val.id}>
+                {this.sortData(this.props.allProduct, (a, b) => { 
+                    if(this.props.sort==='hight'){
+                        return b - a 
+                    }else if(this.props.sort==='low'){
+                        return a - b 
+                    }}).map((val, index) =>
+                    <MDBCol lg="3" style={{ marginTop: "2%" }} key={val.id}>
                         <Link to={`/ProductDetail?id=${val.id}`}>
                             <MDBCard wide ecommerce>
                                 <MDBCardImage
