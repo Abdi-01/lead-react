@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 export const registerUser = (form) => {
     return async (dispatch) => {
         try {
-            var resCheck = await Axios.get(API_URL + `/users/getSearchUsers/${form.username}`)
+            var resCheck = await Axios.get(API_URL + `/users/getSearchUsers?user=${form.username}&email=${form.email}`)
             console.log(resCheck.data)
             if (resCheck.data.length !== 0) {
                 Swal.fire({
@@ -72,7 +72,7 @@ export const accountVerification = (verify) => {
                     'Authorization': `Bearer ${verify.token}`
                 }
             })
-            console.log('acVer',res.data)
+            console.log('acVer', res.data)
             localStorage.setItem('token', res.data.token)
             dispatch({
                 type: LOGIN, //reducer 1

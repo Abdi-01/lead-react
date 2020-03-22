@@ -3,9 +3,9 @@ import { MDBRow } from 'mdbreact';
 import AdminCardSection1 from './sections/AdminCardSection1';
 // import AdminCardSection2 from './sections/AdminCardSection2';
 import TableSection from './sections/TableSection';
-// import ChartSection1 from './sections/ChartSection1';
+import ChartSection1 from './sections/ChartSection1';
 import ChartSection2 from './sections/ChartSection2';
-import MapSection from './sections/MapSection';
+// import MapSection from './sections/MapSection';
 import ModalSection from './sections/ModalSection'
 import SideNavigation from '../component/sideNavigation'
 
@@ -17,13 +17,13 @@ const DashboardPage = () => {
     <React.Fragment>
         {/* <AdminCardSection2 /> */}
         <AdminCardSection1 />
-        {/* <ChartSection1 /> */}
         <TableSection />
-        <ChartSection2 />
-        <MDBRow className="mb-4">
+        <ChartSection1 />
+        {/* <ChartSection2 /> */}
+        {/* <MDBRow className="mb-4">
           <MapSection />
           <ModalSection />
-        </MDBRow>
+        </MDBRow> */}
       </React.Fragment>
     </main>
     </div>

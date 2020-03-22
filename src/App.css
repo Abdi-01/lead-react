@@ -310,3 +310,8 @@ main {
     flex-direction: column;
   }
 }
+
+/* FAB CONTAINER */
+.fab-container{
+  right: 0;
+}

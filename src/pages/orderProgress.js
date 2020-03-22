@@ -149,7 +149,7 @@ class TrackingPage extends Component {
                   </MDBCol>
                   <MDBCol>
                     <button className="btVerifie" style={{ margin: 2, marginTop: 6, padding: 3 }}
-                      onChange={this.onChangeSelectMaterial} onClick={() => this.verifieTrans(item.id)}>Verifie</button>
+                      onChange={this.onChangeSelectMaterial} disabled={item.imgpayment === null?true:false} onClick={() => this.verifieTrans(item.id)}>Verifie</button>
                   </MDBCol>
                 </>
                 :
@@ -169,7 +169,7 @@ class TrackingPage extends Component {
             </MDBRow>
           </MDBCard >
         )
-      }else{return null}
+      } else { return null }
     })
   }
 
@@ -177,7 +177,7 @@ class TrackingPage extends Component {
     this.setState({ selectedInvoice: invoice, selectedorderType: orderType })
     this.toggle(1)
   }
-  
+
   uploadTransferReceipt = (invoice) => {
     this.setState({ selectedInvoice: invoice })
     this.toggle(2)
@@ -255,10 +255,12 @@ class TrackingPage extends Component {
     return (
       <Modal contentClassName="modalBG" isOpen={this.state.modal2} toggle={() => this.toggle(2)}>
         <div className="text-center headerModalBG" >
-          <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Upload Your Transfer</h4>
+          <h4 style={{ padding: 4, color: 'white', margin: 2 }}>Receipt Payment</h4>
         </div>
         <ModalBody>
-          <img id="imgReceipt" className="img-fluid" width="200px" alt="a"/>
+          <div className="text-center">
+            <img id="imgReceipt" className="img-fluid" width="200px" />
+          </div>
           < CustomInput className="form-control btn-sm" id='upload' onChange={this.onBtnAddImageReceipt} label={this.state.addImageReceiptName} type='file' />
         </ModalBody>
         <button onClick={() => this.uploadTransfer(this.state.selectedInvoice)}>Upload</button>
@@ -309,7 +311,7 @@ class TrackingPage extends Component {
       <div style={{}} >
         <div className="flexible-content">
           <SideNavigation />
-          <main id="content" className="p-5" style={{minHeight:670}}>
+          <main id="content" className="p-5" style={{ minHeight: 670 }}>
             <MDBTable>
               {/* <MDBTableBody> */}
               <MDBRow>

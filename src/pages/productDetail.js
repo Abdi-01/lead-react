@@ -58,7 +58,7 @@ class ProductDetail extends Component {
             document.getElementById(`qty${e.target.name}`).disabled = e.target.checked
             document.getElementById(`size${e.target.name}`).disabled = true
             if (qty !== null) {
-                
+
                 orderOption.push([this.props.user.id,
                 parseInt(this.props.location.search.split('=')[1]),
                 parseInt(e.target.value),
@@ -80,19 +80,21 @@ class ProductDetail extends Component {
 
     renderOrder = () => {
         return this.state.stockDetail.map((val, index) => {
-            return (
-                <MDBCol sm="3" style={{ padding: 0 }}>
-                    <div className="input-group" style={{ height: '2%' }}>
-                        <div className="input-group-prepend">
-                            <div className="input-group-text" style={{ paddingLeft: 0 }}>
-                                <input type="checkbox" id={`size${val.size}`} name={val.size} onChange={this.checkSizehandler} style={{ padding: 0 }} disabled aria-label="Checkbox for following text input" value={val.stockID} />&nbsp;
-                                                    {val.size}
+            if (val.stock > 0) {
+                return (
+                    <MDBCol sm="3" style={{ padding: 0 }}>
+                        <div className="input-group" style={{ height: '2%' }}>
+                            <div className="input-group-prepend">
+                                <div className="input-group-text" style={{ paddingLeft: 0 }}>
+                                    <input type="checkbox" id={`size${val.stockID}`} name={val.stockID} onChange={this.checkSizehandler} style={{ padding: 0 }} disabled aria-label="Checkbox for following text input" value={val.stockID} />&nbsp;
+                                                        {val.size}
+                                </div>
                             </div>
+                            <input type="text" id={`qty${val.stockID}`} onChange={this.inQtyhandler} name={val.stockID} className="form-control" aria-label="Text input with checkbox" />
                         </div>
-                        <input type="text" id={`qty${val.size}`} onChange={this.inQtyhandler} name={val.size} className="form-control" aria-label="Text input with checkbox" />
-                    </div>
-                </MDBCol>
-            )
+                    </MDBCol>
+                )
+            }
         })
     }
 
@@ -109,10 +111,10 @@ class ProductDetail extends Component {
         this.state.orderOption.splice(0, this.state.orderOption.length)
         this.setState({ orderOption: [], totalPrice: 0 })
         this.state.stockDetail.forEach((val) => {
-            document.getElementById(`qty${val.sizeID}`).value = null
-            document.getElementById(`size${val.sizeID}`).checked = false
-            document.getElementById(`size${val.sizeID}`).disabled = true
-            document.getElementById(`qty${val.sizeID}`).disabled = false
+            document.getElementById(`qty${val.stockID}`).value = null
+            document.getElementById(`size${val.stockID}`).checked = false
+            document.getElementById(`size${val.stockID}`).disabled = true
+            document.getElementById(`qty${val.stockID}`).disabled = false
         })
         console.log(this.state.orderOption)
     }

@@ -367,7 +367,7 @@ class ProductPage extends Component {
     Axios.post(API_URL + `/products/edit?id=${id}`, formData)
       .then((res) => {
         console.log(res.data)
-        this.props.getAllProduct('All')
+        this.props.getProductPagination(0)
         this.props.getProductPagination(0)
         this.setState({ addImageFileName: 'Select Image', addImageFile: undefined, selectedId: null })
       })
@@ -379,7 +379,7 @@ class ProductPage extends Component {
 
   noEdit = () => {
     this.setState({ selectedId: null })
-    this.props.getAllProduct('All')//update data
+    this.props.getProductPagination(0)//update data
   }
   submitData = () => {
     let { addImageFile } = this.state;
@@ -400,7 +400,7 @@ class ProductPage extends Component {
           console.log(res.data)
           this.setState({ addImageFileName: 'Select Image', addImageFile: undefined })
           this.toggle(1)
-          this.props.getAllProduct('All')
+          this.props.getProductPagination(0)
         })
         .catch((err) => {
           console.log(err)
@@ -419,7 +419,7 @@ class ProductPage extends Component {
         this.toggle(3)
       })
   }
-  
+
   submitEditStock = (id) => {
     Axios.post(API_URL + '/products/editStock', {
       stock: this.state.sizeQty
@@ -445,10 +445,12 @@ class ProductPage extends Component {
 
   deleteData = (id, imagepath) => {
     console.log(id, imagepath)
-    Axios.delete(API_URL + `/products/delete?idproduct=${id}&imagepath=${imagepath}`)
+    Axios.delete(API_URL + `/products/delete?idproduct=${parseInt(id)}&imagepath=${imagepath}`)
       .then((res) => {
         console.log(res.data)
-        this.props.getAllProduct('All')
+        if (res.data) {
+          this.props.getProductPagination(0)
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -491,7 +493,7 @@ class ProductPage extends Component {
   renderBtPagination = () => {
     let btPag = []
     let countGet = 0
-    for (var i = 1; i <= this.props.allProduct.length / 5; i++) {
+    for (var i = 1; i <= Math.ceil(this.props.allProduct.length / 5); i++) {
       btPag.push({ get: countGet, btPage: i })
       countGet += 5
     }

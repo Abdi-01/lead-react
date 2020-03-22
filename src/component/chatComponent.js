@@ -3,8 +3,10 @@ import io from 'socket.io-client'
 import Axios from 'axios'
 import { connect } from 'react-redux'
 import { API_URL } from '../support/Backend_URL';
+import { Container, Button, Link } from 'react-floating-action-button'
 import { Widget, addResponseMessage } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
+import { MDBIcon } from 'mdbreact';
 
 class ChatAdmin extends React.Component {
     state = {
@@ -49,7 +51,7 @@ class ChatAdmin extends React.Component {
         for (let i = 1; i <= messages.length; i++) {
             if (i === messages.length) {
                 if (this.props.role === 'admin') {
-                    if (messages[i - 1].user === 'user' || messages[i - 1].user === undefined ) {
+                    if (messages[i - 1].user === 'user' || messages[i - 1].user === undefined) {
                         addResponseMessage(messages[i - 1].message)
                     }
                 } else {
@@ -63,16 +65,30 @@ class ChatAdmin extends React.Component {
 
     render() {
         return (
-            <div>
-                {this.renderResponse()}
-                <Widget
-                    title="Lead Project Messages Box"
-                    subtitle="Consulting your order in here"
-                    profileAvatar={this.props.role === 'admin' ? `https://api.adorable.io/avatars/285/${localStorage.getItem('chatUser')}.png` : require('../image/profil.png')}
-                    handleNewUserMessage={this.handleNewUserMessage} />
-            </div>
+            <>
+                <div>
+                    {/* <button style={{zIndex:400,width:75,height:75,marginTop:-500}}>aaa</button> */}
+                    {this.renderResponse()}
+                    <Widget
+                        title="Lead Project Messages Box"
+                        subtitle="Consulting your order in here"
+                        profileAvatar={this.props.role === 'admin' ? `https://api.adorable.io/avatars/285/${localStorage.getItem('chatUser')}.png` : require('../image/profil.png')}
+                        handleNewUserMessage={this.handleNewUserMessage} />
+                </div>
+                <div >
+                    <Container>
+                        <Link
+                            href="https://api.whatsapp.com/send?phone=6282142928301&text=Halo%20Lead%20Project%20mau%20tanya&source=&data="
+                            tooltip="Contact from Whatsapp"
+                            styles={{ marginRight: -118, backgroundColor: '#1b5e20', color: 'white' }}
+                        >
+                            <MDBIcon fab icon="whatsapp" size="2x" />
+                        </Link>
+                    </Container>
+                </div>
+            </>
         );
-    }
+    }z
 }
 
 const mapStatetoProps = (state) => {

@@ -153,4 +153,4 @@ select c.category, sum(h.qty) from tb_history h join tb_products p on p.id = h.p
 join tb_productcat pc on pc.productID = p.id 
 join tb_categories c on c.id = pc.categoryID
 LEFT JOIN tb_categories cc ON cc.parentId = c.id
-WHERE cc.id IS NULL;
+WHERE cc.id IS NULL group by c.category;

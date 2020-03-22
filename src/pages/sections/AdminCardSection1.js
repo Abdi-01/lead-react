@@ -1,69 +1,15 @@
 import React from 'react';
 import { MDBCard, MDBIcon, MDBRow, MDBCol } from 'mdbreact';
-import Axios from 'axios'
-import { API_URL } from '../../support/Backend_URL';
+import { connect } from 'react-redux'
+import { getSalesAmount, getUserAmount, getPendingOrderAmount, getSuccessOrderAmount } from '../../redux/action'
 
 class AdminCardSection1 extends React.Component {
-  state = {
-    salesAmount: 0,
-    userAmount: 0,
-    pendingAmount:0,
-    successAmount:0
-  }
 
   componentDidMount = () => {
-    this.getSalesAmount()
-    this.getUserAmount()
-    this.getPendingOrderAmount()
-    this.getSuccessOrderAmount()
-  }
-
-  getSalesAmount = () => {
-    Axios.get(API_URL + '/results/getSaleAmount')
-      .then((res) => {
-        this.setState({ salesAmount: res.data[0].salesAmount })
-        console.log(this.state.salesAmount)
-      })
-      .catch((err) => {
-        this.setState({ salesAmount: 0 })
-        console.log(err)
-      })
-  }
-
-  getUserAmount = () => {
-    Axios.get(API_URL + '/results/getUserAmount')
-      .then((res) => {
-        this.setState({ userAmount: res.data[0].userAmount })
-        console.log(this.state.userAmount)
-      })
-      .catch((err) => {
-        this.setState({ userAmount: 0 })
-        console.log(err)
-      })
-  }
-
-  getPendingOrderAmount = () => {
-    Axios.get(API_URL + '/results/getPendingOrderAmount')
-      .then((res) => {
-        this.setState({ pendingAmount: res.data[0].pendingAmount })
-        console.log(this.state.pendingAmount)
-      })
-      .catch((err) => {
-        this.setState({ pendingAmount: 0 })
-        console.log(err)
-      })
-  }
-
-  getSuccessOrderAmount = () => {
-    Axios.get(API_URL + '/results/getSuccessOrderAmount')
-      .then((res) => {
-        this.setState({ successAmount: res.data[0].successAmount })
-        console.log(this.state.successAmount)
-      })
-      .catch((err) => {
-        this.setState({ successAmount: 0 })
-        console.log(err)
-      })
+    this.props.getSalesAmount()
+    this.props.getUserAmount()
+    this.props.getPendingOrderAmount()
+    this.props.getSuccessOrderAmount()
   }
 
   render() {
@@ -77,7 +23,7 @@ class AdminCardSection1 extends React.Component {
                 <h4 style={{ fontWeight: 'bold', color: '#999999' }}>SALES</h4>
               </div>
               <h3 style={{ textAlign: 'right', marginTop: 20 }}>
-                <strong>IDR. {this.state.salesAmount.toLocaleString()}</strong>
+                <strong>IDR. {this.props.salesAmount.toLocaleString()}</strong>
               </h3>
             </div>
             {/* <MDBCardBody>
@@ -97,7 +43,7 @@ class AdminCardSection1 extends React.Component {
                 <h4 style={{ fontWeight: 'bold', color: '#999999' }}>USER</h4>
               </div>
               <h3 style={{ textAlign: 'right', marginTop: 20 }}>
-                <strong>{this.state.userAmount.toLocaleString()} Person</strong>
+                <strong>{this.props.userAmount.toLocaleString()} Person</strong>
               </h3>
             </div>
             {/* <MDBCardBody>
@@ -118,7 +64,7 @@ class AdminCardSection1 extends React.Component {
                 <h5 style={{ fontWeight: 'bold', color: '#999999' }}>ORDER</h5>
               </div>
               <h3 style={{ textAlign: 'right', marginTop: 20 }}>
-                <strong>{this.state.pendingAmount}</strong>
+                <strong>{this.props.pendingAmount}</strong>
               </h3>
             </div>
             {/* <MDBCardBody>
@@ -139,7 +85,7 @@ class AdminCardSection1 extends React.Component {
                 <h5 style={{ fontWeight: 'bold', color: '#999999' }}>ORDER</h5>
               </div>
               <h3 style={{ textAlign: 'right', marginTop: 20 }}>
-                <strong>{this.state.successAmount}</strong>
+                <strong>{this.props.successAmount}</strong>
               </h3>
             </div>
             {/* <MDBCardBody>
@@ -156,4 +102,8 @@ class AdminCardSection1 extends React.Component {
   }
 }
 
-export default AdminCardSection1;
+const mapToProps = ({ resultsData }) => {
+  return { ...resultsData }
+}
+
+export default connect(mapToProps, {getSalesAmount,getUserAmount,getPendingOrderAmount,getSuccessOrderAmount})(AdminCardSection1);

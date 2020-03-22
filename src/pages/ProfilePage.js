@@ -36,10 +36,7 @@ class ProfilePage extends Component {
   }
 
   render() {
-    let username = this.props.username
-    let email = this.props.email
-    let phone = this.props.phone
-    console.log(this.props.username)
+    let {username,email,phone} = this.props
     return (
       <div >
         <SideNavigation />

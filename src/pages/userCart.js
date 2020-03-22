@@ -7,11 +7,12 @@ import { connect } from 'react-redux'
 import Axios from 'axios'
 import { getCart } from '../redux/action'
 import { API_URL } from '../support/Backend_URL';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 class TransactionPage extends Component {
   state = {
-    userCart: []
+    redirect: false
   }
 
   renderData = () => {
@@ -46,7 +47,29 @@ class TransactionPage extends Component {
       })
   }
 
+  toCheckoutPage = () => {
+    if (this.props.cartUsers.length > 0) {
+      this.setState({ redirect: true })
+      localStorage.setItem('noteOrder', this.refs.noteOrder.value)
+    } else {
+      Swal.fire({
+        text: 'Please order first',
+        imageUrl: require('../image/ilustration/ui_design_.png'),
+        imageWidth: 150,
+        imageHeight: 150,
+        imageAlt: 'Custom image',
+        width: 200,
+        showConfirmButton: false,
+        timer: 2500
+      })
+    }
+  }
+
   render() {
+    if (this.state.redirect === true) {
+      return <Redirect to='/CheckoutPage'>
+      </Redirect>
+    }
     return (
       <div style={{}}>
         <div className="flexible-content">
@@ -70,11 +93,9 @@ class TransactionPage extends Component {
                   <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" ref='noteOrder' />
                   </FormGroup>
                   <div style={{ textAlign: 'center' }}>
-                    <Link to="/CheckoutPage">
-                      <MDBBtn outline color="warning" onClick={() => !this.refs.noteOrder.value ? null : localStorage.setItem('noteOrder', this.refs.noteOrder.value)}>
-                        <i style={{ verticalAlign: 'middle' }} class="material-icons">next_week</i> Checkout
+                    <MDBBtn outline color="warning" onClick={this.toCheckoutPage}>
+                      <i style={{ verticalAlign: 'middle' }} className="material-icons">next_week</i> Checkout
                     </MDBBtn>
-                    </Link>
                   </div>
                 </MDBCol>
               </MDBRow>
