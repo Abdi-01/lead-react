@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Carousle from '../component/carousle'
 import DivCard from '../component/leadDivision'
 import Collection from '../component/collectionPreview'
+import ChatRoom from '../component/chatComponent'
 
 class HomePage extends Component {
     state = {
@@ -62,12 +63,13 @@ class HomePage extends Component {
                             <button className="element-FormCancel text-center" id="leftForm" style={{ height: "200px", width: "54%", padding: '0' }} onClick={this.toggle}>
                                 <i className="fas fa-upload fa-6x"></i><p>Upload Design</p></button>
                         </Link>
-                        {/* <Link to='/CustomDesign'> */}
+                        <Link to='/CustomDesign'>
                         <button className="element-FormLogin text-center" id="rightForm" style={{ height: "200px", width: "54%", padding: '0' }} onClick={this.loginUser}>
-                            <i className="fas fa-edit fa-6x"></i><p>Make Your Design</p></button>
-                        {/* </Link> */}
+                            <i className="fas fa-edit fa-6x"></i><p>Make Your T-Shirt Design</p></button>
+                        </Link>
                     </div>
                 </MDBModal>
+                <ChatRoom></ChatRoom>
             </div>
         );
     }

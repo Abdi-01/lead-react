@@ -17,7 +17,8 @@ truncate tb_stock;
 -- truncate tb_history;
 
 -- padd admin :70f1eb493da68571cb88985c3cbbefcdc0cc763b806b5eb4ad4db6ed8edc64ba
- 
+
+-- select userID,count(userID) from tb_transactions group by userID; 
 
 SELECT c.id, c.category, c.customPrice 
         FROM tb_categories c 

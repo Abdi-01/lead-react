@@ -19,6 +19,7 @@ import CheckoutPage from './pages/checkoutPage'
 import CheckoutCustomPage from './pages/checkoutCustomOrder'
 import CustomOrder from './pages/customOrder'
 import CustomDesign from './pages/customDesign'
+import CustomDesignTransaction from './pages/customDesignTransaction'
 import SizeCart from './pages/info/sizeCart'
 import PrivacyFaq from './pages/info/privacyFAQ'
 import ResultPage from './pages/resultPage'
@@ -27,7 +28,6 @@ import ProductPage from './pages/ProductPage';
 import NotFoundPage from './pages/NotFoundPage';
 import VerificationPage from './pages/verificationPage'
 import Footer from './component/footer'
-import ChatRoom from './component/chatComponent'
 
 class App extends Component {
   constructor(props) {
@@ -55,6 +55,7 @@ class App extends Component {
           <Route path='/AboutPage' component={AboutPage}></Route>
           <Route path='/CustomOrder' component={CustomOrder}></Route>
           <Route path='/CustomDesign' component={CustomDesign}></Route>
+          <Route path='/CustomDesignTransaction' component={CustomDesignTransaction}></Route>
           <Route path='/LeadSquad' component={LeadSquad}></Route>
           <Route path='/SizeCart' component={SizeCart}></Route>
           <Route path='/PrivacyFAQ' component={PrivacyFaq}></Route>
@@ -85,7 +86,6 @@ class App extends Component {
           <Route path='*' component={NotFoundPage} />
         </Switch>
         <Footer></Footer>
-        <ChatRoom></ChatRoom>
       </div>
     );
   }

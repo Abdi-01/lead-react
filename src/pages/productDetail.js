@@ -14,7 +14,8 @@ class ProductDetail extends Component {
         data: [],
         stockDetail: [],
         totalStock: 0,
-        orderOption: []
+        orderOption: [],
+        arrPrice: []
     }
 
     componentDidMount() {
@@ -50,7 +51,8 @@ class ProductDetail extends Component {
     }
 
     checkSizehandler = (e) => {
-        let { orderOption } = this.state
+        console.log('cek', this.props.cartUsers)
+        let { orderOption, arrPrice } = this.state
         let qty = document.getElementById(`qty${e.target.name}`).value
         if (!e.target.checked) {
             document.getElementById(`qty${e.target.name}`).disabled = e.target.checked
@@ -58,14 +60,27 @@ class ProductDetail extends Component {
             document.getElementById(`qty${e.target.name}`).disabled = e.target.checked
             document.getElementById(`size${e.target.name}`).disabled = true
             if (qty !== null) {
-
-                orderOption.push([this.props.user.id,
-                parseInt(this.props.location.search.split('=')[1]),
-                parseInt(e.target.value),
-                parseInt(qty),
-                parseInt(this.state.data.price) * parseInt(qty)])
-                this.totalOrder(this.state.orderOption)
-                console.log(orderOption)
+                if (this.props.cartUsers.some(item => item.productID === parseInt(this.props.location.search.split('=')[1]) && item.stockID === parseInt(e.target.value))) {
+                    this.props.cartUsers.map((item) => {
+                        orderOption.push([item.id, this.props.user.id,
+                        parseInt(this.props.location.search.split('=')[1]),
+                        parseInt(e.target.value),
+                        parseInt(qty) + parseInt(item.qty),
+                        parseInt(this.state.data.price) * (parseInt(qty) + parseInt(item.qty))])
+                        console.log(orderOption)
+                    })
+                    arrPrice.push(parseInt(this.state.data.price) * parseInt(qty))
+                }
+                else {
+                    orderOption.push([, this.props.user.id,
+                        parseInt(this.props.location.search.split('=')[1]),
+                        parseInt(e.target.value),
+                        parseInt(qty),
+                        parseInt(this.state.data.price) * parseInt(qty)])
+                    console.log(orderOption)
+                    arrPrice.push(parseInt(this.state.data.price) * parseInt(qty))
+                }
+                this.totalOrder(this.state.arrPrice)
             }
         }
     }
@@ -101,7 +116,7 @@ class ProductDetail extends Component {
     totalOrder = (qty) => {
         let count = 0
         if (qty.length > 0) {
-            qty.map((val) => count += val[4])
+            qty.map((val) => count += val)
             console.log(count)
             this.setState({ totalPrice: count })
         }
@@ -109,7 +124,7 @@ class ProductDetail extends Component {
 
     resetOrder = () => {
         this.state.orderOption.splice(0, this.state.orderOption.length)
-        this.setState({ orderOption: [], totalPrice: 0 })
+        this.setState({ orderOption: [], totalPrice: 0, arrPrice:[] })
         this.state.stockDetail.forEach((val) => {
             document.getElementById(`qty${val.stockID}`).value = null
             document.getElementById(`size${val.stockID}`).checked = false
@@ -120,7 +135,7 @@ class ProductDetail extends Component {
     }
 
     addTocart = () => {
-        if (this.props.user.role==='user') {
+        if (this.props.user.role === 'user') {
             if (this.state.orderOption.length > 0) {
                 Axios.post(API_URL + `/carts/addToCart`, {
                     order: this.state.orderOption
@@ -222,7 +237,7 @@ class ProductDetail extends Component {
 }
 
 const mapStatetoProps = ({ cartUsers, user }) => {
-    return { cartUsers, user }
+    return { ...cartUsers, user }
 }
 
 export default connect(mapStatetoProps, { getCart })(ProductDetail);
