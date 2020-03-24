@@ -166,11 +166,24 @@ class CheckoutPage extends React.Component {
                                 </td>
                             </tr>
                         </MDBCol>
+                        <span style={{ margin: 0, color: 'gray', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => this.deleteCart(val.id)}>x Delete</span>
                     </MDBRow>
                 </MDBCard>
             )
         })
     }
+
+    deleteCart = (id) => {
+        console.log(id)
+        Axios.delete(API_URL + `/carts/deleteCustomOrder/${id}`)
+          .then((res) => {
+            console.log(res.data)
+            this.getCustomOrder()
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
 
     onChangeSelectCity = (e) => {
         this.setState({ addCityID: e.target.value, cityName: e.target[e.target.selectedIndex].text })//ambil text dari select option option

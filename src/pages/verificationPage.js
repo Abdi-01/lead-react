@@ -12,6 +12,10 @@ class VerificationPage extends Component {
         redirect: false
     }
 
+    componentDidMount() {
+        localStorage.removeItem('token')
+    }
+
     verification = () => {
         let token = this.props.location.search.split('?')[1]
         console.log(token)

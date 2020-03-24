@@ -120,6 +120,51 @@ class ProductPage extends Component {
     })
   }
 
+  yesEdit = (id) => {
+    let { addImageFile } = this.state;
+    let formData = new FormData()
+    let obj = {}
+    if (this.refs.nameEdit.value === '' || this.refs.priceEdit.value === '' || this.refs.descriptionEdit === '') {
+      alert('Complete Your Changes')
+    }
+    else if (addImageFile) {
+      obj = {
+        name: this.refs.nameEdit.value,
+        materialID: this.state.addMaterialID,
+        description: this.refs.descriptionEdit.value,
+        price: this.refs.priceEdit.value
+      }
+      formData.append('image', addImageFile)
+    }
+    else {
+      obj = {
+        name: this.refs.nameEdit.value,
+        materialID: this.state.addMaterialID,
+        description: this.refs.descriptionEdit.value,
+        price: this.refs.priceEdit.value
+      }
+      // formData.append('image', null)
+    }
+    formData.append('data', JSON.stringify(obj))
+    console.log(formData)
+    Axios.post(API_URL + `/products/edit?id=${id}`, formData)
+      .then((res) => {
+        console.log(res.data)
+        this.props.getProductPagination(0)
+        this.props.getProductPagination(0)
+        this.setState({ addImageFileName: 'Select Image', addImageFile: undefined, selectedId: null })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+  }
+
+  noEdit = () => {
+    this.setState({ selectedId: null })
+    this.props.getProductPagination(0)//update data
+  }
+
   sortData = (arr, cbfn) => {
     let hasil = ''
     for (let k = 0; k < arr.length - 1; k++) {//berhenti sebelum melebihi index
@@ -193,18 +238,6 @@ class ProductPage extends Component {
     }
   }
 
-  addStock = (id) => {
-    console.log(id)
-    this.setState({ selectedId: id })
-    this.toggle(3);
-  }
-  editStock = (id) => {
-    // console.log(id)
-    this.setState({ selectedId: id })
-    this.toggle(4);
-    // this.getStockDetail(id)
-  }
-
   renderAddSize = (id, name) => {
     return <Modal contentClassName="modalBG" isOpen={this.state.sizeModal} toggle={() => this.toggle(3)}>
       <div className="text-center headerModalBG">
@@ -244,6 +277,46 @@ class ProductPage extends Component {
         <button className="element-FormLogin" id="rightForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={() => this.submitStock(id)}>Submit</button>
       </div>
     </Modal>
+  }
+
+  submitData = () => {
+    let { addImageFile } = this.state;
+    if (addImageFile) {
+      let formData = new FormData()
+      let obj = {
+        name: this.refs.nameProduct.value,
+        categoryID: this.state.addCategoryID,
+        materialID: this.state.addMaterialID,
+        description: this.refs.descriptionProduct.value,
+        price: this.refs.priceProduct.value
+      }
+      formData.append('data', JSON.stringify(obj))
+      formData.append('image', addImageFile)
+      console.log(formData)
+      Axios.post(API_URL + '/products/upload', formData)
+        .then((res) => {
+          console.log(res.data)
+          this.setState({ addImageFileName: 'Select Image', addImageFile: undefined })
+          this.toggle(1)
+          this.props.getProductPagination(0)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
+
+  addStock = (id) => {
+    console.log(id)
+    this.setState({ selectedId: id })
+    this.toggle(3);
+  }
+  
+  editStock = (id) => {
+    console.log(id)
+    this.setState({ selectedId: id })
+    this.toggle(4);
+    // this.getStockDetail(id)
   }
 
   renderEditSize = (id, name) => {
@@ -335,77 +408,6 @@ class ProductPage extends Component {
     let size = document.getElementById(`size${e.target.name}`)
     console.log('size', size)
     e.target.value > 0 ? size.disabled = false : size.disabled = true
-  }
-
-  yesEdit = (id) => {
-    let { addImageFile } = this.state;
-    let formData = new FormData()
-    let obj = {}
-    if (this.refs.nameEdit.value === '' || this.refs.priceEdit.value === '' || this.refs.descriptionEdit === '') {
-      alert('Complete Your Changes')
-    }
-    else if (addImageFile) {
-      obj = {
-        name: this.refs.nameEdit.value,
-        materialID: this.state.addMaterialID,
-        description: this.refs.descriptionEdit.value,
-        price: this.refs.priceEdit.value
-      }
-      formData.append('image', addImageFile)
-    }
-    else {
-      obj = {
-        name: this.refs.nameEdit.value,
-        materialID: this.state.addMaterialID,
-        description: this.refs.descriptionEdit.value,
-        price: this.refs.priceEdit.value
-      }
-      // formData.append('image', null)
-    }
-    formData.append('data', JSON.stringify(obj))
-    console.log(formData)
-    Axios.post(API_URL + `/products/edit?id=${id}`, formData)
-      .then((res) => {
-        console.log(res.data)
-        this.props.getProductPagination(0)
-        this.props.getProductPagination(0)
-        this.setState({ addImageFileName: 'Select Image', addImageFile: undefined, selectedId: null })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
-  }
-
-  noEdit = () => {
-    this.setState({ selectedId: null })
-    this.props.getProductPagination(0)//update data
-  }
-  submitData = () => {
-    let { addImageFile } = this.state;
-    if (addImageFile) {
-      let formData = new FormData()
-      let obj = {
-        name: this.refs.nameProduct.value,
-        categoryID: this.state.addCategoryID,
-        materialID: this.state.addMaterialID,
-        description: this.refs.descriptionProduct.value,
-        price: this.refs.priceProduct.value
-      }
-      formData.append('data', JSON.stringify(obj))
-      formData.append('image', addImageFile)
-      console.log(formData)
-      Axios.post(API_URL + '/products/upload', formData)
-        .then((res) => {
-          console.log(res.data)
-          this.setState({ addImageFileName: 'Select Image', addImageFile: undefined })
-          this.toggle(1)
-          this.props.getProductPagination(0)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
   }
 
   submitStock = (id) => {

@@ -2,6 +2,7 @@ import React from 'react';
 import '../assets/css/modal.css'
 import { MDBInput, MDBModal, MDBModalBody, MDBProgress } from 'mdbreact';
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom';
 import { registerUser } from '../redux/action'
 import Swal from 'sweetalert2'
 
@@ -25,12 +26,6 @@ class RegisPopUp extends React.Component {
             abjad: false,
             char: false
         })
-    }
-
-    componentDidUpdate() {
-        if (this.props.register.redirect) {
-            window.location.reload()
-        }
     }
 
     regisUser = () => {
@@ -117,9 +112,15 @@ class RegisPopUp extends React.Component {
     }
 
     render() {
+        if (this.props.redirect) {
+            return <Redirect to='/'>
+            </Redirect>
+        }
         return (
-            <div>
-                <button id="rightRegis" className="element-BtRegis" onClick={this.toggle}>Register</button>
+            <div style={{ marginRight: 10 }}>
+                {/* <div id="rightRegis"> */}
+                    <button id="rightRegis" className="element-BtRegis" onClick={this.toggle}>Register</button>
+                {/* </div> */}
                 <MDBModal contentClassName="modalBG" isOpen={this.state.modal} toggle={this.toggle}>
                     <div className="text-center headerModalBG" >
                         <img src={require('../image/lead.png')} style={{ padding: 3 }} width="40px" alt="leadlogo"></img>
@@ -209,7 +210,7 @@ class RegisPopUp extends React.Component {
 }
 const mapStatetoProps = ({ register }) => {
     return {
-        register
+        ...register
     }
 }
 

@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case REGIS_USER:
-            return { redirect: true }
+            return {...state, redirect: action.payload }
         default:
             return state
     }

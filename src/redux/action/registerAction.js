@@ -43,7 +43,9 @@ export const registerUser = (form) => {
                     showConfirmButton: false,
                     timer: 3000
                 });
-                dispatch({ type: REGIS_USER })
+                if (resSubmit.data) {
+                    dispatch({ type: REGIS_USER, payload:true })
+                }
             }
             else {
                 Swal.fire({

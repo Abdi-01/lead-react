@@ -80,7 +80,7 @@ class ChatAdmin extends React.Component {
                         <Link
                             href="https://api.whatsapp.com/send?phone=6282142928301&text=Halo%20Lead%20Project%20mau%20tanya&source=&data="
                             tooltip="Contact from Whatsapp"
-                            styles={{ marginRight: -118, backgroundColor: '#1b5e20', color: 'white' }}
+                            styles={{ marginRight: -127, backgroundColor: '#1b5e20', color: 'white' }}
                         >
                             <MDBIcon fab icon="whatsapp" size="2x" />
                         </Link>

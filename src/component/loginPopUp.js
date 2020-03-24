@@ -33,17 +33,17 @@ class LoginPopUp extends React.Component {
             });
         }
         else {
-            if (username.includes("@") === false) {
-                this.props.login(username, password)//masuk authAction.js
+            // if (username.includes("@") === false) {
+            //     this.props.login(username, password)//masuk authAction.js
 
-                // this.setState({ redirect: true })
-            } else {
+            //     // this.setState({ redirect: true })
+            // } else {
                 this.props.login(username, password)//masuk authAction.js
                 // if (this.props.username) { //DELETE KALO FIX GAG GUNA
                 //     this.props.getCart()
                 // }
                 // this.setState({ redirect: true })
-            }
+            // }
         }
     }
 
@@ -58,9 +58,9 @@ class LoginPopUp extends React.Component {
     render() {
         return (
             <div style={{ marginRight: 10 }}>
-                <div id="leftLogin">
-                    <button className="element-BtLogin" onClick={this.toggle}>Login</button>
-                </div>
+                {/* <div id="leftLogin"> */}
+                    <button id="leftLogin" className="element-BtLogin" onClick={this.toggle}>Login</button>
+                {/* </div> */}
                 <MDBModal contentClassName="modalBG" isOpen={this.state.modal} toggle={this.toggle}>
                     <div className="text-center headerModalBG" >
                         <img src={require('../image/lead.png')} style={{ padding: 3 }} width="40px" alt="leadlogo"></img>
@@ -94,16 +94,6 @@ class LoginPopUp extends React.Component {
                                 </p>
                             </MDBInput>
                         </div>
-                        {/* <MDBIcon style={{ marginTop: -30 }} far icon="eye-slash" /> */}
-                        {/* <p style={{ marginTop:-30 }} className="font-small grey-text d-flex justify-content-end text-center">
-                            Forgot
-                            <a
-                                href="#!"
-                                className="dark-grey-text font-weight-bold ml-1"
-                            >
-                                Password?
-                            </a>
-                        </p> */}
                     </MDBModalBody>
                     <div id="sidesModal">
                         <button className="element-FormCancel" id="leftForm" style={{ height: "50px", width: "54%", padding: '0' }} onClick={this.toggle}>Cancel</button>
