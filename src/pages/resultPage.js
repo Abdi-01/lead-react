@@ -17,7 +17,7 @@ const DashboardPage = () => {
     <React.Fragment>
         {/* <AdminCardSection2 /> */}
         <AdminCardSection1 />
-        <TableSection />
+        {/* <TableSection /> */}
         <ChartSection1 />
         {/* <ChartSection2 /> */}
         {/* <MDBRow className="mb-4">

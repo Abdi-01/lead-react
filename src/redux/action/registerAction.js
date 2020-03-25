@@ -41,7 +41,7 @@ export const registerUser = (form) => {
                     imageAlt: 'Custom image',
                     width: 230,
                     showConfirmButton: false,
-                    timer: 3000
+                    timer: 3500
                 });
                 if (resSubmit.data) {
                     dispatch({ type: REGIS_USER, payload:true })

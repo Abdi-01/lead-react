@@ -18,19 +18,21 @@ class TransactionPage extends Component {
   renderData = () => {
     return this.props.cartUsers.map((val, index) => {
       return (
-        <MDBCard key={val.id}>
-          <MDBRow>
-            <MDBCol md='3'>
-              <img src={API_URL + val.imagepath} style={{ margin: '4%' }} width='100%' alt="product" />
-            </MDBCol>
-            <MDBCol md='7'>
-              <p className="h5" style={{ margin: 0, color: 'orange' }}>{val.name}</p>
-              <p style={{ margin: 0, color: 'dimgrey' }}>Detail : Size {val.size} (Qty : {val.qty} x {val.productPrice.toLocaleString()}) </p>
-              <p style={{ margin: 0, color: 'gray' }}>IDR. {val.price.toLocaleString()}</p>
-            </MDBCol>
-            <span style={{ margin: 0, color: 'gray', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => this.deleteCart(val.id)}>x Delete</span>
-          </MDBRow>
-        </MDBCard>
+        <Link to={`/ProductDetail?id=${val.productID}`}>
+          <MDBCard key={val.id}>
+            <MDBRow>
+              <MDBCol md='3'>
+                <img src={API_URL + val.imagepath} style={{ margin: '4%' }} width='100%' alt="product" />
+              </MDBCol>
+              <MDBCol md='7'>
+                <p className="h5" style={{ margin: 0, color: 'orange' }}>{val.name}</p>
+                <p style={{ margin: 0, color: 'dimgrey' }}>Detail : Size {val.size} (Qty : {val.qty} x {val.productPrice.toLocaleString()}) </p>
+                <p style={{ margin: 0, color: 'gray' }}>IDR. {val.price.toLocaleString()}</p>
+              </MDBCol>
+              <span style={{ margin: 0, color: 'gray', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => this.deleteCart(val.id)}>x Delete</span>
+            </MDBRow>
+          </MDBCard>
+        </Link>
       )
     })
   }

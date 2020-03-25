@@ -96,13 +96,13 @@ class ChartSection1 extends Component {
         // console.log(typeof ([...this.state.pieLabel]), this.state.pieData)
         return (
             <MDBRow className="mb-4">
-                <MDBCol md="8" className="mb-4">
+                {/* <MDBCol md="8" className="mb-4">
                     <MDBCard className="mb-4">
                         <MDBCardBody>
                             <Bar data={dataBar} height={500} options={barChartOptions} />
                         </MDBCardBody>
                     </MDBCard>
-                </MDBCol>
+                </MDBCol> */}
                 <MDBCol md="4" className="mb-4">
                     <MDBCard className="mb-4">
                         <MDBCardHeader>Category Sales Amount</MDBCardHeader>

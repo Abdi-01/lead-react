@@ -88,9 +88,9 @@ class ProductPage extends Component {
                 </FormGroup>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   Material
-                  <select className="form-control form-control-sm" value={this.state.addMaterialID}
+                  <select className="form-control form-control-sm" ref="material" value={val.materialID}
                     onChange={this.onChangeSelectMaterial}>
-                    <option value={0}>Choose Material</option>
+                    <option >Choose Material</option>
                     {this.renderListMaterial()}
                   </select>
                 </FormGroup>
@@ -130,7 +130,7 @@ class ProductPage extends Component {
     else if (addImageFile) {
       obj = {
         name: this.refs.nameEdit.value,
-        materialID: this.state.addMaterialID,
+        materialID: this.refs.material.value,
         description: this.refs.descriptionEdit.value,
         price: this.refs.priceEdit.value
       }
@@ -139,7 +139,7 @@ class ProductPage extends Component {
     else {
       obj = {
         name: this.refs.nameEdit.value,
-        materialID: this.state.addMaterialID,
+        materialID: this.refs.material.value,
         description: this.refs.descriptionEdit.value,
         price: this.refs.priceEdit.value
       }
@@ -151,7 +151,7 @@ class ProductPage extends Component {
       .then((res) => {
         console.log(res.data)
         this.props.getProductPagination(0)
-        this.props.getProductPagination(0)
+        // this.props.getProductPagination(0)
         this.setState({ addImageFileName: 'Select Image', addImageFile: undefined, selectedId: null })
       })
       .catch((err) => {
@@ -311,7 +311,7 @@ class ProductPage extends Component {
     this.setState({ selectedId: id })
     this.toggle(3);
   }
-  
+
   editStock = (id) => {
     console.log(id)
     this.setState({ selectedId: id })
@@ -386,9 +386,12 @@ class ProductPage extends Component {
     let qty = document.getElementById(`qty${e.target.value}`).value
     if (!e.target.checked) {
       document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
+      if (qty > 0) {
+        document.getElementById(`size${e.target.value}`).disabled = false
+      }
     } else if (e.target.checked) {
       document.getElementById(`qty${e.target.value}`).disabled = e.target.checked
-      document.getElementById(`size${e.target.value}`).disabled = true
+      // document.getElementById(`size${e.target.value}`).disabled = true
       console.log(e.target.value)
       console.log(e.target.name)
       if (qty !== null) {
@@ -397,8 +400,8 @@ class ProductPage extends Component {
         } else {
           sizeQty.push([, parseInt(this.state.selectedId), parseInt(e.target.value), parseInt(qty)])
         }
-        console.log(sizeQty)
-      }
+      } 
+      console.log(sizeQty)
     }
   }
 

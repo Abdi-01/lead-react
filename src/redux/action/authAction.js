@@ -140,14 +140,12 @@ export const EditProfile = (data) => {//satu fungsi menjalankan dua reducer yang
                     // dispatch({
                     //     type: LOGOUT,
                     // })
-                }
-                )
+                })
         }
     }
 }
 
 export const EditPassword = (data) => {//satu fungsi menjalankan dua reducer yang berbeda
-    // let { username, password } = data
     return (dispatch) => {
         const token = localStorage.getItem('token')//ambil token dari localstorage
         console.log(token)
@@ -159,7 +157,6 @@ export const EditPassword = (data) => {//satu fungsi menjalankan dua reducer yan
             }
             Axios.post(API_URL + `/users/editPassword`, data, headers)
                 .then((res) => {
-                    localStorage.setItem('token', res.data.token)//data dari userController backend API
                     console.log(res.data)//data dari userController backend API
                     Swal.fire({
                         text: 'Edit Profile Success',
@@ -183,6 +180,7 @@ export const EditPassword = (data) => {//satu fungsi menjalankan dua reducer yan
                             timer: 1500
                         })
                     } else {
+                        localStorage.setItem('token', res.data.token)//data dari userController backend API
                         dispatch({
                             type: LOGIN,
                             payload: res.data

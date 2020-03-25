@@ -51,7 +51,7 @@ class ChatAdmin extends React.Component {
         for (let i = 1; i <= messages.length; i++) {
             if (i === messages.length) {
                 if (this.props.role === 'admin') {
-                    if (messages[i - 1].user === 'user' || messages[i - 1].user === undefined) {
+                    if (messages[i - 1].user === 'user' || messages[i - 1].user !== 'admin' ) {
                         addResponseMessage(messages[i - 1].message)
                     }
                 } else {

@@ -18,7 +18,8 @@ truncate tb_stock;
 
 -- padd admin :70f1eb493da68571cb88985c3cbbefcdc0cc763b806b5eb4ad4db6ed8edc64ba
 
--- select userID,count(userID) from tb_transactions group by userID; 
+select u.username,count(t.userID) from tb_transactions t join tb_users u on t.userID = u.id group by userID; 
+
 
 SELECT c.id, c.category, c.customPrice 
         FROM tb_categories c 
@@ -155,3 +156,6 @@ join tb_productcat pc on pc.productID = p.id
 join tb_categories c on c.id = pc.categoryID
 LEFT JOIN tb_categories cc ON cc.parentId = c.id
 WHERE cc.id IS NULL group by c.category;
+
+-- get by category parent id
+Select * from tb_products p join tb_productcat pc on p.id=pc.productID join tb_categories c on c.id = pc.categoryID where c.category = 'Global Product'; 

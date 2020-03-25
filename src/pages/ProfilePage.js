@@ -32,6 +32,9 @@ class ProfilePage extends Component {
     }
     if (newPass === confPass) {
       this.props.EditPassword(data)
+      document.getElementById("inputPasswordOld").value = ''
+      document.getElementById("inputPasswordNew").value = ''
+      document.getElementById("inputPasswordConf").value = ''
     }
   }
 

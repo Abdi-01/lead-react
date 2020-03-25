@@ -4,11 +4,13 @@ import {
 } from "mdbreact";// MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem,MDBDropdown,
 import '../assets/css/navbar.css'
 import { connect } from 'react-redux'
+import { getUserTransaction } from '../redux/action'
 import { Link } from "react-router-dom";
 import RegisPopUp from './registerPopUp'
 import LoginPopUp from './loginPopUp'
 import UserDropdown from './headerDropdown'
 import CartNotif from './cartNotif'
+import moment from 'moment'
 
 class NavbarPage extends Component {
     state = {
@@ -20,7 +22,25 @@ class NavbarPage extends Component {
         this.setState({ isOpen: !this.state.isOpen });
     }
 
+    componentDidMount() {
+        this.props.getUserTransaction('Paid')
+    }
+
+    // getTransactionTime = () => {
+    //     // this.props.userTransReducer
+    //     // for(let i= 0 ; i< this.props.userTransReducer.length;i++){
+    //     //     if(this.props.userTransReducer[])
+    //     // }
+    //     // console.log(this.props.userTransReducer)
+    //     if (this.props.userTransReducer.length > 0) {
+    //         return (
+    //             <h4>{this.props.userTransReducer[this.props.userTransReducer.length - 1].time}</h4>
+    //         )
+    //     }
+    // }
+
     render() {
+        // console.log(this.props.userTransReducer)
         return (
             <div className='fluid'>
                 <MDBNavbar className="navbarBG" dark expand="md" >
@@ -64,6 +84,9 @@ class NavbarPage extends Component {
                                     </div>
                                 }
                             </MDBNavItem>
+                            <MDBNavItem>
+                                {/* {this.getTransactionTime()} */}
+                            </MDBNavItem>
                         </MDBNavbarNav>
                     </MDBCollapse>
                 </MDBNavbar>
@@ -72,11 +95,12 @@ class NavbarPage extends Component {
     }
 }
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = ({ user, transaction }) => {
     return {
-        id: state.user.id,
-        username: state.user.username,
-        role: state.user.role
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        ...transaction
     }
 }
-export default connect(mapStatetoProps)(NavbarPage);
+export default connect(mapStatetoProps, { getUserTransaction })(NavbarPage);

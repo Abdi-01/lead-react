@@ -92,7 +92,7 @@ class HistoryPage extends Component {
                       onChange={this.onChangeSelectStatus}>
                       <option value={item.status !== 'Unpaid' ? 'Unpaid' : item.status}>{item.status !== 'Unpaid' ? 'Unpaid' : item.status}</option>
                       <option value='Paid'>Paid</option>
-                      <option value='Delivered'>Delivered</option>
+                      {/* <option value='Delivered'>Delivered</option> */}
                     </select>
                   </MDBCol>
                   <MDBCol>
