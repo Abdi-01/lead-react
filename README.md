@@ -3,6 +3,12 @@
 ## E-COMMERCE LEAD PROJECT ID
 
 This is my first website that I developed using React JS. An e-commerce website for the convection business that I'm also developing. With the hope that this e-commerce will be able to help local businesses, especially in the field of convection businesses to achieve better quality.
+!["landingpage"](imgreadme/proto01.png)
+!["collection"](imgreadme/collection.png)
+!["detail"](imgreadme/detailProduct.png)
+!["Cart"](imgreadme/Cart.png)
+!["payment"](imgreadme/payment.png)
+!["paymentEmail"](imgreadme/paymentEmail.png)
 
 ### Features Requirement
 !["requirement"](imgreadme/requirement.png)
