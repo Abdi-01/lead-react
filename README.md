@@ -5,10 +5,29 @@
 This is my first website that I developed using React JS. An e-commerce website for the convection business that I'm also developing. With the hope that this e-commerce will be able to help local businesses, especially in the field of convection businesses to achieve better quality.
 
 ### Features Requirement
+!["requirement"](imgreadme/requirement.png)
 
-![alt text]()
+### Sitemap
+!["requirement"](imgreadme/sitemap.png)
 
-Runs the app in the development mode.<br />
+### Library Used (Front End)
+- [MDBReact](https://mdbootstrap.com/docs/react/) for layouting and make component.
+- [Reactstrap](https://reactstrap.github.io/) for layouting and make some component.
+- [Chat Widget](https://www.npmjs.com/package/react-chat-widget) for floating button chat box.
+- [Sweetalert 2](https://sweetalert2.github.io/) for make alert pop-up.
+- [Moment](https://momentjs.com/) for generate time format.
+
+### Library Used (Data State Management)
+- [Redux and React Redux](https://redux.js.org/) for manage data from local state and global state.
+- [Axios](https://www.npmjs.com/package/axios) for get/post/put/delete data from back-end API.
+
+### Library Used (Tools)
+- [Fabric JS](http://fabricjs.com/) for design custom image feature.
+- [Socket.io](https://socket.io/) for chat group.
+- [HTML to Image](https://www.npmjs.com/package/html-to-image) for generate image from fabricJS export to PNG image format.
+- [Downloadjs](https://www.npmjs.com/package/downloadjs) for download PNG image after complete design.
+
+<!-- Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
@@ -67,4 +86,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 ### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify -->
