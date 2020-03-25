@@ -1,10 +1,12 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!-- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). -->
 
-## Available Scripts
+## E-COMMERCE LEAD PROJECT ID
 
-In the project directory, you can run:
+This is my first website that I developed using React JS. An e-commerce website for the convection business that I'm also developing. With the hope that this e-commerce will be able to help local businesses, especially in the field of convection businesses to achieve better quality.
 
-### `npm start`
+### Features Requirement
+
+![alt text]()
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
